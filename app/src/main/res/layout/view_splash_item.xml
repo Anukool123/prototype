@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="1" android:background="0x106000d" android:layout_width="-1" android:layout_height="-1">
+    <ImageView android:gravity="11" android:id="@id/pre_setting_image" android:layout_width="-1" android:layout_height="-1" android:src="@drawable/ic_test_bg" android:scaleType="1" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" android:contentDescription="@string/global_null_text" />
+</RelativeLayout>

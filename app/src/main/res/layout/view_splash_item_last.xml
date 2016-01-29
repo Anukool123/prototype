@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="800033" android:layout_gravity="800033" android:orientation="1" android:background="0x106000d" android:layout_width="-1" android:layout_height="-1">
+    <ImageView android:gravity="11" android:id="@id/pre_setting_image_last" android:layout_width="-1" android:layout_height="-1" android:src="@drawable/ic_test_bg" android:scaleType="6" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" android:contentDescription="@string/global_null_text" />
+    <Button android:textSize="@dimen/font_body1" android:textColor="@drawable/x_btn_color_selector" android:gravity="11" android:layout_gravity="11" android:id="@id/pre_setting_btn_last" android:background="@drawable/x_enter_btn" android:layout_width="-1" android:layout_height="-2" android:layout_marginLeft="@dimen/activity_margin_m" android:layout_marginRight="@dimen/activity_margin_m" android:layout_marginBottom="50dp" android:text="@string/user_pre_setting_certain" android:layout_alignParentBottom="true" />
+</RelativeLayout>
