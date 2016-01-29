@@ -1,6 +1,541 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SkincarePrototype</string>
-
+    <string name="com_facebook_like_button_not_liked">Like</string>
+    <string name="com_facebook_like_button_liked">Liked</string>
+    <string name="com_facebook_loginview_log_out_button">Log out</string>
+    <string name="com_facebook_loginview_log_in_button">Log in</string>
+    <string name="com_facebook_loginview_log_in_button_long">Log in with Facebook</string>
+    <string name="com_facebook_loginview_logged_in_as">Logged in as: %1$s</string>
+    <string name="com_facebook_loginview_logged_in_using_facebook">Logged in using Facebook</string>
+    <string name="com_facebook_loginview_log_out_action">Log out</string>
+    <string name="com_facebook_loginview_cancel_action">Cancel</string>
+    <string name="com_facebook_loading">Loading...</string>
+    <string name="com_facebook_internet_permission_error_title">AndroidManifest Error</string>
+    <string name="com_facebook_internet_permission_error_message">WebView login requires INTERNET permission</string>
+    <string name="com_facebook_tooltip_default">"New! You're in control - choose what info you want to share with apps."</string>
+    <string name="com_facebook_image_download_unknown_error">Unexpected error while downloading an image.</string>
+    <string name="com_facebook_share_button_text">Share</string>
+    <string name="com_facebook_send_button_text">Send</string>
+    <string name="messenger_send_button_text">Send</string>
+    <string name="app_name">App Name</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="ptr_pull_to_refresh">Pull to refresh</string>
+    <string name="ptr_release_to_refresh">Release to refresh</string>
+    <string name="ptr_refreshing">Refreshing……</string>
+    <string name="ptr_last_updated">Last updated: %1$s</string>
+    <string name="action_settings">settings</string>
+    <string name="net_connected_success">connection successful</string>
+    <string name="net_connected_failure">connection failed</string>
+    <string name="auto_login_info">automatic logging in ……</string>
+    <string name="title_activity_splash">Splash page</string>
+    <string name="title_activity_spec">Content page</string>
+    <string name="title_activity_spec_detect_result">Results page</string>
+    <string name="title_activity_spec_setting_list">Settings page</string>
+    <string name="title_activity_spec_setting_mine">My information page</string>
+    <string name="title_activity_spec_content_view">Single news page</string>
+    <string name="title_activity_login">Login page</string>
+    <string name="title_activity_loading">Loading</string>
+    <string name="global_null_text" />
+    <string name="bodyParts4face">Face</string>
+    <string name="bodyParts4hand">Hand</string>
+    <string name="bodyParts4eye">Eye</string>
+    <string name="bodyParts4neck">Neck</string>
+    <string name="bodypart">Part</string>
+    <string name="detect_result">Test results</string>
+    <string name="back">&lt; Return back</string>
+    <string name="detect_result_average_value">Average value </string>
+    <string name="detect_result_compare_lastest">Compared to last</string>
+    <string name="detect_result_skin_status">Skin condition</string>
+    <string name="detect_result_skin_care_suggestion">Skin proposal</string>
+    <string name="detect_result_recommand_title">Olay Olay multi-effect repair beyond moisturizing cream moisturizing anti-wrinkle firming light pattern</string>
+    <string name="detect_result_recommand_value">Antioxidant while Hold live dermis moistness , strengthen the skin free protection. Skin glow from the inside out new vitality.</string>
+    <string name="skan_condition_value">
+Skin moisture is more filling, smooth. In the acidic environment of the skin , it is more beautiful. .</string>
+    <string name="ble_detect_timeless">
+Please detecting at least five seconds !</string>
+    <string name="ble_scan_devices">Searching , please open the Bluetooth device !</string>
+    <string name="ble_not_supported">Your device does not support Bluetooth low energy</string>
+    <string name="ble_os_version_low">
+You can not use detection feature, which needs more than Android 4.3</string>
+    <string name="ble_device_not_support">Your device can not use the Bluetooth services</string>
+    <string name="ble_detect_valuelow">
+The measured value is too small , make sure that the correct measurement site !</string>
+    <string name="ble_detect_step_unstartble">
+No connection</string>
+    <string name="ble_detect_step_search">Bluetooth is not turned on</string>
+    <string name="ble_detect_step_linked">Search device</string>
+    <string name="ble_detect_step_detecting">Detecting</string>
+    <string name="ble_detect_step_detected">Detection End</string>
+    <string name="ble_detect_step_detecting_error">Detection unsuccessful</string>
+    <string name="detect_report_day">Pro, you do not start today detect Oh !</string>
+    <string name="detect_report_week">Pro , you have not started this week to detect Oh!</string>
+    <string name="detect_report_month">
+Pro , you have not started this month detect Oh!</string>
+    <string name="detect_goto_detect">To detect</string>
+    <string name="detect_goto_detail">View details</string>
+    <string name="detect_part_hand">Hand</string>
+    <string name="detect_part_face">Face</string>
+    <string name="detect_part_eye">Eye</string>
+    <string name="detect_suggestion">View suggestions</string>
+    <string name="detect_result_dry">Dry</string>
+    <string name="detect_result_medium">neutral</string>
+    <string name="detect_result_moisture">mosit</string>
+    <string name="detect_result_min_scale">10%</string>
+    <string name="detect_result_middle1_scale">24%</string>
+    <string name="detect_result_middle2_scale">30%</string>
+    <string name="detect_result_max_scale">50%</string>
+    <string name="device_status_start_scan">Searching</string>
+    <string name="device_status_stop_scan">Search Stopped
+Click here to re- search</string>
+    <string name="device_status_not_connected">
+Connection has been disconnected
+Click here to re- search</string>
+    <string name="device_status_only_connected">Connected</string>
+    <string name="device_status_connecting">Connecting</string>
+    <string name="device_status_detecting">Detecting </string>
+    <string name="device_status_detecting_less_time">
+Detection time is too short</string>
+    <string name="device_status_detecting_low_value">
+The detected value is too low</string>
+    <string name="device_status_water_value">
+Moisture value :</string>
+    <string name="device_status_success_water_value">Detection is complete</string>
+    <string name="nav_record">history record</string>
+    <string name="nav_detect">
+Detect</string>
+    <string name="nav_setting">Personal Center</string>
+    <string name="nav_content">	
+Information</string>
+    <string name="global_logout">Log out</string>
+    <string name="global_back">back</string>
+    <string name="loading_detect">
+Scalp detection</string>
+    <string name="loading_manage">Customer Management</string>
+    <string name="loading_statistic">
+Performance Statistics</string>
+    <string name="loading_edit">Edit</string>
+    <string name="loading_setting">settings</string>
+    <string name="record_sex_hint">
+Please select customer sex</string>
+    <string name="record_sex_male">male</string>
+    <string name="record_sex_female">female</string>
+    <string name="record_next">next</string>
+    <string name="detect_water_default_value">0.0%</string>
+    <string name="detect_water_unit">PCT</string>
+    <string name="record_time_type_day">today</string>
+    <string name="record_time_type_week">This week</string>
+    <string name="record_time_type_month">This month</string>
+    <string name="record_time_type_average">average</string>
+    <string name="charts4average">average</string>
+    <string name="charts4result">
+Detection times ：%1$s s times</string>
+    <string name="charts4eyeRate">
+Eye wrinkles appear rate</string>
+    <string name="charts4eyeTensity">Eye skin tension</string>
+    <string name="flag4pre">
+Before nursing</string>
+    <string name="flag4post">After Care</string>
+    <string name="charts4faceCompareAge">
+Facial skin than actual age</string>
+    <string name="charts4youngAge">Young %1$s old</string>
+    <string name="charts4oldAge">Old 1$s old</string>
+    <string name="charts4faceTensity">
+Facial skin moisture level</string>
+    <string name="charts4handCompareAge">Hand skin than actual age</string>
+    <string name="charts4handTensity">
+Hand skin moisture level</string>
+    <string name="charts4neckCompareAge">
+Neck skin than actual age</string>
+    <string name="charts4neckTensity">
+Neck skin moisture level</string>
+    <string name="chart_view_small">small</string>
+    <string name="chart_view_big">big</string>
+    <string name="date4year">year</string>
+    <string name="date4month">month</string>
+    <string name="date4date">date</string>
+    <string name="week4sun">sunday</string>
+    <string name="week4mon">monday</string>
+    <string name="week4tue">tuesday</string>
+    <string name="week4wed">wednesday</string>
+    <string name="week4thu">thursday</string>
+    <string name="week4fri">friday</string>
+    <string name="week4sat">saturday</string>
+    <string name="skin_health4normal">normal</string>
+    <string name="skin_health4dry">dry</string>
+    <string name="skin_health4moist">moist</string>
+    <string name="skin_health4none">none</string>
+    <string name="skin_healthLabel4status">Skin condition</string>
+    <string name="skin_healthLabel4waterValue">Moisture value</string>
+    <string name="skin_healthLabel4comparsion_day">Compared to last day</string>
+    <string name="skin_healthLabel4comparsion_week">Compared to last week</string>
+    <string name="skin_healthLabel4comparsion_month">Compared to last month</string>
+    <string name="global_unlogin">Not logged in</string>
+    <string name="user_info_setting">User settings</string>
+    <string name="user_info_sync">Account sync</string>
+    <string name="user_info_help">help</string>
+    <string name="user_info_knowlege">Skin knowledge</string>
+    <string name="user_info_common_question">common problem</string>
+    <string name="user_info_reback">Feedback</string>
+    <string name="user_info_version_update">new version update</string>
+    <string name="user_info_sex_male">male</string>
+    <string name="user_info_sex_female">female</string>
+    <string name="user_info_sex">Gender</string>
+    <string name="user_info_age">Age</string>
+    <string name="detect_skin_type_neutral">Neutral Skin</string>
+    <string name="detect_skin_type">Skin type</string>
+    <string name="user_info_skin_type">Skin type</string>
+    <string name="user_info_skin_type_neutral">neutral</string>
+    <string name="current_day">Day averages</string>
+    <string name="current_week">Weekly averages</string>
+    <string name="current_month">Monthly average</string>
+    <string name="record_nodata_day">Pro, you do not have data tomorrow Oh !</string>
+    <string name="record_nodata_week">
+Pro, you do not have data next week Oh !</string>
+    <string name="record_nodata_month">亲，你还没有下个月的数据哦！</string>
+    <string name="download_info_title">
+Pro, you do not have next month s data Oh!</string>
+    <string name="download_info_msg">
+The latest package Oh , pro quickly download it~</string>
+    <string name="download_info_yes">download</string>
+    <string name="download_info_no">
+talk about it later</string>
+    <string name="download_info_concel">
+cancel</string>
+    <string name="user_login_account_hint">
+Please enter the phone number</string>
+    <string name="user_login_nickname_hint">
+Please enter a nickname</string>
+    <string name="user_login_password_hint">
+Please enter your password</string>
+    <string name="user_login_repassword_hint">Repeat password</string>
+    <string name="user_login_btn">log in</string>
+    <string name="user_regist_btn">registered</string>
+    <string name="user_info_password_holder">
+Please enter your password</string>
+    <string name="user_info_repassword_holder">
+Repeat password</string>
+    <string name="user_info_password">
+new password</string>
+    <string name="user_info_repassword">
+Confirm the new password</string>
+    <string name="user_update_password_success">
+New password changed successfully</string>
+    <string name="user_info_password_submit">
+determine</string>
+    <string name="twice_password_not_same">You enter an incorrect password</string>
+    <string name="user_reset_password">
+reset Password</string>
+    <string name="user_reset_new_password">new password</string>
+    <string name="user_reset_new_repassword">Repeat new password</string>
+    <string name="user_reset_password_note">
+* The new password is eight letters, array</string>
+    <string name="user_password_null">	
+password can not be blank!</string>
+    <string name="user_reset_password_twice_not_same">
+The two passwords do not match !</string>
+    <string name="user_regist_title">registered</string>
+    <string name="user_regist2_title">Perfection Profile</string>
+    <string name="spec_setting_update_password">
+change Password</string>
+    <string name="regist1_next">Next</string>
+    <string name="get_valid_code">
+get verification code</string>
+    <string name="user_login_title">Member Login</string>
+    <string name="user_login_skip">
+jump over</string>
+    <string name="user_auto_login_btn">登录</string>
+    <string name="user_fpd_next">
+log in</string>
+    <string name="user_forget_password_submit_btn">submit</string>
+    <string name="user_forgot_password">
+Forgot password?</string>
+    <string name="user_regist">registered</string>
+    <string name="user_find_password">
+Verify phone number</string>
+    <string name="user_fill_valid">
+Please fill in the verification code</string>
+    <string name="user_cannot_find_valid_code">We have not received the verification code ?</string>
+    <string name="user_valid_code_phone_label">
+We have to send a verification code SMS to this number</string>
+    <string name="user_fpd_country_code">China +86</string>
+    <string name="user_fpd_phone_label">
+Enter your phone number</string>
+    <string name="user_nickname_label">
+Please enter your name</string>
+    <string name="spec_setting_list">
+System Settings</string>
+    <string name="spec_setting_mine">
+Personal information</string>
+    <string name="user_pre_setting_birthday_title">
+Please select Date of Birth</string>
+    <string name="user_pre_setting_sex_title">
+Please choose gender</string>
+    <string name="user_pre_setting_sex_male">male</string>
+    <string name="user_pre_setting_sex_female">female</string>
+    <string name="user_pre_setting_skin_type_title">Please select skin type</string>
+    <string name="user_pre_setting_certain">determine</string>
+    <string name="user_pre_setting_skin_type_unknow">Unclear</string>
+    <string name="user_pre_setting_skin_type_hybird">Mixed skin
+</string>
+    <string name="user_pre_setting_skin_type_sensitive">Sensitive Skin</string>
+    <string name="user_pre_setting_skin_type_oil">Oily skin</string>
+    <string name="user_pre_setting_skin_type_dry">Dry skin</string>
+    <string name="user_pre_setting_age_label">age:</string>
+    <string name="user_pre_setting_age_value">year old</string>
+    <string name="user_pre_setting_sex_label">Gender:</string>
+    <string name="user_pre_setting_skin_type_label">Skin Type:</string>
+    <string name="setting_item_help">
+help</string>
+    <string name="setting_item_introduce">
+Brief introduction</string>
+    <string name="setting_item_about">about us</string>
+    <string name="setting_mine_save">
+save</string>
+    <string name="setting_edit_save">submit</string>
+    <string name="user_info_nickname_label">nickname</string>
+    <string name="user_info_password_label">change Password
+</string>
+    <string name="user_info_introduce_label">
+Features</string>
+    <string name="user_info_help_label">Using help
+</string>
+    <string name="user_info_version_label">new version update</string>
+    <string name="user_info_version_value">v1.0.0</string>
+    <string name="user_info_clear_label">clear cache
+</string>
+    <string name="user_info_about_label">about us</string>
+    <string name="user_info_age_label">date of birth</string>
+    <string name="user_info_account_label">Accounts</string>
+    <string name="user_info_account_value">visitor</string>
+    <string name="user_info_sex_label">Gender</string>
+    <string name="user_info_skintype_label">Skin</string>
+    <string name="user_info_address_label">address</string>
+    <string name="user_info_setting_label">System settings</string>
+    <string name="user_info_collect_label">Collect</string>
+    <string name="user_info_nickname_value">Visitor</string>
+    <string name="user_info_age_value">1990/01/01</string>
+    <string name="user_info_sex_value">Female</string>
+    <string name="user_info_skintype_value">
+Temporarily unclear</string>
+    <string name="user_info_address_value">
+Temporarily unclear</string>
+    <string name="setting_feed_back_title">Comment</string>
+    <string name="setting_feed_back_label">Please enter your comment</string>
+    <string name="user_update_address_title">
+Modify Address</string>
+    <string name="global_common_question_title">
+common problem</string>
+    <string name="user_update_nickname_title">Modify nickname</string>
+    <string name="user_info_address_hint">
+Please enter your address</string>
+    <string name="user_info_icon_label">
+Head portrait</string>
+    <string name="user_info_header_icon_setting">Head set</string>
+    <string name="user_info_header_icon_cemera">
+camera</string>
+    <string name="help_step1_title">
+1. mlizhi moisture detector how to use ?</string>
+    <string name="help_step1_msg1">"\u0009\u0009\u0009\u0009①
+Press the button on the device at the bottom of the switch , and open the Bluetooth mobile phone 
+"</string>
+    <string name="help_step1_msg2">"\u0009\u0009\u0009\u0009②
+Tip Bluetooth connection after a successful , vertically attached to the metal probe detection site ( metal probe要完全压入壳内）。
+"</string>
+    <string name="help_step1_msg3">\u0009\u0009\u0009\u0009③
+When the blue light is being detected , do not move detection probe until after the end of the test data analysis view .</string>
+    <string name="help_step2_title">2. 
+mlizhi device appears red, green and blue lights mean?</string>
+    <string name="help_step2_msg1">"\u0009\u0009\u0009\u0009
+Flashing green : Bluetooth connection with your phone in ;
+"</string>
+    <string name="help_step2_msg2">"\u0009\u0009\u0009\u0009
+Green light: the Bluetooth connection is successful , can be detected ;
+"</string>
+    <string name="help_step2_msg3">"\u0009\u0009\u0009\u0009
+Blue light : Detection in progress, do not leave the probe detection site ;
+"</string>
+    <string name="help_step2_msg4">\u0009\u0009\u0009\u0009
+Red : wrong operation , to be changed back to green , re-operation.</string>
+    <string name="help_step3_title">3.Why has prompted "Please turn on Bluetooth "？</string>
+    <string name="help_step3_msg">"\u0009\u0009\u0009\u0009
+Canada app via Bluetooth and terminal equipment required (mlizhi moisture detector ) with the use . If the machine is turned on, still prompted to connect a Bluetooth , you can try to restart the Canada app.
+\ u0009 \ u0009 \ u0009 \ u0009 details, (www.mlizhi.com) understand through the official website ."</string>
+    <string name="help_step4_title">4. 
+mlizhi moisture detector light does not shine</string>
+    <string name="help_step4_msg1">"\u0009\u0009\u0009\u0009①Open detector is not used, two minutes after the detector automatically shut down.
+"</string>
+    <string name="help_step4_msg2">\u0009\u0009\u0009\u0009②
+Unable to open the detector, please contact us .</string>
+    <string name="help_step5_title">5. 
+"Connected" state, the program did not respond after the test .</string>
+    <string name="help_step5_msg">\u0009\u0009\u0009\u0009Turn off mlizhi moisture detector and exit Canada APP, APP and then reopen mlizhi equipment. When still no data can first turn off the phone Bluetooth , and then reopen , re-entering the United States and Canada APP。</string>
+    <string name="help_step6_title">6. 
+How much is the normal face water ?</string>
+		<string name="dtlistview_info">"If you have other questions, you can contact us through the channel below
+Hotline : ( 086 ) 0755-26607306
+Micro-channel public number : mlizhitech"</string>
+    <string name="detect_result_compare_age_small">
+The Ministry skin than the actual age : small %1$d years</string>
+    <string name="detect_result_compare_age_large">
+The Ministry skin than the actual age : big %1$ d years</string>
+    <string name="detect_result_compare_age_equal">
+The Ministry skin than their actual age : consistent</string>
+    <string name="customer_logout_title">
+Exit the current account</string>
+    <string name="customer_logout_msg">Exit account?</string>
+    <string name="customer_logout_cancel">cancel</string>
+    <string name="customer_logout_certain">Confirm Exit
+</string>
+    <string name="nurser_status_pre">Nursing ago
+</string>
+    <string name="nurser_status_post">After Care
+</string>
+    <string name="share_wx">
+Micro-channel sharing</string>
+    <string name="com_facebook_dialogloginactivity_ok_button">OK</string>
+    <string name="com_facebook_requesterror_password_changed">Your Facebook password has changed. Please log into this app again to reconnect your Facebook account.</string>
+    <string name="com_facebook_requesterror_reconnect">Please log into this app again to reconnect your Facebook account.</string>
+    <string name="com_facebook_requesterror_permissions">This app doesn’t have permission to do this. To change permissions, try logging into the app again.</string>
+    <string name="flickr_showword">Flickr</string>
+    <string name="flickr_no_client">Flickr client is not installed</string>
+    <string name="flickr_content">Flickr only supports photo sharing</string>
+    <string name="flickr_no_content">Set to share content</string>
+    <string name="kakao_showword">Kakao Talk</string>
+    <string name="kakao_no_client">
+Kakao Talk client is not installed</string>
+    <string name="kakao_content">
+Kakao Talk only supports pictures, text share</string>
+    <string name="kakao_no_content">
+Set to share content</string>
+    <string name="umeng_socialize_text_laiwang_key">Contact</string>
+    <string name="umeng_socialize_text_laiwang_dynamic_key">
+And from the dynamic</string>
+    <string name="umeng_socialize_laiwang_default_content">
+Friends of the Union socialization component (SDK) enables mobile applications to quickly integrate social sharing features</string>
+    <string name="line_showword">LINE</string>
+    <string name="line_no_client">Line client is not installed</string>
+    <string name="line_content">
+Line only supports text, images</string>
+    <string name="line_no_content">Set to share content</string>
+    <string name="linkedin_showword">LinkedIn</string>
+    <string name="linkedin_no_client">
+LinkedIn client is not installed</string>
+    <string name="linkedin_content">
+linked only supports text Share</string>
+    <string name="pocket_showword">Pocket</string>
+    <string name="pocket_no_client">
+Pocket client is not installed</string>
+    <string name="pocket_content">
+pocket only supports links Share</string>
+    <string name="pull_to_refresh_pull_label">
+Pull down to refresh</string>
+    <string name="pull_to_refresh_release_label">
+You can refresh release</string>
+    <string name="pull_to_refresh_refreshing_label">
+Loading…</string>
+    <string name="pull_to_refresh_tap_label">
+Click Refresh</string>
+    <string name="umeng_socialize_network_break_alert">
+Please connect to the network and try again !</string>
+    <string name="umeng_socialize_comment">
+comment</string>
+    <string name="umeng_socialize_comment_detail">
+Review Details</string>
+    <string name="umeng_socialize_back">
+return</string>
+    <string name="umeng_socialize_near_At">
+Friends recently @</string>
+    <string name="umeng_socialize_friends">Attention friend</string>
+    <string name="umeng_socialize_send">
+release</string>
+    <string name="umeng_socialize_tip_blacklist">I am sorry , because of a violation of the user agreement you have been banned</string>
+    <string name="umeng_socialize_tip_loginfailed">
+Login failed…</string>
+    <string name="umeng_socialize_msg_sec">
+Seconds ago</string>
+    <string name="umeng_socialize_msg_min">
+minutes ago</string>
+    <string name="umeng_socialize_msg_hor">An hour ago</string>
+    <string name="umeng_socialize_ucenter_login_title_guide">
+Guest Sign</string>
+    <string name="umeng_socialize_ucenter_login_title_platform">log in account</string>
+    <string name="umeng_socialize_share_content">
+Friends of the Union socialization component (SDK) enables mobile applications to quickly integrate social sharing feature , we simplify access to social networking platform , providing a solid foundation service for developers. ( A ) support the major mainstream social networking platform , （二）支持图片、文字、gif动图、音频、视频；@好友，关注官方微博等功能。 （三）提供详尽的后台用户社交行为分析。www.umeng.com/social</string>
+    <string name="umeng_socialize_login_qq">QQ space</string>
+    <string name="umeng_socialize_login">
+log in</string>
+    <string name="umeng_socialize_text_choose_account">Select an existing account login</string>
+    <string name="umeng_socialize_text_authorize">Authorize</string>
+    <string name="umeng_socialize_text_unauthorize">unauthorized</string>
+    <string name="umeng_socialize_text_ucenter">Personal Center</string>
+    <string name="umeng_socialize_text_login_fail">
+Login failed, please try again</string>
+    <string name="umeng_socialize_text_comment_hint">
+Say something ...</string>
+    <string name="umeng_socialize_text_friend_list">
+Friends List</string>
+    <string name="umeng_socialize_text_visitor">Visitor</string>
+    <string name="umeng_socialize_text_tencent_no_connection">
+Unable to connect to Tencent microblogging client</string>
+    <string name="umeng_socialize_text_tencent_oauth_login_fail">
+Authorization Login failed</string>
+    <string name="umeng_socialize_text_tencent_version_no_match">
+Versions do not match , SSO is only support for microblogging client version V3.8.1 and above</string>
+    <string name="umeng_socialize_text_tencent_no_install">Tencent microblogging client is not installed</string>
+    <string name="umeng_socialize_text_waitting">Please wait...</string>
+    <string name="umeng_socialize_text_waitting_weixin">Jump micro letter , please wait...</string>
+    <string name="umeng_socialize_text_waitting_weixin_circle">
+Jump circle of friends , please wait...</string>
+    <string name="umeng_socialize_text_waitting_yixin">
+Jump easecredit Please wait...</string>
+    <string name="umeng_socialize_text_waitting_yixin_circle">
+Jump easecredit circle of friends , please wait...</string>
+    <string name="umeng_socialize_text_waitting_qq">Jump QQ , please wait...</string>
+    <string name="umeng_socialize_text_waitting_qzone">
+Jump QZone Please wait...</string>
+    <string name="umeng_socialize_text_waitting_redirect">
+Jump</string>
+    <string name="umeng_socialize_text_waitting_message">
+,Please wait...</string>
+    <string name="umeng_socialize_text_loading_message">
+Loading , please wait...</string>
+    <string name="umeng_socialize_text_tencent_key">Tencent Weibo</string>
+    <string name="umeng_socialize_text_sina_key">Weibo</string>
+    <string name="umeng_socialize_text_qq_key">QQ</string>
+    <string name="umeng_socialize_text_qq_zone_key">QQ space</string>
+    <string name="umeng_socialize_text_renren_key">Renren</string>
+    <string name="umeng_socialize_text_douban_key">Douban</string>
+    <string name="umeng_socialize_text_weixin_key">Micro letter</string>
+    <string name="umeng_socialize_text_weixin_circle_key">Micro-channel circle of friends</string>
+    <string name="umeng_socialize_text_add_custom_platform">
+Configure user platform</string>
+    <string name="umeng_example_home_btn_plus">
+Social sharing</string>
+    <string name="umeng_socialize_text_waitting_share">Share in ...</string>
+    <string name="umeng_socialize_content_hint">Said Diansha ...</string>
+    <string name="umeng_socialize_cancel_btn_str">cancel</string>
+    <string name="umeng_socialize_send_btn_str">send</string>
+    <string name="umeng_socialize_img_des" />
+    <string name="umeng_socialize_share">
+share it</string>
+    <string name="tumblr_showword">Tumblr</string>
+    <string name="tumblr_no_client">
+Tumblr client is not installed</string>
+    <string name="tumblr_content">
+Tumblr only supports text, images , graphics Share</string>
+    <string name="tumblr_no_content">
+Set to share content</string>
+    <string name="whatsapp_showword">WhatsApp</string>
+    <string name="whatsapp_no_client">WhatsApp have not installed client</string>
+    <string name="whatsapp_content">
+Youdao Cloud notes only supports text, images</string>
+    <string name="whatsapp_no_content">
+Set to share content</string>
+    <string name="ynote_showword">
+Youdao Cloud notes</string>
+    <string name="ynote_no_client">Youdao Cloud notes client is not installed</string>
+    <string name="ynote_content">
+Youdao Cloud notes only supports text, images , graphics Share</string>
+    <string name="ynote_no_content">
+Set to share content</string>
 </resources>

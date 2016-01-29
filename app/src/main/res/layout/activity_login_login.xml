@@ -1,20 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:gravity="800033" android:layout_gravity="800033" android:orientation="1" android:background="@drawable/ic_test_bg" android:layout_width="-1" android:layout_height="-1"
-    <RelativeLayout android:gravity="800033" android:id="@id/id_login_title_ly" android:background="0x106000d" android:layout_width="-1" android:layout_height="@dimen/top_title_height">
-        <TextView android:textSize="@dimen/font_sub_title1" android:textColor="@color/theme_primary_white" android:gravity="11" android:id="@id/id_login_title_tv" android:layout_width="-2" android:layout_height="@dimen/top_title_height" android:text="@string/user_login_title" android:layout_centerInParent="true" />
-        <TextView android:textSize="@dimen/font_sub_title1" android:textColor="@color/theme_primary_white" android:gravity="11" android:id="@id/id_out_login_tv" android:clickable="true" android:layout_width="-2" android:layout_height="@dimen/top_title_height" android:text="@string/user_login_skip" android:layout_alignParentRight="true" android:layout_centerVertical="true" android:onClick="onLoginClick" android:paddingStart="@dimen/activity_padding_m" android:paddingEnd="@dimen/activity_padding_m" android:layout_alignParentEnd="true" />
-        <View android:background="0x1060000" android:layout_width="-1" android:layout_height="1dp" android:layout_alignParentBottom="true" android:contentDescription="@string/global_null_text" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/ic_test_bg"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@id/id_login_title_ly"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_title_height"
+        android:background="@color/normal_primary_color"
+        android:gravity="center">
+
+        <TextView
+            android:id="@id/id_login_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/top_title_height"
+            android:layout_centerInParent="true"
+            android:gravity="top"
+            android:text="@string/user_login_title"
+            android:textColor="@color/theme_primary_white"
+            android:textSize="@dimen/font_sub_title1" />
+
+        <TextView
+            android:id="@id/id_out_login_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/top_title_height"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:gravity="top"
+            android:onClick="onLoginClick"
+            android:text="@string/user_login_skip"
+            android:textColor="@color/theme_primary_white"
+            android:textSize="@dimen/font_sub_title1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/normal_primary_color"
+            android:contentDescription="@string/global_null_text" />
     </RelativeLayout>
-    <RelativeLayout android:gravity="31" android:background="0x106000d" android:layout_width="-1" android:layout_height="-1" android:layout_below="@id/id_login_title_ly">
-        <EditText android:textSize="@dimen/font_primary" android:id="@id/user_info_login_username" android:background="@drawable/x_login_edit_bg" android:layout_width="-1" android:layout_height="-2" android:layout_margin="@dimen/activity_horizontal_margin_m" android:text="" android:hint="@string/user_login_account_hint" android:lines="1" android:drawableLeft="@drawable/ic_user_phone_icon" android:drawablePadding="5dp" android:drawableStart="@drawable/ic_user_name_icon" />
-        <EditText android:textSize="@dimen/font_primary" android:id="@id/user_info_login_password" android:background="@drawable/x_login_edit_bg" android:layout_width="-1" android:layout_height="-2" android:layout_marginLeft="@dimen/activity_horizontal_margin_m" android:layout_marginRight="@dimen/activity_horizontal_margin_m" android:text="" android:hint="@string/user_login_password_hint" android:lines="1" android:drawableLeft="@drawable/ic_user_password_icon" android:drawablePadding="5dp" android:layout_below="@id/user_info_login_username" android:inputType="81" android:drawableStart="@drawable/ic_user_password_icon" android:layout_marginStart="@dimen/activity_horizontal_margin_m" android:layout_marginEnd="@dimen/activity_horizontal_margin_m" />
-        <Button android:textSize="@dimen/font_primary" android:textColor="@drawable/x_btn_color_selector" android:layout_gravity="1" android:id="@id/login_submit_btn" android:background="@drawable/x_enter_btn" android:layout_width="-1" android:layout_height="-2" android:layout_marginLeft="@dimen/activity_horizontal_margin_m" android:layout_marginTop="@dimen/activity_vertical_margin_m" android:layout_marginRight="@dimen/activity_horizontal_margin_m" android:text="@string/user_login_btn" android:layout_below="@id/user_info_login_password" android:onClick="onLoginClick" />
-        <LinearLayout android:gravity="11" android:orientation="0" android:id="@id/open_login_ly" android:padding="@dimen/activity_padding_m" android:visibility="2" android:layout_width="-1" android:layout_height="-2" android:layout_below="@id/login_submit_btn">
-            <TextView android:textSize="@dimen/font_body2" android:textColor="@drawable/x_btn_color_selector" android:gravity="11" android:layout_gravity="11" android:id="@id/qq_login_btn" android:padding="@dimen/activity_padding_s" android:clickable="true" android:layout_width="0dp" android:layout_height="-2" android:text="QQ" android:drawableTop="@drawable/x_login_qq" android:drawablePadding="5dp" android:layout_weight="1.0" android:onClick="onLoginClick" />
-            <TextView android:textSize="@dimen/font_body2" android:textColor="@drawable/x_btn_color_selector" android:gravity="11" android:layout_gravity="11" android:id="@id/wchat_login_btn" android:padding="@dimen/activity_padding_s" android:clickable="true" android:layout_width="0dp" android:layout_height="-2" android:text="微信" android:drawableTop="@drawable/x_login_weixin" android:drawablePadding="5dp" android:layout_weight="1.0" android:onClick="onLoginClick" />
-            <TextView android:textSize="@dimen/font_body2" android:textColor="@drawable/x_btn_color_selector" android:gravity="11" android:layout_gravity="11" android:id="@id/sina_login_btn" android:padding="@dimen/activity_padding_s" android:clickable="true" android:layout_width="0dp" android:layout_height="-2" android:text="新浪微博" android:drawableTop="@drawable/x_login_weibo" android:drawablePadding="5dp" android:layout_weight="1.0" android:onClick="onLoginClick" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/id_login_title_ly"
+        android:background="@color/normal_primary_color"
+        android:gravity="center">
+
+        <EditText
+            android:id="@id/user_info_login_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin_m"
+            android:background="@drawable/x_login_edit_bg"
+            android:drawableLeft="@drawable/ic_user_phone_icon"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_user_name_icon"
+            android:hint="@string/user_login_account_hint"
+            android:lines="1"
+            android:text=""
+            android:textSize="@dimen/font_primary" />
+
+        <EditText
+            android:id="@id/user_info_login_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_info_login_username"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_m"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_m"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_m"
+            android:layout_marginStart="@dimen/activity_horizontal_margin_m"
+            android:background="@drawable/x_login_edit_bg"
+            android:drawableLeft="@drawable/ic_user_password_icon"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_user_password_icon"
+            android:hint="@string/user_login_password_hint"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:text=""
+            android:textSize="@dimen/font_primary" />
+
+        <Button
+            android:id="@id/login_submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_info_login_password"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_m"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_m"
+            android:layout_marginTop="@dimen/activity_vertical_margin_m"
+            android:background="@drawable/x_enter_btn"
+            android:onClick="onLoginClick"
+            android:text="@string/user_login_btn"
+            android:textColor="@drawable/x_btn_color_selector"
+            android:textSize="@dimen/font_primary" />
+
+        <LinearLayout
+            android:id="@id/open_login_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_submit_btn"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/activity_padding_m"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@id/qq_login_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:clickable="true"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/x_login_qq"
+                android:gravity="center"
+                android:onClick="onLoginClick"
+                android:padding="@dimen/activity_padding_s"
+                android:text="QQ"
+                android:textColor="@drawable/x_btn_color_selector"
+                android:textSize="@dimen/font_body2" />
+
+            <TextView
+                android:id="@id/wchat_login_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:clickable="true"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/x_login_weixin"
+                android:gravity="center"
+                android:onClick="onLoginClick"
+                android:padding="@dimen/activity_padding_s"
+                android:text="微信"
+                android:textColor="@drawable/x_btn_color_selector"
+                android:textSize="@dimen/font_body2" />
+
+            <TextView
+                android:id="@id/sina_login_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:clickable="true"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/x_login_weibo"
+                android:gravity="center"
+                android:onClick="onLoginClick"
+                android:padding="@dimen/activity_padding_s"
+                android:text="新浪微博"
+                android:textColor="@drawable/x_btn_color_selector"
+                android:textSize="@dimen/font_body2" />
         </LinearLayout>
-        <TextView android:textSize="@dimen/font_primary" android:textStyle="2" android:textColor="@color/theme_primary_white" android:gravity="800015" android:layout_gravity="800015" android:id="@id/user_forget_password" android:padding="@dimen/activity_padding_m" android:clickable="true" android:layout_width="-2" android:layout_height="-2" android:text="@string/user_forgot_password" android:layout_alignParentRight="true" android:layout_alignParentBottom="true" android:onClick="onLoginClick" android:layout_alignParentEnd="true" />
-        <TextView android:textSize="@dimen/font_primary" android:textStyle="2" android:textColor="@color/theme_primary_white" android:gravity="800015" android:layout_gravity="800015" android:id="@id/user_regist" android:padding="@dimen/activity_padding_m" android:clickable="true" android:layout_width="-2" android:layout_height="-2" android:text="@string/user_regist" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true" android:onClick="onLoginClick" android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@id/user_forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onLoginClick"
+            android:padding="@dimen/activity_padding_m"
+            android:text="@string/user_forgot_password"
+            android:textColor="@color/theme_primary_white"
+            android:textSize="@dimen/font_primary"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@id/user_regist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onLoginClick"
+            android:padding="@dimen/activity_padding_m"
+            android:text="@string/user_regist"
+            android:textColor="@color/theme_primary_white"
+            android:textSize="@dimen/font_primary"
+            android:textStyle="normal" />
     </RelativeLayout>
 </RelativeLayout>

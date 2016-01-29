@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<animation-list android:oneshot="false">
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:oneshot="false">
     <item android:duration="500" android:drawable="@drawable/ic_loading_01" />
     <item android:duration="500" android:drawable="@drawable/ic_loading_02" />
     <item android:duration="500" android:drawable="@drawable/ic_loading_03" />

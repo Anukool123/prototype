@@ -15,16 +15,14 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import com.mlizhi.C0111R;
-import com.mlizhi.base.Session;
-import com.umeng.analytics.AnalyticsConfig;
-import com.umeng.analytics.MobclickAgent;
+
+import com.mlizhi.modules.login.LoginActivity;
+import com.philips.skincare.skincareprototype.R;
 
 public class SplashActivity extends Activity implements OnPageChangeListener {
     private static final int SPLASH_COUNTS = 4;
     private Context mContext;
     private LayoutInflater mInflater;
-    private Session mSession;
     private View[] mSplashViews;
     private int[] splashImages;
     private ImageView[] tips;
@@ -36,7 +34,7 @@ public class SplashActivity extends Activity implements OnPageChangeListener {
         }
 
         public void onClick(View v) {
-            SplashActivity.this.mContext.startActivity(new Intent(SplashActivity.this.mContext, PreSettingActivity.class));
+            SplashActivity.this.mContext.startActivity(new Intent(SplashActivity.this.mContext, LoginActivity.class));
             SplashActivity.this.finish();
         }
     }
@@ -61,7 +59,7 @@ public class SplashActivity extends Activity implements OnPageChangeListener {
     }
 
     public SplashActivity() {
-        this.splashImages = new int[]{C0111R.drawable.ic_splash_img1, C0111R.drawable.ic_splash_img2, C0111R.drawable.ic_splash_img3, C0111R.drawable.ic_splash_img4};
+        this.splashImages = new int[]{R.drawable.ic_splash_img1, R.drawable.ic_splash_img2, R.drawable.ic_splash_img3, R.drawable.ic_splash_img4};
     }
 
     @SuppressLint({"InflateParams"})
@@ -69,30 +67,27 @@ public class SplashActivity extends Activity implements OnPageChangeListener {
         int i;
         super.onCreate(savedInstanceState);
         this.mContext = this;
-        this.mSession = Session.get(getApplicationContext());
-        MobclickAgent.updateOnlineConfig(this.mContext);
-        AnalyticsConfig.enableEncrypt(true);
-        setContentView(C0111R.layout.activity_splash);
-        ViewGroup group = (ViewGroup) findViewById(C0111R.id.splash_viewGroup);
-        this.viewPager = (ViewPager) findViewById(C0111R.id.splash_viewPager);
+        setContentView(R.layout.activity_splash);
+        ViewGroup group = (ViewGroup) findViewById(R.id.splash_viewGroup);
+        this.viewPager = (ViewPager) findViewById(R.id.splash_viewPager);
         this.mInflater = LayoutInflater.from(this.mContext);
         this.mSplashViews = new View[SPLASH_COUNTS];
         for (i = 0; i < this.mSplashViews.length - 1; i++) {
-            this.mSplashViews[i] = this.mInflater.inflate(C0111R.layout.view_splash_item, null);
-            ((ImageView) this.mSplashViews[i].findViewById(C0111R.id.pre_setting_image)).setImageResource(this.splashImages[i]);
+            this.mSplashViews[i] = this.mInflater.inflate(R.layout.view_splash_item, null);
+            ((ImageView) this.mSplashViews[i].findViewById(R.id.pre_setting_image)).setImageResource(this.splashImages[i]);
         }
-        this.mSplashViews[this.mSplashViews.length - 1] = this.mInflater.inflate(C0111R.layout.view_splash_item_last, null);
-        ((ImageView) this.mSplashViews[this.mSplashViews.length - 1].findViewById(C0111R.id.pre_setting_image_last)).setImageResource(this.splashImages[this.mSplashViews.length - 1]);
-        this.mSplashViews[this.mSplashViews.length - 1].findViewById(C0111R.id.pre_setting_btn_last).setOnClickListener(new C01701());
+        this.mSplashViews[this.mSplashViews.length - 1] = this.mInflater.inflate(R.layout.view_splash_item_last, null);
+        ((ImageView) this.mSplashViews[this.mSplashViews.length - 1].findViewById(R.id.pre_setting_image_last)).setImageResource(this.splashImages[this.mSplashViews.length - 1]);
+        this.mSplashViews[this.mSplashViews.length - 1].findViewById(R.id.pre_setting_btn_last).setOnClickListener(new C01701());
         this.tips = new ImageView[SPLASH_COUNTS];
         for (i = 0; i < this.tips.length; i++) {
             ImageView imageView = new ImageView(this);
             imageView.setLayoutParams(new LayoutParams(10, 10));
             this.tips[i] = imageView;
             if (i == 0) {
-                this.tips[i].setBackgroundResource(C0111R.drawable.ic_splash_indicator_focused);
+                this.tips[i].setBackgroundResource(R.drawable.ic_splash_indicator_focused);
             } else {
-                this.tips[i].setBackgroundResource(C0111R.drawable.ic_splash_indicator);
+                this.tips[i].setBackgroundResource(R.drawable.ic_splash_indicator);
             }
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new LayoutParams(-2, -2));
             layoutParams.leftMargin = 5;
@@ -118,22 +113,18 @@ public class SplashActivity extends Activity implements OnPageChangeListener {
     private void setImageBackground(int selectItems) {
         for (int i = 0; i < this.tips.length; i++) {
             if (i == selectItems) {
-                this.tips[i].setBackgroundResource(C0111R.drawable.ic_splash_indicator_focused);
+                this.tips[i].setBackgroundResource(R.drawable.ic_splash_indicator_focused);
             } else {
-                this.tips[i].setBackgroundResource(C0111R.drawable.ic_splash_indicator);
+                this.tips[i].setBackgroundResource(R.drawable.ic_splash_indicator);
             }
         }
     }
 
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("SplashScreen");
-        MobclickAgent.onResume(this);
     }
 
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("SplashScreen");
-        MobclickAgent.onPause(this);
     }
 }

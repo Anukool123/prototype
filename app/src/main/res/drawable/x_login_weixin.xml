@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector>
+<selector  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <item android:state_pressed="true" android:drawable="@drawable/ic_login4weixin_post" />
     <item android:drawable="@drawable/ic_login4weixin_pre" />
 </selector>
