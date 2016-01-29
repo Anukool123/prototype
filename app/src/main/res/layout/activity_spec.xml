@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/id_spec_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/ic_theme_background"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:id="@id/id_spec_title_ly"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_title_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/normal_primary_color"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@id/id_spec_icon_iv"
+            android:layout_width="@dimen/top_title_img_width"
+            android:layout_height="@dimen/top_title_img_height"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:contentDescription="@string/nav_detect"
+            android:gravity="center"
+            android:onClick="onViewClick"
+            android:padding="@dimen/img_padding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_help_info" />
+
+        <TextView
+            android:id="@id/id_spec_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/top_title_height"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_sub_title1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/normal_primary_color"
+            android:contentDescription="@string/global_null_text" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@id/id_navigation_view_ly"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_title_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/normal_primary_color">
+
+        <RadioGroup
+            android:id="@id/id_spec_nav_view_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_nav_background"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@id/id_nav_content_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:checked="true"
+                android:clickable="true"
+                android:drawablePadding="2dp"
+                android:drawableTop="@drawable/x_nav_menu_content"
+                android:gravity="center"
+                android:onClick="switchViewController"
+                android:text="@string/nav_content"
+                android:textColor="@drawable/x_nav_menu_color"
+                android:textSize="@dimen/font_menu" />
+
+            <RadioButton
+                android:id="@id/id_nav_detect_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:clickable="true"
+                android:drawablePadding="2dp"
+                android:drawableTop="@drawable/x_nav_menu_detect"
+                android:gravity="center"
+                android:onClick="switchViewController"
+                android:text="@string/nav_detect"
+                android:textColor="@drawable/x_nav_menu_color"
+                android:textSize="@dimen/font_menu" />
+
+            <RadioButton
+                android:id="@id/id_nav_record_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:clickable="true"
+                android:drawablePadding="2dp"
+                android:drawableTop="@drawable/x_nav_menu_record"
+                android:gravity="center"
+                android:onClick="switchViewController"
+                android:text="@string/nav_record"
+                android:textColor="@drawable/x_nav_menu_color"
+                android:textSize="@dimen/font_menu" />
+
+            <RadioButton
+                android:id="@id/id_nav_setting_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:clickable="true"
+                android:drawablePadding="2dp"
+                android:drawableTop="@drawable/x_nav_menu_setting"
+                android:gravity="center"
+                android:onClick="switchViewController"
+                android:text="@string/nav_setting"
+                android:textColor="@drawable/x_nav_menu_color"
+                android:textSize="@dimen/font_menu" />
+        </RadioGroup>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@id/id_spec_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/id_navigation_view_ly"
+        android:layout_below="@id/id_spec_title_ly"
+        android:background="@color/normal_primary_color"
+        android:gravity="bottom"
+        android:orientation="vertical" />
+</RelativeLayout>

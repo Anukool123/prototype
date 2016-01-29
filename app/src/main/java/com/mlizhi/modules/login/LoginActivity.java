@@ -2,12 +2,14 @@ package com.mlizhi.modules.login;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
+import com.mlizhi.modules.spec.SpecActivity;
 import com.philips.skincare.skincareprototype.R;
 
 public class LoginActivity extends Activity {
@@ -51,9 +53,10 @@ public class LoginActivity extends Activity {
     public void onLoginClick(View view) {
         switch (view.getId()) {
             case R.id.id_out_login_tv:
+                System.out.println("--Skipping login -- ");
                 // TODO-Anukool
-                //startActivity(new Intent(this.mContext, SpecActivity.class));
-               // finish();
+                startActivity(new Intent(this.mContext, SpecActivity.class));
+                finish();
            /* case R.id.login_submit_btn:
                 login();
             case R.id.qq_login_btn:

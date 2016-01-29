@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
     <color name="font_primary_color">#ea000000</color>
     <color name="font_primary_checked">#fff6620a</color>
     <color name="dry_primary_color">#ff4ee8b4</color>
