@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:imagecontrol="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    imagecontrol:layout_width="match_parent"
+    imagecontrol:layout_height="match_parent"
+    imagecontrol:background="@drawable/ic_test_bg"
+    imagecontrol:gravity="center">
+
+    <RelativeLayout
+        imagecontrol:id="@id/id_spec_setting_list_ly"
+        imagecontrol:layout_width="match_parent"
+        imagecontrol:layout_height="@dimen/top_title_height"
+        imagecontrol:background="@color/normal_primary_color"
+        imagecontrol:gravity="center">
+
+        <ImageView
+            imagecontrol:id="@id/id_spec_setting_list_back"
+            imagecontrol:layout_width="wrap_content"
+            imagecontrol:layout_height="wrap_content"
+            imagecontrol:layout_alignParentLeft="true"
+            imagecontrol:layout_alignParentStart="true"
+            imagecontrol:layout_centerVertical="true"
+            imagecontrol:clickable="true"
+            imagecontrol:contentDescription="@string/spec_setting_mine"
+            imagecontrol:onClick="onSettingClick"
+            imagecontrol:paddingEnd="@dimen/activity_horizontal_margin_m"
+            imagecontrol:paddingLeft="@dimen/activity_horizontal_margin_m"
+            imagecontrol:paddingRight="@dimen/activity_horizontal_margin_m"
+            imagecontrol:paddingStart="@dimen/activity_horizontal_margin_m"
+            imagecontrol:src="@drawable/ic_title_deliver_line" />
+
+        <TextView
+            imagecontrol:id="@id/id_spec_setting_list_tv"
+            imagecontrol:layout_width="wrap_content"
+            imagecontrol:layout_height="wrap_content"
+            imagecontrol:layout_centerVertical="true"
+            imagecontrol:layout_toEndOf="@id/id_spec_setting_list_back"
+            imagecontrol:layout_toRightOf="@id/id_spec_setting_list_back"
+            imagecontrol:gravity="left"
+            imagecontrol:text="@string/spec_setting_list"
+            imagecontrol:textColor="@color/theme_primary_white"
+            imagecontrol:textSize="@dimen/font_sub_title1" />
+
+        <View
+            imagecontrol:layout_width="match_parent"
+            imagecontrol:layout_height="1dp"
+            imagecontrol:layout_alignParentBottom="true"
+            imagecontrol:background="@color/normal_primary_color"
+            imagecontrol:contentDescription="@string/global_null_text" />
+    </RelativeLayout>
+
+    <ScrollView
+        imagecontrol:id="@id/id_spec_setting_list_content"
+        imagecontrol:layout_width="match_parent"
+        imagecontrol:layout_height="match_parent"
+        imagecontrol:layout_below="@id/id_spec_setting_list_ly"
+        imagecontrol:background="@color/normal_primary_color"
+        imagecontrol:fadingEdge="vertical"
+        imagecontrol:fillViewport="true"
+        imagecontrol:overScrollMode="ifContentScrolls"
+        imagecontrol:scrollbars="vertical">
+
+    <LinearLayout
+        imagecontrol:layout_width="match_parent"
+        imagecontrol:layout_height="wrap_content"
+        imagecontrol:layout_gravity="center"
+        imagecontrol:background="@color/normal_primary_color"
+        imagecontrol:gravity="center"
+        imagecontrol:orientation="vertical">
+
+    <RelativeLayout
+        imagecontrol:layout_width="match_parent"
+        imagecontrol:layout_height="wrap_content"
+        imagecontrol:layout_gravity="center"
+        imagecontrol:layout_marginTop="@dimen/activity_vertical_margin_m"
+        imagecontrol:background="@color/setting_item_white_transparency33"
+        imagecontrol:gravity="center">
+
+        <TextView
+            imagecontrol:id="@id/id_user_info_help_label"
+            imagecontrol:layout_width="match_parent"
+            imagecontrol:layout_height="wrap_content"
+            imagecontrol:layout_alignParentLeft="true"
+            imagecontrol:layout_alignParentStart="true"
+            imagecontrol:layout_alignParentTop="true"
+            imagecontrol:clickable="true"
+            imagecontrol:onClick="onSettingClick"
+            imagecontrol:padding="@dimen/activity_padding_m"
+            imagecontrol:text="@string/user_info_help_label"
+            imagecontrol:textColor="@color/theme_primary_white"
+            imagecontrol:textSize="@dimen/font_body1" />
+
+        <View
+            imagecontrol:id="@id/id_below_line_help_label"
+            imagecontrol:layout_width="match_parent"
+            imagecontrol:layout_height="1dp"
+            imagecontrol:layout_below="@id/id_user_info_help_label"
+            imagecontrol:layout_marginEnd="@dimen/activity_padding_s"
+            imagecontrol:layout_marginStart="@dimen/activity_padding_s"
+            imagecontrol:background="@color/normal_primary_color" />
+
+        <TextView
+            imagecontrol:id="@id/id_user_info_introduce_label"
+            imagecontrol:layout_width="match_parent"
+            imagecontrol:layout_height="wrap_content"
+            imagecontrol:layout_alignParentLeft="true"
+            imagecontrol:layout_alignParentStart="true"
+            imagecontrol:layout_below="@id/id_below_line_help_label"
+            imagecontrol:layout_centerVertical="true"
+            imagecontrol:clickable="true"
+            imagecontrol:onClick="onSettingClick"
+            imagecontrol:padding="@dimen/activity_padding_m"
+            imagecontrol:text="@string/user_info_introduce_label"
+            imagecontrol:textColor="@color/theme_primary_white"
+            imagecontrol:textSize="@dimen/font_body1" />
+
+        <View
+            imagecontrol:id="@id/id_below_line_introduce_label"
+            imagecontrol:layout_width="match_parent"
+            imagecontrol:layout_height="1dp"
+            imagecontrol:layout_below="@id/id_user_info_introduce_label"
+            imagecontrol:layout_marginEnd="@dimen/activity_padding_s"
+            imagecontrol:layout_marginStart="@dimen/activity_padding_s"
+            imagecontrol:background="@color/normal_primary_color" />
+
+        <TextView
+            imagecontrol:id="@id/id_user_info_clear_label"
+            imagecontrol:layout_width="match_parent"
+            imagecontrol:layout_height="wrap_content"
+            imagecontrol:layout_alignParentLeft="true"
+            imagecontrol:layout_alignParentStart="true"
+            imagecontrol:layout_below="@id/id_below_line_introduce_label"
+            imagecontrol:layout_centerVertical="true"
+            imagecontrol:clickable="true"
+            imagecontrol:onClick="onSettingClick"
+            imagecontrol:padding="@dimen/activity_padding_m"
+            imagecontrol:text="@string/user_info_clear_label"
+            imagecontrol:textColor="@color/theme_primary_white"
+            imagecontrol:textSize="@dimen/font_body1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        imagecontrol:layout_width="match_parent"
+        imagecontrol:layout_height="wrap_content"
+        imagecontrol:layout_gravity="center"
+        imagecontrol:layout_marginTop="@dimen/activity_vertical_margin_m"
+        imagecontrol:background="@color/setting_item_white_transparency33"
+        imagecontrol:gravity="center">
+
+    <RelativeLayout
+        imagecontrol:id="@id/id_user_info_version_ly"
+        imagecontrol:layout_width="match_parent"
+        imagecontrol:layout_height="wrap_content"
+        imagecontrol:layout_gravity="center"
+        imagecontrol:background="@color/setting_item_white_transparency33"
+        imagecontrol:gravity="center">
+
+        <TextView
+            imagecontrol:id="@id/id_user_info_version_label"
+            imagecontrol:layout_width="match_parent"
+            imagecontrol:layout_height="wrap_content"
+            imagecontrol:layout_alignParentLeft="true"
+            imagecontrol:layout_alignParentStart="true"
+            imagecontrol:layout_centerVertical="true"
+            imagecontrol:clickable="true"
+            imagecontrol:onClick="onSettingClick"
+            imagecontrol:padding="@dimen/activity_padding_m"
+            imagecontrol:text="@string/user_info_version_label"
+            imagecontrol:textColor="@color/theme_primary_white"
+            imagecontrol:textSize="@dimen/font_body1" />
+
+        <TextView
+            imagecontrol:id="@id/id_user_info_version_value"
+            imagecontrol:layout_width="wrap_content"
+            imagecontrol:layout_height="wrap_content"
+            imagecontrol:layout_alignParentEnd="true"
+            imagecontrol:layout_alignParentRight="true"
+            imagecontrol:layout_centerVertical="true"
+            imagecontrol:padding="@dimen/activity_padding_m"
+            imagecontrol:text="@string/user_info_version_value"
+            imagecontrol:textColor="@color/theme_primary_white"
+            imagecontrol:textSize="@dimen/font_body1" />
+    </RelativeLayout>
+
+    <TextView
+        imagecontrol:id="@id/id_setting_feedback_label"
+        imagecontrol:layout_width="match_parent"
+        imagecontrol:layout_height="wrap_content"
+        imagecontrol:layout_below="@id/id_user_info_version_ly"
+        imagecontrol:background="@color/setting_item_white_transparency33"
+        imagecontrol:clickable="true"
+        imagecontrol:onClick="onSettingClick"
+        imagecontrol:padding="@dimen/activity_padding_m"
+        imagecontrol:text="@string/setting_feed_back_title"
+        imagecontrol:textColor="@color/theme_primary_white"
+        imagecontrol:textSize="@dimen/font_body1" />
+
+    <View
+        imagecontrol:id="@id/id_below_line_version_ly"
+        imagecontrol:layout_width="match_parent"
+        imagecontrol:layout_height="1dp"
+        imagecontrol:layout_below="@id/id_user_info_version_ly"
+        imagecontrol:layout_marginEnd="@dimen/activity_padding_s"
+        imagecontrol:layout_marginLeft="@dimen/activity_padding_s"
+        imagecontrol:layout_marginRight="@dimen/activity_padding_s"
+        imagecontrol:layout_marginStart="@dimen/activity_padding_s"
+        imagecontrol:background="@color/normal_primary_color" />
+</RelativeLayout>
+
+<TextView
+imagecontrol:textSize="@dimen/font_body1"
+imagecontrol:textColor="@color/theme_primary_white"
+imagecontrol:id="@id/id_user_info_about_label"
+imagecontrol:background="@color/setting_item_white_transparency33"
+imagecontrol:padding="@dimen/activity_padding_m"
+imagecontrol:clickable="true"
+imagecontrol:layout_width="match_parent"
+imagecontrol:layout_height="wrap_content"
+imagecontrol:layout_marginTop="@dimen/activity_padding_m"
+imagecontrol:text="@string/user_info_about_label"
+imagecontrol:onClick="onSettingClick" />
+
+<TextView
+imagecontrol:textSize="@dimen/font_body1"
+imagecontrol:textColor="@color/theme_primary_white"
+imagecontrol:id="@id/id_user_logout_label"
+imagecontrol:background="@color/setting_item_white_transparency33"
+imagecontrol:padding="@dimen/activity_padding_m"
+imagecontrol:clickable="true"
+imagecontrol:layout_width="match_parent"
+imagecontrol:layout_height="wrap_content"
+imagecontrol:layout_marginTop="@dimen/activity_vertical_margin_m"
+imagecontrol:layout_marginBottom="@dimen/activity_padding_m"
+imagecontrol:text="@string/global_logout"
+imagecontrol:onClick="onSettingClick" />
+    </LinearLayout>
+    </ScrollView>
+    </RelativeLayout>

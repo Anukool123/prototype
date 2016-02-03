@@ -16,7 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import com.mlizhi.C0111R;
+
 import com.mlizhi.base.MlzApplication;
 import com.mlizhi.base.Session;
 import com.mlizhi.modules.spec.ISpecInterface;
@@ -26,11 +26,14 @@ import com.mlizhi.modules.spec.dao.model.DetectModel;
 import com.mlizhi.modules.spec.record.adapter.RecordPartAdapter;
 import com.mlizhi.modules.spec.util.DateFormatUtil;
 import com.mlizhi.utils.Constants;
+import com.philips.skincare.skincareprototype.R;
 import com.umeng.analytics.MobclickAgent;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
 import p016u.aly.bq;
 
 public class SpecRecordFragment extends Fragment {
@@ -57,21 +60,21 @@ public class SpecRecordFragment extends Fragment {
 
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch (checkedId) {
-                case C0111R.id.id_btn4day:
+                case R.id.id_btn4day:
                     SpecRecordFragment.this.initDayView();
                     SpecRecordFragment.this.timeType = 24;
                     MobclickAgent.onEvent(SpecRecordFragment.this.mContext, "selectHistoryDataByDay");
-                    SpecRecordFragment.this.recordPartGroup.check(C0111R.id.id_btn4day);
-                case C0111R.id.id_btn4week:
+                    SpecRecordFragment.this.recordPartGroup.check(R.id.id_btn4day);
+                case R.id.id_btn4week:
                     SpecRecordFragment.this.initWeekView();
                     SpecRecordFragment.this.timeType = 25;
                     MobclickAgent.onEvent(SpecRecordFragment.this.mContext, "selectHistoryDataByWeek");
-                    SpecRecordFragment.this.recordPartGroup.check(C0111R.id.id_btn4week);
-                case C0111R.id.id_btn4month:
+                    SpecRecordFragment.this.recordPartGroup.check(R.id.id_btn4week);
+                case R.id.id_btn4month:
                     SpecRecordFragment.this.initMonthView();
                     SpecRecordFragment.this.timeType = 32;
                     MobclickAgent.onEvent(SpecRecordFragment.this.mContext, "selectHistoryDataByMonth");
-                    SpecRecordFragment.this.recordPartGroup.check(C0111R.id.id_btn4month);
+                    SpecRecordFragment.this.recordPartGroup.check(R.id.id_btn4month);
                 default:
             }
         }
@@ -94,19 +97,19 @@ public class SpecRecordFragment extends Fragment {
                 if (waterFloat != 0.0f) {
                     SpecRecordFragment.this.startActivity(typeMap, SpecRecordFragment.this.timeType);
                 } else {
-                    SpecRecordFragment.this.dialog(SpecRecordFragment.this.mContext.getResources().getString(C0111R.string.detect_report_day), typeMap, SpecRecordFragment.this.timeType);
+                    SpecRecordFragment.this.dialog(SpecRecordFragment.this.mContext.getResources().getString(R.string.detect_report_day), typeMap, SpecRecordFragment.this.timeType);
                 }
             } else if (SpecRecordFragment.this.timeType == 25) {
                 if (waterFloat != 0.0f) {
                     SpecRecordFragment.this.startActivity(typeMap, SpecRecordFragment.this.timeType);
                 } else {
-                    SpecRecordFragment.this.dialog(SpecRecordFragment.this.mContext.getResources().getString(C0111R.string.detect_report_week), typeMap, SpecRecordFragment.this.timeType);
+                    SpecRecordFragment.this.dialog(SpecRecordFragment.this.mContext.getResources().getString(R.string.detect_report_week), typeMap, SpecRecordFragment.this.timeType);
                 }
             } else if (SpecRecordFragment.this.timeType == 32) {
                 if (waterFloat != 0.0f) {
                     SpecRecordFragment.this.startActivity(typeMap, SpecRecordFragment.this.timeType);
                 } else {
-                    SpecRecordFragment.this.dialog(SpecRecordFragment.this.mContext.getResources().getString(C0111R.string.detect_report_month), typeMap, SpecRecordFragment.this.timeType);
+                    SpecRecordFragment.this.dialog(SpecRecordFragment.this.mContext.getResources().getString(R.string.detect_report_month), typeMap, SpecRecordFragment.this.timeType);
                 }
             }
             MobclickAgent.onEvent(SpecRecordFragment.this.mContext, "go2historyView");
@@ -172,15 +175,15 @@ public class SpecRecordFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (this.rootView == null) {
-            this.rootView = inflater.inflate(C0111R.layout.fragment_spec_record, container, false);
+            this.rootView = inflater.inflate(R.layout.fragment_spec_record, container, false);
         }
         ViewGroup parent = (ViewGroup) this.rootView.getParent();
         if (parent != null) {
             parent.removeView(this.rootView);
         }
-        this.recordListView = (ListView) this.rootView.findViewById(C0111R.id.id_part_category_list);
-        this.recordPartGroup = (RadioGroup) this.rootView.findViewById(C0111R.id.id_id_btn4time_group);
-        this.recordPartGroup.check(C0111R.id.id_btn4month);
+        this.recordListView = (ListView) this.rootView.findViewById(R.id.id_part_category_list);
+        this.recordPartGroup = (RadioGroup) this.rootView.findViewById(R.id.id_id_btn4time_group);
+        this.recordPartGroup.check(R.id.id_btn4month);
         return this.rootView;
     }
 
@@ -206,7 +209,7 @@ public class SpecRecordFragment extends Fragment {
         float preDayAvgFaceValue = getAverageByTimeCategory(String.valueOf(17), this.userId, String.valueOf(preCurrentTime.getTime()), String.valueOf(mediumTime.getTime()));
         float currentDayAvgFaceValue = getAverageByTimeCategory(String.valueOf(17), this.userId, String.valueOf(mediumTime.getTime()), String.valueOf(endTime.getTime()));
         faceMap.put(Constants.BODY_PART_TYPE, String.valueOf(17));
-        faceMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(C0111R.string.skin_healthLabel4comparsion_day));
+        faceMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(R.string.skin_healthLabel4comparsion_day));
         if (preDayAvgFaceValue == 0.0f) {
             faceMap.put(Constants.BODY_PART_COMPARE_VALUE, String.valueOf(new StringBuilder(String.valueOf(Math.ceil((((double) (currentDayAvgFaceValue - preDayAvgFaceValue)) / 0.01d) * 10.0d) / 10.0d)).append("%").toString()));
         } else {
@@ -218,7 +221,7 @@ public class SpecRecordFragment extends Fragment {
         float preDayAvgEyeValue = getAverageByTimeCategory(String.valueOf(18), this.userId, String.valueOf(preCurrentTime.getTime()), String.valueOf(mediumTime.getTime()));
         float currentDayAvgEyeValue = getAverageByTimeCategory(String.valueOf(18), this.userId, String.valueOf(mediumTime.getTime()), String.valueOf(endTime.getTime()));
         eyeMap.put(Constants.BODY_PART_TYPE, String.valueOf(18));
-        eyeMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(C0111R.string.skin_healthLabel4comparsion_day));
+        eyeMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(R.string.skin_healthLabel4comparsion_day));
         if (preDayAvgEyeValue == 0.0f) {
             eyeMap.put(Constants.BODY_PART_COMPARE_VALUE, String.valueOf(new StringBuilder(String.valueOf(Math.ceil((double) (((currentDayAvgEyeValue - preDayAvgEyeValue) / 0.01f) * 10.0f)) / 10.0d)).append("%").toString()));
         } else {
@@ -230,7 +233,7 @@ public class SpecRecordFragment extends Fragment {
         float preDayAvgHandValue = getAverageByTimeCategory(String.valueOf(19), this.userId, String.valueOf(preCurrentTime.getTime()), String.valueOf(mediumTime.getTime()));
         float currentDayAvgHandValue = getAverageByTimeCategory(String.valueOf(19), this.userId, String.valueOf(mediumTime.getTime()), String.valueOf(endTime.getTime()));
         handMap.put(Constants.BODY_PART_TYPE, String.valueOf(19));
-        handMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(C0111R.string.skin_healthLabel4comparsion_day));
+        handMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(R.string.skin_healthLabel4comparsion_day));
         if (preDayAvgHandValue == 0.0f) {
             handMap.put(Constants.BODY_PART_COMPARE_VALUE, String.valueOf(new StringBuilder(String.valueOf(Math.ceil((double) (((currentDayAvgHandValue - preDayAvgHandValue) / 0.01f) * 10.0f)) / 10.0d)).append("%").toString()));
         } else {
@@ -253,7 +256,7 @@ public class SpecRecordFragment extends Fragment {
         float preMonthAvgFaceValue = getAverageByTimeCategory(String.valueOf(17), this.userId, String.valueOf(preWeekStartTime.getTime()), String.valueOf(mediumTime.getTime()));
         float currentMonthAvgFaceValue = getAverageByTimeCategory(String.valueOf(17), this.userId, String.valueOf(mediumTime.getTime()), String.valueOf(endTime.getTime()));
         faceMap.put(Constants.BODY_PART_TYPE, String.valueOf(17));
-        faceMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(C0111R.string.skin_healthLabel4comparsion_month));
+        faceMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(R.string.skin_healthLabel4comparsion_month));
         if (preMonthAvgFaceValue == 0.0f) {
             faceMap.put(Constants.BODY_PART_COMPARE_VALUE, String.valueOf(new StringBuilder(String.valueOf(Math.ceil((double) (((currentMonthAvgFaceValue - preMonthAvgFaceValue) / 0.01f) * 10.0f)) / 10.0d)).append("%").toString()));
         } else {
@@ -265,7 +268,7 @@ public class SpecRecordFragment extends Fragment {
         float preMonthAvgEyeValue = getAverageByTimeCategory(String.valueOf(18), this.userId, String.valueOf(preWeekStartTime.getTime()), String.valueOf(mediumTime.getTime()));
         float currentMonthAvgEyeValue = getAverageByTimeCategory(String.valueOf(18), this.userId, String.valueOf(mediumTime.getTime()), String.valueOf(endTime.getTime()));
         eyeMap.put(Constants.BODY_PART_TYPE, String.valueOf(18));
-        eyeMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(C0111R.string.skin_healthLabel4comparsion_month));
+        eyeMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(R.string.skin_healthLabel4comparsion_month));
         if (preMonthAvgEyeValue == 0.0f) {
             eyeMap.put(Constants.BODY_PART_COMPARE_VALUE, String.valueOf(new StringBuilder(String.valueOf(Math.ceil((double) (((currentMonthAvgEyeValue - preMonthAvgEyeValue) / 0.01f) * 10.0f)) / 10.0d)).append("%").toString()));
         } else {
@@ -277,7 +280,7 @@ public class SpecRecordFragment extends Fragment {
         float preMonthAvgHandValue = getAverageByTimeCategory(String.valueOf(19), this.userId, String.valueOf(preWeekStartTime.getTime()), String.valueOf(mediumTime.getTime()));
         float currentMonthAvgHandValue = getAverageByTimeCategory(String.valueOf(19), this.userId, String.valueOf(mediumTime.getTime()), String.valueOf(endTime.getTime()));
         handMap.put(Constants.BODY_PART_TYPE, String.valueOf(19));
-        handMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(C0111R.string.skin_healthLabel4comparsion_month));
+        handMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(R.string.skin_healthLabel4comparsion_month));
         if (preMonthAvgHandValue == 0.0f) {
             handMap.put(Constants.BODY_PART_COMPARE_VALUE, String.valueOf(new StringBuilder(String.valueOf(Math.ceil((double) (((currentMonthAvgHandValue - preMonthAvgHandValue) / 0.01f) * 10.0f)) / 10.0d)).append("%").toString()));
         } else {
@@ -299,7 +302,7 @@ public class SpecRecordFragment extends Fragment {
         float preWeekAvgFaceValue = getAverageByTimeCategory(String.valueOf(17), this.userId, String.valueOf(preMonthStartTime.getTime()), String.valueOf(mediumTime.getTime()));
         float currentWeekAvgFaceValue = getAverageByTimeCategory(String.valueOf(17), this.userId, String.valueOf(mediumTime.getTime()), String.valueOf(endTime.getTime()));
         faceMap.put(Constants.BODY_PART_TYPE, String.valueOf(17));
-        faceMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(C0111R.string.skin_healthLabel4comparsion_week));
+        faceMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(R.string.skin_healthLabel4comparsion_week));
         if (preWeekAvgFaceValue == 0.0f) {
             faceMap.put(Constants.BODY_PART_COMPARE_VALUE, String.valueOf(new StringBuilder(String.valueOf(Math.ceil((double) (((currentWeekAvgFaceValue - preWeekAvgFaceValue) / 0.01f) * 10.0f)) / 10.0d)).append("%").toString()));
         } else {
@@ -311,7 +314,7 @@ public class SpecRecordFragment extends Fragment {
         float preWeekAvgEyeValue = getAverageByTimeCategory(String.valueOf(18), this.userId, String.valueOf(preMonthStartTime.getTime()), String.valueOf(mediumTime.getTime()));
         float currentWeekAvgEyeValue = getAverageByTimeCategory(String.valueOf(18), this.userId, String.valueOf(mediumTime.getTime()), String.valueOf(endTime.getTime()));
         eyeMap.put(Constants.BODY_PART_TYPE, String.valueOf(18));
-        eyeMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(C0111R.string.skin_healthLabel4comparsion_week));
+        eyeMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(R.string.skin_healthLabel4comparsion_week));
         if (preWeekAvgEyeValue == 0.0f) {
             eyeMap.put(Constants.BODY_PART_COMPARE_VALUE, String.valueOf(new StringBuilder(String.valueOf(Math.ceil((double) (((currentWeekAvgEyeValue - preWeekAvgEyeValue) / 0.01f) * 10.0f)) / 10.0d)).append("%").toString()));
         } else {
@@ -323,7 +326,7 @@ public class SpecRecordFragment extends Fragment {
         float preWeekAvgHandValue = getAverageByTimeCategory(String.valueOf(19), this.userId, String.valueOf(preMonthStartTime.getTime()), String.valueOf(mediumTime.getTime()));
         float currentWeekAvgHandValue = getAverageByTimeCategory(String.valueOf(19), this.userId, String.valueOf(mediumTime.getTime()), String.valueOf(endTime.getTime()));
         handMap.put(Constants.BODY_PART_TYPE, String.valueOf(19));
-        handMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(C0111R.string.skin_healthLabel4comparsion_week));
+        handMap.put(Constants.BODY_PART_COMPARE_LABEL, getString(R.string.skin_healthLabel4comparsion_week));
         if (preWeekAvgHandValue == 0.0f) {
             handMap.put(Constants.BODY_PART_COMPARE_VALUE, String.valueOf(new StringBuilder(String.valueOf(Math.ceil((double) (((currentWeekAvgHandValue - preWeekAvgHandValue) / 0.01f) * 10.0f)) / 10.0d)).append("%").toString()));
         } else {
@@ -380,8 +383,8 @@ public class SpecRecordFragment extends Fragment {
     protected void dialog(String msg, HashMap<String, String> typeMap, int timeType) {
         Builder builder = new Builder(getActivity());
         builder.setMessage(msg);
-        builder.setPositiveButton(this.mContext.getResources().getString(C0111R.string.detect_goto_detect), new C01503());
-        builder.setNegativeButton(this.mContext.getResources().getString(C0111R.string.detect_goto_detail), new C01514(typeMap, timeType));
+        builder.setPositiveButton(this.mContext.getResources().getString(R.string.detect_goto_detect), new C01503());
+        builder.setNegativeButton(this.mContext.getResources().getString(R.string.detect_goto_detail), new C01514(typeMap, timeType));
         builder.create().show();
     }
 

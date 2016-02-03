@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/normal_primary_color"
+    android:id="@id/id_part_record_ly"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:background="@color/normal_primary_color"
+        android:gravity="center"
+        android:id="@id/id_id_btn4time_group"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin_m"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:background="@drawable/x_record_time_type_shape_left_selector"
+            android:gravity="center"
+            android:id="@id/id_btn4day"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:layout_width="0dp"
+            android:padding="@dimen/activity_padding_s"
+            android:text="@string/record_time_type_day"
+            android:textColor="@drawable/x_record_time_type_shape_color"
+            android:textSize="@dimen/font_sub_title2" />
+
+        <RadioButton
+            android:background="@drawable/x_record_time_type_shape_center_selector"
+            android:gravity="center"
+            android:id="@id/id_btn4week"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:layout_width="0dp"
+            android:padding="@dimen/activity_padding_s"
+            android:text="@string/record_time_type_week"
+            android:textColor="@drawable/x_record_time_type_shape_color"
+            android:textSize="@dimen/font_sub_title2" />
+
+        <RadioButton
+            android:background="@drawable/x_record_time_type_shape_right_selector"
+            android:gravity="center"
+            android:id="@id/id_btn4month"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:layout_width="0dp"
+            android:padding="@dimen/activity_padding_s"
+            android:text="@string/record_time_type_month"
+            android:textColor="@drawable/x_record_time_type_shape_color"
+            android:textSize="@dimen/font_sub_title2" />
+    </RadioGroup>
+
+    <ListView
+        android:divider="@android:color/black"
+        android:dividerHeight="10dp"
+        android:id="@id/id_part_category_list"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin_m"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin_m"
+        android:layout_marginRight="@dimen/activity_horizontal_margin_m"
+        android:layout_marginStart="@dimen/activity_horizontal_margin_m"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/activity_padding_m"
+         />
+</LinearLayout>

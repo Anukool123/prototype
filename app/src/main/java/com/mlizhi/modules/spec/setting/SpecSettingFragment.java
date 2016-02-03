@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.mlizhi.C0111R;
+
 import com.mlizhi.base.Session;
 import com.mlizhi.base.imageloader.core.DisplayImageOptions;
 import com.mlizhi.base.imageloader.core.DisplayImageOptions.Builder;
@@ -19,7 +19,9 @@ import com.mlizhi.base.imageloader.core.ImageLoader;
 import com.mlizhi.modules.login.LoginActivity;
 import com.mlizhi.modules.spec.ISpecInterface;
 import com.mlizhi.utils.Constants;
+import com.philips.skincare.skincareprototype.R;
 import com.umeng.analytics.MobclickAgent;
+
 import p016u.aly.bq;
 
 public class SpecSettingFragment extends Fragment {
@@ -83,21 +85,21 @@ public class SpecSettingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mSession = Session.get(getActivity());
-        this.displayImageOptions = new Builder().showImageOnLoading((int) C0111R.drawable.ic_tourist).showImageForEmptyUri((int) C0111R.drawable.ic_tourist).showImageOnFail((int) C0111R.drawable.ic_tourist).cacheInMemory(true).cacheOnDisk(true).build();
+        this.displayImageOptions = new Builder().showImageOnLoading((int) R.drawable.ic_tourist).showImageForEmptyUri((int) R.drawable.ic_tourist).showImageOnFail((int) R.drawable.ic_tourist).cacheInMemory(true).cacheOnDisk(true).build();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (this.rootView == null) {
-            this.rootView = inflater.inflate(C0111R.layout.fragment_spec_setting, container, false);
+            this.rootView = inflater.inflate(R.layout.fragment_spec_setting, container, false);
         }
         ViewGroup parent = (ViewGroup) this.rootView.getParent();
         if (parent != null) {
             parent.removeView(this.rootView);
         }
-        this.settingTv = (TextView) this.rootView.findViewById(C0111R.id.id_user_info_setting_label);
-        this.userInfoLy = this.rootView.findViewById(C0111R.id.id_user_info_ly);
-        this.userInfoPhoto = (ImageView) this.rootView.findViewById(C0111R.id.id_cover_user_photo);
-        this.userNickName = (TextView) this.rootView.findViewById(C0111R.id.id_user_info_name);
+        this.settingTv = (TextView) this.rootView.findViewById(R.id.id_user_info_setting_label);
+        this.userInfoLy = this.rootView.findViewById(R.id.id_user_info_ly);
+        this.userInfoPhoto = (ImageView) this.rootView.findViewById(R.id.id_cover_user_photo);
+        this.userNickName = (TextView) this.rootView.findViewById(R.id.id_user_info_name);
         return this.rootView;
     }
 

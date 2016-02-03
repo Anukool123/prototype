@@ -2,7 +2,6 @@ package com.mlizhi.modules.spec.content;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -51,7 +50,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import p016u.aly.dv;
 
 public class SpecContentFragment extends Fragment {
     private static SpecContentFragment specContentFragment;
@@ -127,7 +125,7 @@ public class SpecContentFragment extends Fragment {
         }
 
         public void onErrorResponse(VolleyError error) {
-            Toast.makeText(SpecContentFragment.this.mContext, error.getMessage(), 0).show();
+            Toast.makeText(SpecContentFragment.this.mContext, error.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -162,13 +160,13 @@ public class SpecContentFragment extends Fragment {
                     specContentFragment.pageNo = specContentFragment.pageNo + 1;
                     return;
                 } else if (SpecContentFragment.this.pageNo > SpecContentFragment.this.pageTotal) {
-                    Toast.makeText(SpecContentFragment.this.mContext, "\u6570\u636e\u52a0\u8f7d\u5b8c\u6bd5\uff01\uff01", 0).show();
+                    Toast.makeText(SpecContentFragment.this.mContext, "\u6570\u636e\u52a0\u8f7d\u5b8c\u6bd5\uff01\uff01", Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     return;
                 }
             }
-            Toast.makeText(SpecContentFragment.this.mContext, JsonUtil.getHeaderErrorInfo(response), 0).show();
+            Toast.makeText(SpecContentFragment.this.mContext, JsonUtil.getHeaderErrorInfo(response), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -179,7 +177,7 @@ public class SpecContentFragment extends Fragment {
 
         public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
             switch (scrollState) {
-                case dv.f2156c /*2*/:
+                case 2 /*2*/:
                     if (SpecContentFragment.this.pageNo <= SpecContentFragment.this.pageTotal) {
                         SpecContentFragment.this.getContentList(SpecContentFragment.this.pageNo);
                     }
@@ -197,7 +195,8 @@ public class SpecContentFragment extends Fragment {
         }
 
         public void onItemClick(PLA_AdapterView<?> pLA_AdapterView, View view, int position, long id) {
-            Intent intent = new Intent(SpecContentFragment.this.mContext, SpecContentViewActivity.class);
+            // TODO-ANUKOOL
+            /*Intent intent = new Intent(SpecContentFragment.this.mContext, SpecContentViewActivity.class);
             if (id >= ((long) SpecContentFragment.this.contentList.size())) {
                 id = (long) (SpecContentFragment.this.contentList.size() - 1);
             }
@@ -205,7 +204,7 @@ public class SpecContentFragment extends Fragment {
             intent.putExtra(com.mlizhi.utils.Constants.CONTENT_ITEM_ID, (String) contentMap.get(com.mlizhi.utils.Constants.CONTENT_ITEM_ID));
             intent.putExtra(com.mlizhi.utils.Constants.CONTENT_ITEM_TITLE, (String) contentMap.get(com.mlizhi.utils.Constants.CONTENT_ITEM_TITLE));
             intent.putExtra(com.mlizhi.utils.Constants.CONTENT_ITEM_IMAGE, (String) contentMap.get(com.mlizhi.utils.Constants.CONTENT_ITEM_IMAGE));
-            SpecContentFragment.this.mContext.startActivity(intent);
+            SpecContentFragment.this.mContext.startActivity(intent);*/
         }
     }
 
@@ -254,8 +253,9 @@ public class SpecContentFragment extends Fragment {
         private final /* synthetic */ int val$pageNo;
 
         C05437(int $anonymous0, String $anonymous1, Listener $anonymous2, ErrorListener $anonymous3, int i) {
-            this.val$pageNo = i;
+
             super($anonymous0, $anonymous1, $anonymous2, $anonymous3);
+            this.val$pageNo = i;
         }
 
         protected Map<String, String> getParams() throws AuthFailureError {

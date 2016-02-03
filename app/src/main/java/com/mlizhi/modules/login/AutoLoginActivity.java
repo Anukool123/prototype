@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.philips.skincare.skincareprototype.R;
 
 //import com.mlizhi.modules.spec.SpecActivity;
 

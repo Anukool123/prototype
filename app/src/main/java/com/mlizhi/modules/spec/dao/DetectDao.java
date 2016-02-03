@@ -3,12 +3,14 @@ package com.mlizhi.modules.spec.dao;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+
 import com.mlizhi.base.dao.AbstractDao;
 import com.mlizhi.base.dao.Property;
 import com.mlizhi.base.dao.internal.DaoConfig;
 import com.mlizhi.modules.spec.dao.model.DetectModel;
-import com.umeng.socialize.common.SocializeConstants;
+
 import java.util.Date;
+
 import p016u.aly.bq;
 
 public class DetectDao extends AbstractDao<DetectModel, Long> {
@@ -24,7 +26,7 @@ public class DetectDao extends AbstractDao<DetectModel, Long> {
         public static final Property UserId;
 
         static {
-            Id = new Property(0, Long.class, SocializeConstants.WEIBO_ID, true, "_id");
+            Id = new Property(0, Long.class, /*SocializeConstants.WEIBO_ID*/"id", true, "_id");
             PartType = new Property(1, Integer.class, "partType", true, "PART_TYPE");
             DetectType = new Property(2, Integer.class, "detectType", true, "DETECT_TYPE");
             NurserType = new Property(3, Integer.class, "nurserType", true, "NURSER_TYPE");

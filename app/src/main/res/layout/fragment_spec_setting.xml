@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:imagecontrol="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    imagecontrol:background="@color/normal_primary_color"
+    imagecontrol:fadingEdge="vertical"
+    imagecontrol:fillViewport="true"
+    imagecontrol:layout_height="match_parent"
+    imagecontrol:layout_width="match_parent"
+    imagecontrol:overScrollMode="ifContentScrolls"
+    >
+
+    <LinearLayout
+        imagecontrol:background="@color/normal_primary_color"
+        imagecontrol:gravity="center"
+        imagecontrol:layout_gravity="center"
+        imagecontrol:layout_height="wrap_content"
+        imagecontrol:layout_width="match_parent"
+        imagecontrol:orientation="vertical">
+
+        <RelativeLayout
+            imagecontrol:background="@color/setting_item_white_transparency33"
+            imagecontrol:gravity="center"
+            imagecontrol:id="@id/id_user_info_ly"
+            imagecontrol:layout_gravity="center"
+            imagecontrol:layout_height="wrap_content"
+            imagecontrol:layout_marginTop="@dimen/activity_vertical_margin_m"
+            imagecontrol:layout_width="match_parent"
+            imagecontrol:padding="@dimen/activity_padding_m">
+
+            <ImageView
+                imagecontrol:background="@drawable/x_user_info_icon_shape"
+                imagecontrol:id="@id/id_cover_user_photo"
+                imagecontrol:layout_alignParentLeft="true"
+                imagecontrol:layout_alignParentStart="true"
+                imagecontrol:layout_centerVertical="true"
+                imagecontrol:layout_height="@dimen/img_height"
+                imagecontrol:layout_width="@dimen/img_width"
+                imagecontrol:scaleType="centerCrop"
+                imagecontrol:src="@drawable/ic_tourist" />
+
+            <TextView
+                imagecontrol:id="@id/id_user_info_name"
+                imagecontrol:layout_centerVertical="true"
+                imagecontrol:layout_height="wrap_content"
+                imagecontrol:layout_margin="@dimen/activity_horizontal_margin_m"
+                imagecontrol:layout_toEndOf="@id/id_cover_user_photo"
+                imagecontrol:layout_toRightOf="@id/id_cover_user_photo"
+                imagecontrol:layout_width="wrap_content"
+                imagecontrol:padding="@dimen/activity_padding_s"
+                imagecontrol:text="@string/nav_setting"
+                imagecontrol:textColor="@color/theme_primary_white"
+                imagecontrol:textSize="@dimen/font_body1" />
+        </RelativeLayout>
+
+        <TextView
+            imagecontrol:background="@color/setting_item_white_transparency33"
+            imagecontrol:clickable="true"
+            imagecontrol:id="@id/id_user_info_setting_label"
+            imagecontrol:layout_height="wrap_content"
+            imagecontrol:layout_marginTop="@dimen/activity_padding_m"
+            imagecontrol:layout_width="match_parent"
+            imagecontrol:padding="@dimen/activity_padding_m"
+            imagecontrol:text="@string/user_info_setting_label"
+            imagecontrol:textColor="@color/theme_primary_white"
+            imagecontrol:textSize="@dimen/font_body1" />
+    </LinearLayout>
+</ScrollView>

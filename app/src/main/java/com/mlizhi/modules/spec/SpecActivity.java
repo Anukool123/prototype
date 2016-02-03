@@ -181,10 +181,10 @@ public class SpecActivity extends FragmentActivity implements ISpecInterface {
     public void initBle() {
         if (VERSION.SDK_INT < 18) {
             this.supportBle = false;
-            Toast.makeText(this, R.string.ble_os_version_low, SPEC_CONTENT_VIEW_ID).show();
+            Toast.makeText(this, R.string.ble_os_version_low, Toast.LENGTH_LONG).show();
             return;
         }
-        this.mBluetoothManager = (BluetoothManager) this.mContext.getSystemService("bluetooth");
+        this.mBluetoothManager = (BluetoothManager) this.mContext.getSystemService(BLUETOOTH_SERVICE);
         if (this.mBluetoothManager != null) {
             this.mBluetoothAdapter = this.mBluetoothManager.getAdapter();
             if (this.mBluetoothAdapter != null) {
@@ -237,4 +237,5 @@ public class SpecActivity extends FragmentActivity implements ISpecInterface {
             this.mContext.stopService(new Intent(this.mContext, BleService.class));
         }
     }
+
 }

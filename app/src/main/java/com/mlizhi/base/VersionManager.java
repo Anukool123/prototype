@@ -28,9 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mlizhi.modules.spec.util.JsonUtil;
-import com.philips.skincare.skincareprototype.R;
 import com.tencent.connect.common.Constants;
-import com.umeng.socialize.net.utils.SocializeProtocolConstants;
 
 import org.json.JSONObject;
 
@@ -174,7 +172,7 @@ public class VersionManager {
                         VersionManager.this.showNoticeDialog(downloadUrl, descn);
                         return;
                     } else if (!VersionManager.this.implicit) {
-                        Toast.makeText(VersionManager.this.activity, "\u6ca1\u6709\u53d1\u73b0\u65b0\u7248\u672c\uff01\uff01\uff01", 0).show();
+                        Toast.makeText(VersionManager.this.activity, "\u6ca1\u6709\u53d1\u73b0\u65b0\u7248\u672c\uff01\uff01\uff01", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
                         return;
@@ -184,7 +182,7 @@ public class VersionManager {
                     return;
                 }
             }
-            Toast.makeText(VersionManager.this.activity, JsonUtil.getHeaderErrorInfo(response), 0).show();
+            Toast.makeText(VersionManager.this.activity, JsonUtil.getHeaderErrorInfo(response), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -194,7 +192,7 @@ public class VersionManager {
         }
 
         public void onErrorResponse(VolleyError error) {
-            Toast.makeText(VersionManager.this.activity, error.getMessage(), 0).show();
+            Toast.makeText(VersionManager.this.activity, error.getMessage(), Toast.LENGTH_SHORT).show();
             if (!VersionManager.this.implicit) {
                 VersionManager.this.versionProgressDialog.dismiss();
             }
@@ -211,7 +209,7 @@ public class VersionManager {
             String timestamp = SecurityUtil.getTimestamp();
             Map<String, String> params = new HashMap();
             params.put("companyId", Constants.VIA_TO_TYPE_QQ_GROUP);
-            params.put(SocializeProtocolConstants.PROTOCOL_SHARE_TYPE, Constants.VIA_TO_TYPE_QQ_GROUP);
+            params.put("type", Constants.VIA_TO_TYPE_QQ_GROUP);
             params.put(com.mlizhi.utils.Constants.URL_TIMESTAMP, timestamp);
             params.put(com.mlizhi.utils.Constants.URL_KEY, SecurityUtil.getMd5String(timestamp));
             return params;
@@ -300,6 +298,6 @@ public class VersionManager {
             this.mRequestQueue.start();
             return;
         }
-        Toast.makeText(this.activity, R.string.net_connected_failure, 0).show();
+        Toast.makeText(this.activity, R.string.net_connected_failure, Toast.LENGTH_SHORT).show();
     }
 }

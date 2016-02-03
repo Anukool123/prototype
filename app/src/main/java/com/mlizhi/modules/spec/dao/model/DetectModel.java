@@ -25,6 +25,10 @@ public class DetectModel {
         this.userId = userId;
     }
 
+    public DetectModel() {
+
+    }
+
     public Long getId() {
         return this.id;
     }

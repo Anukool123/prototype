@@ -19,7 +19,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.widget.Toast;
 
-import com.philips.skincare.skincareprototype.R;
 import com.tencent.connect.common.Constants;
 
 import org.json.zip.JSONzip;

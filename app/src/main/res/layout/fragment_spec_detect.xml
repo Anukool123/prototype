@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:background="@color/normal_primary_color"
+    app:id="@id/id_spec_detect_fragment"
+    app:layout_gravity="center"
+    app:layout_height="match_parent"
+    app:layout_width="match_parent"
+    app:orientation="vertical"
+    app:weightSum="1.0">
+
+    <RelativeLayout
+        app:background="@color/normal_primary_color"
+        app:gravity="center"
+        app:id="@id/id_switch_ly"
+        app:layout_height="0dp"
+        app:layout_weight="0.15"
+        app:layout_width="match_parent"
+        app:padding="@dimen/activity_padding_m">
+
+        <Switch
+            app:id="@id/id_nurser_status"
+            app:layout_alignParentEnd="true"
+            app:layout_alignParentRight="true"
+            app:layout_alignParentTop="true"
+            app:layout_height="wrap_content"
+            app:layout_width="wrap_content"
+            app:switchMinWidth="56dp"
+            app:textOff=""
+            app:textOn=""
+            app:thumb="@drawable/x_detect_switch_thumb"
+            app:track="@drawable/x_detect_switch_track" />
+
+        <TextView
+            app:id="@id/id_nurser_status_label"
+            app:layout_alignTop="@id/id_nurser_status"
+            app:layout_height="wrap_content"
+            app:layout_toLeftOf="@id/id_nurser_status"
+            app:layout_toStartOf="@id/id_nurser_status"
+            app:layout_width="wrap_content"
+            app:text="@string/nurser_status_pre"
+            app:textColor="@color/theme_primary_white"
+            app:textSize="@dimen/font_body1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        app:background="@color/normal_primary_color"
+        app:gravity="center"
+        app:id="@id/id_water_circular_view_ly"
+        app:layout_height="0dp"
+        app:layout_weight="0.55"
+        app:layout_width="match_parent"
+        app:padding="@dimen/activity_padding_m">
+
+        <com.mlizhi.widgets.wave.CircularView
+            app:clickable="true"
+            app:gravity="center"
+            app:id="@id/id_water_circular_view"
+            app:layout_centerInParent="true"
+            app:layout_gravity="center"
+            app:layout_height="match_parent"
+            app:layout_width="match_parent"
+            app:progress="@android:integer/config_longAnimTime"
+            app:progress_background_color="#ebecee"
+            app:progress_color="@color/moist_primary_color"
+            app:stroke_width="5dp"
+            app:wave_height="1"
+            app:wave_hz="3"
+            app:wave_length="2" />
+
+        <View
+            app:id="@id/id_center_deliver_line"
+            app:layout_centerInParent="true"
+            app:layout_height="1dp"
+            app:layout_width="1dp" />
+
+        <LinearLayout
+            app:gravity="center"
+            app:id="@id/id_detect_result_value_ly"
+            app:layout_above="@id/id_center_deliver_line"
+            app:layout_centerHorizontal="true"
+            app:layout_height="wrap_content"
+            app:layout_marginBottom="@dimen/activity_vertical_margin_m"
+            app:layout_width="wrap_content"
+            app:orientation="vertical">
+
+            <TextView
+                app:id="@id/id_detect_result_value"
+                app:layout_height="wrap_content"
+                app:layout_width="wrap_content"
+                app:text="@string/detect_water_default_value"
+                app:textColor="@color/theme_water_value_grey"
+                app:textSize="38sp" />
+
+            <TextView
+                app:drawableTop="@drawable/ic_detect_water_icon"
+                app:id="@id/id_detect_result_value_icon"
+                app:layout_height="wrap_content"
+                app:layout_width="wrap_content"
+                app:text="@string/detect_water_unit"
+                app:textColor="@color/theme_water_value_grey"
+                app:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            app:gravity="center"
+            app:id="@id/id_detect_status"
+            app:layout_below="@id/id_center_deliver_line"
+            app:layout_centerHorizontal="true"
+            app:layout_height="wrap_content"
+            app:layout_marginTop="50dp"
+            app:layout_width="wrap_content"
+            app:text="@string/global_null_text"
+            app:textColor="@color/theme_primary_white"
+            app:textSize="@dimen/font_body1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        app:background="@color/normal_primary_color"
+        app:gravity="top"
+        app:layout_gravity="top"
+        app:layout_height="0dp"
+        app:layout_weight="0.45"
+        app:layout_width="match_parent">
+
+        <View
+            app:background="@color/normal_primary_color"
+            app:id="@id/id_bottom_holder"
+            app:layout_alignParentBottom="true"
+            app:layout_centerHorizontal="true"
+            app:layout_height="@dimen/bottom_title_height"
+            app:layout_width="match_parent" />
+
+        <RadioGroup
+            app:background="@color/normal_primary_color"
+            app:gravity="center"
+            app:id="@id/id_detect_pos_group"
+            app:layout_above="@id/id_bottom_holder"
+            app:layout_gravity="center"
+            app:layout_height="match_parent"
+            app:layout_width="match_parent"
+            app:orientation="vertical"
+            app:paddingEnd="@dimen/activity_padding_l"
+            app:paddingStart="@dimen/activity_padding_l"
+            app:paddingTop="@dimen/activity_margin_s">
+
+            <RadioButton
+                app:drawableTop="@drawable/x_part_face"
+                app:gravity="center"
+                app:id="@id/id_detect_pos_face"
+                app:layout_gravity="center"
+                app:layout_height="wrap_content"
+                app:layout_weight="0.3"
+                app:layout_width="0dp" />
+
+            <RadioButton
+                app:drawableTop="@drawable/x_part_eye"
+                app:gravity="center"
+                app:id="@id/id_detect_pos_eye"
+                app:layout_gravity="center"
+                app:layout_height="wrap_content"
+                app:layout_marginTop="40dp"
+                app:layout_weight="0.3"
+                app:layout_width="0dp" />
+
+            <RadioButton
+                app:drawableTop="@drawable/x_part_neck"
+                app:gravity="center"
+                app:id="@id/id_detect_pos_neck"
+                app:layout_gravity="center"
+                app:layout_height="wrap_content"
+                app:layout_marginTop="40dp"
+                app:layout_weight="0.3"
+                app:layout_width="0dp"
+                app:visibility="invisible" />
+
+            <RadioButton
+                app:checked="true"
+                app:drawableTop="@drawable/x_part_hand"
+                app:gravity="center"
+                app:id="@id/id_detect_pos_hand"
+                app:layout_gravity="center"
+                app:layout_height="wrap_content"
+                app:layout_weight="0.3"
+                app:layout_width="0dp" />
+        </RadioGroup>
+
+        <LinearLayout
+            app:background="@drawable/x_detect_resultbg"
+            app:gravity="center"
+            app:id="@id/pop_result"
+            app:layout_above="@id/id_bottom_holder"
+            app:layout_centerHorizontal="true"
+            app:layout_gravity="center"
+            app:layout_height="match_parent"
+            app:layout_width="match_parent"
+            app:visibility="invisible">
+
+            <TextView
+                app:gravity="center"
+                app:id="@id/btn_toresult"
+                app:layout_gravity="center"
+                app:layout_height="wrap_content"
+                app:layout_width="wrap_content"
+                app:paddingBottom="@dimen/activity_padding_s"
+                app:paddingTop="@dimen/activity_padding_s"
+                app:text="@string/detect_suggestion"
+                app:textColor="@color/theme_primary_white"
+                app:textSize="@dimen/font_body1" />
+
+            <ImageView
+                app:contentDescription="@string/detect_suggestion"
+                app:id="@id/btn_arrow"
+                app:layout_height="wrap_content"
+                app:layout_width="wrap_content"
+                app:src="@drawable/ic_right_arrow" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

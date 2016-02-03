@@ -31,6 +31,10 @@ public class ContentModel {
         this.contentId = contentId;
     }
 
+    public ContentModel() {
+
+    }
+
     public Long getId() {
         return this.id;
     }

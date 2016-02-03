@@ -1,7 +1,6 @@
 package org.json;
 
 import com.mlizhi.modules.spec.setting.SpecSettingMineActivity;
-import com.philips.skincare.skincareprototype.R;
 import com.tencent.connect.share.QQShare;
 
 import java.util.Iterator;
