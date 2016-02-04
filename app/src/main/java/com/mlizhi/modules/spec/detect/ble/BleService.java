@@ -19,9 +19,9 @@ import android.os.IBinder;
 import android.os.Message;
 import android.widget.Toast;
 
+import com.philips.skincare.skincareprototype.R;
 import com.tencent.connect.common.Constants;
 
-import org.json.zip.JSONzip;
 
 import java.util.List;
 import java.util.UUID;
@@ -62,7 +62,7 @@ public class BleService extends Service {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                BleService.this.mConnected = BleService.this.connectDevice(msg.obj.getAddress());
+                BleService.this.mConnected = BleService.this.connectDevice(((BluetoothDevice)(msg.obj)).getAddress());
             } else if (msg.what == 2) {
                 BleService.this.disGattconnect();
                 BleService.this.closeGatt();
@@ -217,18 +217,18 @@ public class BleService extends Service {
         this.mHandler = new Handler();
         if (VERSION.SDK_INT < 18) {
             this.supportBle = false;
-            Toast.makeText(this, R.string.ble_os_version_low, 1).show();
+            Toast.makeText(this, R.string.ble_os_version_low, Toast.LENGTH_LONG).show();
         } else if (getPackageManager().hasSystemFeature("android.hardware.bluetooth_le")) {
-            this.mBluetoothManager = (BluetoothManager) getApplicationContext().getSystemService("bluetooth");
+            this.mBluetoothManager = (BluetoothManager) getApplicationContext().getSystemService(BLUETOOTH_SERVICE);
             this.mBluetoothAdapter = this.mBluetoothManager.getAdapter();
             if (this.mBluetoothAdapter == null) {
-                Toast.makeText(this, R.string.ble_device_not_support, 1).show();
+                Toast.makeText(this, R.string.ble_device_not_support, Toast.LENGTH_LONG).show();
                 this.supportBle = false;
                 return;
             }
             this.supportBle = true;
         } else {
-            Toast.makeText(this, R.string.ble_not_supported, 1).show();
+            Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_LONG).show();
             this.supportBle = false;
         }
     }
@@ -350,9 +350,9 @@ public class BleService extends Service {
                 int c = Integer.parseInt(stringBuilder.toString().substring(0, 2).trim(), 16) ^ Integer.parseInt(stringBuilder.toString().substring(3, 5).trim(), 16);
                 int p = Integer.parseInt(stringBuilder.toString().substring(6, 8).trim(), 16);
                 int q = p & 7;
-                p = ((p << q) % JSONzip.end) | (p >> (8 - q));
+                p = ((p << q) % 256) | (p >> (8 - q));
                 if (p < 0) {
-                    p += JSONzip.end;
+                    p += 256;
                 }
                 if (c == 202) {
                     c = p ^ Integer.parseInt(stringBuilder.toString().substring(9, 11).trim(), 16);
@@ -368,9 +368,9 @@ public class BleService extends Service {
                     int d3 = dd2 ^ dd3;
                     int d4 = dd3 ^ Integer.parseInt(stringBuilder.toString().substring(18, 20).trim(), 16);
                     if (this.isFirstSend) {
-                        num = (p ^ dd1) + ((dd1 ^ dd2) * JSONzip.end);
+                        num = (p ^ dd1) + ((dd1 ^ dd2) * 256);
                     }
-                    num1 = (int) (((double) ((d3 + (d4 * JSONzip.end)) + 295)) * 53.125d);
+                    num1 = (int) (((double) ((d3 + (d4 * 256)) + 295)) * 53.125d);
                 }
             } else {
                 if (this.isFirstSend && stringBuilder.toString().length() >= 11) {

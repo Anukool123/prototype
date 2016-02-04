@@ -26,6 +26,9 @@ dependencies {
     compile files('D:/Haircare/GIT/Haircare/SkincarePrototype/libs/java-websocket-1.3.0.jar')
     compile files('D:/Haircare/GIT/Haircare/SkincarePrototype/libs/volley.jar')
     compile files('D:/Haircare/GIT/Haircare/SkincarePrototype/libs/analytics-5.2.4.jar')
+    compile files('D:/Haircare/GIT/Haircare/SkincarePrototype/libs/http-core-4.1.jar')
+    compile files('D:/Haircare/GIT/Haircare/SkincarePrototype/libs/android-async-http-1.4.8.jar')
+    compile files('D:/Haircare/GIT/Haircare/SkincarePrototype/libs/org.json-20120521.jar')
 }
 
 android {

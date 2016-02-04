@@ -29,6 +29,7 @@ class AsyncOperationExecutor implements Runnable, Callback {
     private volatile int maxOperationCountToMerge;
     private final BlockingQueue<AsyncOperation> queue;
     private volatile int waitForMergeMillis;
+    private AsyncOperation asyncOperation;
 
     static /* synthetic */ int[] m31x8b8bd382() {
         int[] iArr = f0x8b8bd382;
@@ -343,7 +344,6 @@ class AsyncOperationExecutor implements Runnable, Callback {
                 }
             }
         }
-        break;
         Iterator it;
         if (success) {
             int mergedCount = mergedOps.size();

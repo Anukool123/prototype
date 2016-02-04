@@ -12,6 +12,7 @@ import com.mlizhi.base.imageloader.core.DisplayImageOptions;
 import com.mlizhi.base.imageloader.core.DisplayImageOptions.Builder;
 import com.mlizhi.base.imageloader.core.ImageLoader;
 import com.mlizhi.utils.Constants;
+import com.philips.skincare.skincareprototype.R;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,9 +1,8 @@
 package com.mlizhi.base.imageloader.utils;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Environment;
-import com.umeng.socialize.common.SocializeConstants;
-import com.umeng.socialize.net.utils.SocializeProtocolConstants;
 import java.io.File;
 import java.io.IOException;
 import p016u.aly.bq;
@@ -76,7 +75,7 @@ public final class StorageUtils {
     }
 
     private static File getExternalCacheDir(Context context) {
-        File appCacheDir = new File(new File(new File(new File(Environment.getExternalStorageDirectory(), SocializeConstants.OS), SocializeProtocolConstants.PROTOCOL_KEY_DATA), context.getPackageName()), "cache");
+        File appCacheDir = new File(new File(new File(new File(Environment.getExternalStorageDirectory(), "Android"), "data"), context.getPackageName()), "cache");
         if (appCacheDir.exists()) {
             return appCacheDir;
         }
@@ -94,6 +93,6 @@ public final class StorageUtils {
     }
 
     private static boolean hasExternalStoragePermission(Context context) {
-        return context.checkCallingOrSelfPermission(EXTERNAL_STORAGE_PERMISSION) == 0;
+        return context.checkCallingOrSelfPermission(EXTERNAL_STORAGE_PERMISSION) == PackageManager.PERMISSION_GRANTED;
     }
 }

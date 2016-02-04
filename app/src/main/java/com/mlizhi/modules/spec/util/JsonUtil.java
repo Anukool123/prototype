@@ -2,9 +2,10 @@ package com.mlizhi.modules.spec.util;
 
 import com.mlizhi.base.Utils;
 import com.mlizhi.utils.Constants;
-import com.tencent.open.SocialConstants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import p016u.aly.bq;
 
 public class JsonUtil {
@@ -40,7 +41,7 @@ public class JsonUtil {
     public static String getHeaderErrorInfo(String jsonObjectString) {
         String description = bq.f888b;
         try {
-            return getHeaderJsonObject(jsonObjectString).getString(SocialConstants.PARAM_COMMENT);
+            return getHeaderJsonObject(jsonObjectString).getString("description");
         } catch (Exception e) {
             Utils.m13E("parse jsonObject error!!!", e);
             return "\u670d\u52a1\u5668\u53d1\u751f\u672a\u77e5\u9519\u8bef\uff01\uff01\uff01";

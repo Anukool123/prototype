@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.mlizhi.base.VersionManager;
 import com.mlizhi.modules.spec.content.SpecContentFragment;
 import com.mlizhi.modules.spec.detect.SpecDetectFragment;
-import com.mlizhi.modules.spec.detect.SpecDetectFragment.BleBroadcastReceiver;
 import com.mlizhi.modules.spec.detect.ble.BleService;
 import com.mlizhi.modules.spec.record.SpecRecordFragment;
 import com.mlizhi.modules.spec.setting.SpecSettingFragment;
@@ -71,7 +70,7 @@ public class SpecActivity extends FragmentActivity implements ISpecInterface {
         if (this.supportBle) {
             SpecDetectFragment specDetectFragment = this.specDetectFragment;
             specDetectFragment.getClass();
-            this.mGattUpdateReceiver = new BleBroadcastReceiver();
+            this.mGattUpdateReceiver = specDetectFragment.new BleBroadcastReceiver();
             this.mContext.registerReceiver(this.mGattUpdateReceiver, makeGattUpdateIntentFilter());
         }
         new VersionManager(this).showVersionProcessDialog(true);
@@ -212,7 +211,7 @@ public class SpecActivity extends FragmentActivity implements ISpecInterface {
         } else if (requestCode == SPEC_RECORD_VIEW_ID && resultCode == -1) {
             SpecDetectFragment specDetectFragment = this.specDetectFragment;
             specDetectFragment.getClass();
-            this.mGattUpdateReceiver = new BleBroadcastReceiver();
+            this.mGattUpdateReceiver = specDetectFragment.new BleBroadcastReceiver();
             this.mContext.registerReceiver(this.mGattUpdateReceiver, makeGattUpdateIntentFilter());
             this.supportBle = true;
             this.specDetectFragment.onActivityResult(requestCode, resultCode, data);

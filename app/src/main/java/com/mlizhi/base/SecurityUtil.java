@@ -2,13 +2,16 @@ package com.mlizhi.base;
 
 import android.support.v4.view.MotionEventCompat;
 import android.text.TextUtils;
-import com.mlizhi.base.codec.binary.Base64;
-import com.mlizhi.base.codec.digest.DigestUtils;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
+
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
+
 import p016u.aly.bq;
 
 public class SecurityUtil {

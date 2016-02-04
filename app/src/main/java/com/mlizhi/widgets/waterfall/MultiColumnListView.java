@@ -7,8 +7,9 @@ import android.support.v4.widget.ExploreByTouchHelper;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.view.View;
-import com.mlizhi.C0111R;
+
 import com.mlizhi.widgets.waterfall.internal.PLA_ListView;
+import com.philips.skincare.skincareprototype.R;
 
 public class MultiColumnListView extends PLA_ListView {
     private static final int DEFAULT_COLUMN_NUMBER = 2;
@@ -158,7 +159,7 @@ public class MultiColumnListView extends PLA_ListView {
         if (attrs == null) {
             this.mColumnNumber = DEFAULT_COLUMN_NUMBER;
         } else {
-            TypedArray a = getContext().obtainStyledAttributes(attrs, C0111R.styleable.PinterestLikeAdapterView);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.PinterestLikeAdapterView);
             int landColNumber = a.getInteger(1, -1);
             int defColNumber = a.getInteger(0, -1);
             if (this.mFrameRect.width() > this.mFrameRect.height() && landColNumber != -1) {

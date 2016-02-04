@@ -2,6 +2,8 @@ package com.mlizhi.modules.spec.util;
 
 import android.content.Context;
 
+import com.philips.skincare.skincareprototype.R;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

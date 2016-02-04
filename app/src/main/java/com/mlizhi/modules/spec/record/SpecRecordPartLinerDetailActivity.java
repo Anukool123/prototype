@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.mlizhi.C0111R;
+
 import com.mlizhi.base.MlzApplication;
 import com.mlizhi.base.Session;
 import com.mlizhi.modules.spec.dao.DaoSession;
@@ -16,11 +16,12 @@ import com.mlizhi.modules.spec.dao.model.DetectModel;
 import com.mlizhi.modules.spec.util.DateFormatUtil;
 import com.mlizhi.utils.Constants;
 import com.mlizhi.widgets.chart.ChartView4Line;
-import com.umeng.analytics.AnalyticsConfig;
-import com.umeng.analytics.MobclickAgent;
+import com.philips.skincare.skincareprototype.R;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
 import p016u.aly.bq;
 
 public class SpecRecordPartLinerDetailActivity extends Activity {
@@ -57,14 +58,12 @@ public class SpecRecordPartLinerDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.mSession = Session.get(getApplicationContext());
         this.mlzApplication = (MlzApplication) getApplication();
-        setContentView(C0111R.layout.activity_spec_record_part_chart);
-        MobclickAgent.updateOnlineConfig(this);
-        AnalyticsConfig.enableEncrypt(true);
-        this.selectedTime = (TextView) findViewById(C0111R.id.id_selected_time_value);
-        this.timeIndicatorLabel = (TextView) findViewById(C0111R.id.id_spec_type_indicator_label);
-        this.chartView4Line = (ChartView4Line) findViewById(C0111R.id.id_chart_line_view);
-        this.averageValuePre = (TextView) findViewById(C0111R.id.id_current_average_value_pre);
-        this.averageValuePost = (TextView) findViewById(C0111R.id.id_current_average_value_post);
+        setContentView(R.layout.activity_spec_record_part_chart);
+        this.selectedTime = (TextView) findViewById(R.id.id_selected_time_value);
+        this.timeIndicatorLabel = (TextView) findViewById(R.id.id_spec_type_indicator_label);
+        this.chartView4Line = (ChartView4Line) findViewById(R.id.id_chart_line_view);
+        this.averageValuePre = (TextView) findViewById(R.id.id_current_average_value_pre);
+        this.averageValuePost = (TextView) findViewById(R.id.id_current_average_value_post);
         this.daoSession = this.mlzApplication.getDaoSession();
         this.detectDao = this.daoSession.getDetectDao();
         this.userId = this.mSession.getUid();
@@ -79,15 +78,15 @@ public class SpecRecordPartLinerDetailActivity extends Activity {
         } catch (NumberFormatException e) {
             this.partType = 0;
         }
-        this.recordItemTitle = (TextView) findViewById(C0111R.id.id_spec_record_item_tv);
+        this.recordItemTitle = (TextView) findViewById(R.id.id_spec_record_item_tv);
         if (this.partType == 18) {
-            this.recordItemTitle.setText(C0111R.string.bodyParts4eye);
+            this.recordItemTitle.setText(R.string.bodyParts4eye);
         } else if (this.partType == 19) {
-            this.recordItemTitle.setText(C0111R.string.bodyParts4hand);
+            this.recordItemTitle.setText(R.string.bodyParts4hand);
         } else if (this.partType == 17) {
-            this.recordItemTitle.setText(C0111R.string.bodyParts4face);
+            this.recordItemTitle.setText(R.string.bodyParts4face);
         } else if (this.partType == 20) {
-            this.recordItemTitle.setText(C0111R.string.bodyParts4neck);
+            this.recordItemTitle.setText(R.string.bodyParts4neck);
         }
         this.currentDate = DateFormatUtil.formatDate(new Date());
         this.nowDate = this.currentDate;
@@ -96,40 +95,33 @@ public class SpecRecordPartLinerDetailActivity extends Activity {
 
     public void onChoiceChartView(View view) {
         switch (view.getId()) {
-            case C0111R.id.id_spec_record_item_back:
+            case R.id.id_spec_record_item_back:
                 finish();
-            case C0111R.id.id_btn4arrow_left:
-                MobclickAgent.onEvent(this, "day2before");
+            case R.id.id_btn4arrow_left:
                 if (this.timeType == 24) {
                     this.currentDate = DateFormatUtil.getBeforeDay(this.currentDate);
-                    MobclickAgent.onEvent(this, "day2before");
                 } else if (this.timeType == 25) {
                     this.currentDate = DateFormatUtil.getBeforeMonthCurrentDate(this.currentDate);
-                    MobclickAgent.onEvent(this, "week2before");
                 } else if (this.timeType == 32) {
                     this.currentDate = DateFormatUtil.getBeforeMonthCurrentDate(this.currentDate);
-                    MobclickAgent.onEvent(this, "month2before");
                 }
                 initTimeValue(this.currentDate);
-            case C0111R.id.id_btn4arrow_right:
+            case R.id.id_btn4arrow_right:
                 if (this.currentDate.getTime() < this.nowDate.getTime()) {
                     if (this.timeType == 24) {
                         this.currentDate = DateFormatUtil.getNextDay(this.currentDate);
-                        MobclickAgent.onEvent(this, "day2after");
                     } else if (this.timeType == 25) {
                         this.currentDate = DateFormatUtil.getNextWeekCurrentDate(this.currentDate);
-                        MobclickAgent.onEvent(this, "week2after");
                     } else if (this.timeType == 32) {
                         this.currentDate = DateFormatUtil.getNextMonthCurrentDate(this.currentDate);
-                        MobclickAgent.onEvent(this, "month2after");
                     }
                     initTimeValue(this.currentDate);
                 } else if (this.timeType == 24) {
-                    Toast.makeText(this, C0111R.string.record_nodata_day, 0).show();
+                    Toast.makeText(this, R.string.record_nodata_day, Toast.LENGTH_LONG).show();
                 } else if (this.timeType == 25) {
-                    Toast.makeText(this, C0111R.string.record_nodata_week, 0).show();
+                    Toast.makeText(this, R.string.record_nodata_week, Toast.LENGTH_LONG).show();
                 } else if (this.timeType == 32) {
-                    Toast.makeText(this, C0111R.string.record_nodata_month, 0).show();
+                    Toast.makeText(this, R.string.record_nodata_month, Toast.LENGTH_LONG).show();
                 }
             default:
         }
@@ -140,17 +132,17 @@ public class SpecRecordPartLinerDetailActivity extends Activity {
         Date endDate = null;
         if (this.timeType == 24) {
             this.selectedTime.setText(DateFormatUtil.date2str(currentDate));
-            this.timeIndicatorLabel.setText(C0111R.string.current_day);
+            this.timeIndicatorLabel.setText(R.string.current_day);
             startDate = currentDate;
             endDate = DateFormatUtil.getNextDay(currentDate);
         } else if (this.timeType == 25) {
             this.selectedTime.setText(String.valueOf(new StringBuilder(String.valueOf(DateFormatUtil.date2string(DateFormatUtil.getFirstDayOfWeek(currentDate), this))).append(" ~ ").append(DateFormatUtil.date2string(DateFormatUtil.getNextDay(DateFormatUtil.getLastDayOfWeek(currentDate)), this)).toString()));
-            this.timeIndicatorLabel.setText(C0111R.string.current_week);
+            this.timeIndicatorLabel.setText(R.string.current_week);
             startDate = DateFormatUtil.getFirstDayOfWeek(currentDate);
             endDate = DateFormatUtil.getLastDayOfWeek(currentDate);
         } else if (this.timeType == 32) {
             this.selectedTime.setText(String.valueOf(new StringBuilder(String.valueOf(DateFormatUtil.date2string(DateFormatUtil.getFirstDayOfMonth(currentDate), this))).append(" ~ ").append(DateFormatUtil.date2string(DateFormatUtil.getNextDay(DateFormatUtil.getLastDayOfMonth(currentDate)), this)).toString()));
-            this.timeIndicatorLabel.setText(C0111R.string.current_month);
+            this.timeIndicatorLabel.setText(R.string.current_month);
             startDate = DateFormatUtil.getFirstDayOfMonth(currentDate);
             endDate = DateFormatUtil.getLastDayOfMonth(currentDate);
         }
@@ -200,13 +192,9 @@ public class SpecRecordPartLinerDetailActivity extends Activity {
 
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("SplashScreen");
-        MobclickAgent.onResume(this);
     }
 
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("SplashScreen");
-        MobclickAgent.onPause(this);
     }
 }

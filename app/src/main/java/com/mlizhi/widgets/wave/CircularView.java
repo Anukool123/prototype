@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.philips.skincare.skincareprototype.R;
 
 import org.java_websocket.WebSocket;
 

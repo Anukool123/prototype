@@ -1,11 +1,11 @@
 package com.mlizhi.base.imageloader.utils;
 
 import android.opengl.GLES10;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.mlizhi.base.imageloader.core.assist.ImageSize;
 import com.mlizhi.base.imageloader.core.assist.ViewScaleType;
 import com.mlizhi.base.imageloader.core.imageaware.ImageAware;
-import p016u.aly.dv;
 
 public final class ImageSizeUtils {
     private static /* synthetic */ int[] f1x3fba89f3 = null;
@@ -60,7 +60,7 @@ public final class ImageSizeUtils {
         int halfWidth;
         int halfHeight;
         switch (m32x3fba89f3()[viewScaleType.ordinal()]) {
-            case dv.f2155b /*1*/:
+            case 1 /*1*/:
                 if (!powerOf2Scale) {
                     scale = Math.max(srcWidth / targetWidth, srcHeight / targetHeight);
                     break;
@@ -74,7 +74,7 @@ public final class ImageSizeUtils {
                     scale *= 2;
                 }
                 break;
-            case dv.f2156c /*2*/:
+            case 2 /*2*/:
                 if (!powerOf2Scale) {
                     scale = Math.min(srcWidth / targetWidth, srcHeight / targetHeight);
                     break;

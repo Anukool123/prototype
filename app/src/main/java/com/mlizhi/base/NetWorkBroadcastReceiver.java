@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.philips.skincare.skincareprototype.R;
+
 public class NetWorkBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (!NetWorkManager.getNewInstance().isNetworkConnected(context)) {

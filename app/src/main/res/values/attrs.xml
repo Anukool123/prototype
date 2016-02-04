@@ -274,4 +274,64 @@
     <attr name="footerDividersEnabled" format="boolean" />
     <attr name="overScrollHeader" format="reference|color" />
     <attr name="overScrollFooter" format="reference|color" />
+
+
+    <declare-styleable name="ChartView4LineSeries">
+
+        <!-- TODO - ANUKOOL -->
+    </declare-styleable>
+
+    <declare-styleable name="ChartView4LineText">
+
+    </declare-styleable>
+
+    <declare-styleable name="ChartView4LinePoint">
+
+    </declare-styleable>
+
+    <declare-styleable name="ChartView4LineAxis">
+
+    </declare-styleable>
+
+    <declare-styleable name="ChartView4LineScale">
+
+    </declare-styleable>
+
+    <declare-styleable name="WaterRangeView">
+        <attr name="dryColor" format="color"></attr>
+
+        <attr name="normalColor" format="color"></attr>
+
+        <attr name="moistColor" format="color"></attr>
+
+        <attr name="textColor" format="color"></attr>
+
+        <attr name="cursorTextColor" format="color"></attr>
+
+        <attr name="mProgress" format="float"></attr>
+
+        <attr name="bgViewWidth" format="dimension"></attr>
+
+        <attr name="bgTextSize" format="dimension"></attr>
+
+    </declare-styleable>
+    
+    <declare-styleable name="PinterestLikeAdapterView">
+        
+        <attr name="landColNumber" format="integer">
+
+        </attr>
+
+        <attr name="defColNumber" format="integer">
+
+        </attr>
+
+        <attr name="mColumnPaddingLeft" format="integer">
+
+        </attr>
+
+        <attr name="mColumnPaddingRight" format="integer">
+
+        </attr>
+    </declare-styleable>
 </resources>

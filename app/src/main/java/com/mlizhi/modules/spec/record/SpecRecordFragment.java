@@ -27,7 +27,6 @@ import com.mlizhi.modules.spec.record.adapter.RecordPartAdapter;
 import com.mlizhi.modules.spec.util.DateFormatUtil;
 import com.mlizhi.utils.Constants;
 import com.philips.skincare.skincareprototype.R;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,17 +62,14 @@ public class SpecRecordFragment extends Fragment {
                 case R.id.id_btn4day:
                     SpecRecordFragment.this.initDayView();
                     SpecRecordFragment.this.timeType = 24;
-                    MobclickAgent.onEvent(SpecRecordFragment.this.mContext, "selectHistoryDataByDay");
                     SpecRecordFragment.this.recordPartGroup.check(R.id.id_btn4day);
                 case R.id.id_btn4week:
                     SpecRecordFragment.this.initWeekView();
                     SpecRecordFragment.this.timeType = 25;
-                    MobclickAgent.onEvent(SpecRecordFragment.this.mContext, "selectHistoryDataByWeek");
                     SpecRecordFragment.this.recordPartGroup.check(R.id.id_btn4week);
                 case R.id.id_btn4month:
                     SpecRecordFragment.this.initMonthView();
                     SpecRecordFragment.this.timeType = 32;
-                    MobclickAgent.onEvent(SpecRecordFragment.this.mContext, "selectHistoryDataByMonth");
                     SpecRecordFragment.this.recordPartGroup.check(R.id.id_btn4month);
                 default:
             }
@@ -112,7 +108,6 @@ public class SpecRecordFragment extends Fragment {
                     SpecRecordFragment.this.dialog(SpecRecordFragment.this.mContext.getResources().getString(R.string.detect_report_month), typeMap, SpecRecordFragment.this.timeType);
                 }
             }
-            MobclickAgent.onEvent(SpecRecordFragment.this.mContext, "go2historyView");
         }
     }
 
@@ -356,12 +351,10 @@ public class SpecRecordFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("MainScreen");
     }
 
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("MainScreen");
     }
 
     public void onStop() {

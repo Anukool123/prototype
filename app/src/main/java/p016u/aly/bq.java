@@ -18,8 +18,9 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+
 import com.loopj.android.http.AsyncHttpClient;
-import com.mlizhi.utils.Constants;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.Reader;
@@ -28,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
 import javax.microedition.khronos.opengles.GL10;
 
 /* compiled from: DeviceConfig */
@@ -136,7 +138,7 @@ public class bq {
 
     public static String deviceId(Context context) {
         String deviceId;
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Constants.LOGIN_TYPE_PHONE);
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager == null) {
             br.m1025e(className, "No IMEI.");
         }
@@ -176,12 +178,12 @@ public class bq {
     }
 
     public static String m999g(Context context) {
-        return cd.m1102b(bq.deviceId(context));
+        return /*cd.m1102b(bq.deviceId(context))*/ null;
     }
 
     public static String m1000h(Context context) {
         try {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Constants.LOGIN_TYPE_PHONE);
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             if (telephonyManager == null) {
                 return f888b;
             }
@@ -195,7 +197,7 @@ public class bq {
     public static String height_width(Context context) {
         try {
             DisplayMetrics displayMetrics = new DisplayMetrics();
-            ((WindowManager) context.getSystemService("window")).getDefaultDisplay().getMetrics(displayMetrics);
+            ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetrics);
             return new StringBuilder(String.valueOf(String.valueOf(displayMetrics.heightPixels))).append("*").append(String.valueOf(displayMetrics.widthPixels)).toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,7 +212,7 @@ public class bq {
                 strArr[0] = f888b;
                 return strArr;
             }
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService("connectivity");
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             if (connectivityManager == null) {
                 strArr[0] = f888b;
                 return strArr;
@@ -229,6 +231,7 @@ public class bq {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null ;
     }
 
     public static boolean m1003k(Context context) {
@@ -237,7 +240,7 @@ public class bq {
 
     public static boolean m1004l(Context context) {
         try {
-            NetworkInfo activeNetworkInfo = ((ConnectivityManager) context.getSystemService("connectivity")).getActiveNetworkInfo();
+            NetworkInfo activeNetworkInfo = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
             if (activeNetworkInfo != null) {
                 return activeNetworkInfo.isConnectedOrConnecting();
             }
@@ -322,7 +325,7 @@ public class bq {
 
     public static String m1008p(Context context) {
         try {
-            WifiManager wifiManager = (WifiManager) context.getSystemService("wifi");
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
             if (bq.isPermissionGranted(context, "android.permission.ACCESS_WIFI_STATE")) {
                 return wifiManager.getConnectionInfo().getMacAddress();
             }
@@ -331,6 +334,7 @@ public class bq {
         } catch (Exception e) {
             br.m1025e(className, "Could not get mac address." + e.toString());
         }
+        return null ;
     }
 
     public static String m1009q(Context context) {
@@ -350,8 +354,8 @@ public class bq {
             int a;
             int a2;
             int i;
-            Object displayMetrics = new DisplayMetrics();
-            ((WindowManager) context.getSystemService("window")).getDefaultDisplay().getMetrics(displayMetrics);
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetrics);
             if ((context.getApplicationInfo().flags & AsyncHttpClient.DEFAULT_SOCKET_BUFFER_SIZE) == 0) {
                 a = bq.m983a(displayMetrics, "noncompatWidthPixels");
                 a2 = bq.m983a(displayMetrics, "noncompatHeightPixels");
@@ -394,7 +398,7 @@ public class bq {
 
     public static String m1011s(Context context) {
         try {
-            return ((TelephonyManager) context.getSystemService(Constants.LOGIN_TYPE_PHONE)).getNetworkOperatorName();
+            return ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName();
         } catch (Exception e) {
             br.m1018a(className, "read carrier fail", e);
             return "Unknown";

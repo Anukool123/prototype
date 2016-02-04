@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.mlizhi.modules.spec.SpecActivity;
+import com.philips.skincare.skincareprototype.R;
 
 public class LoginActivity extends Activity {
     private String account;

@@ -12,9 +12,8 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.webkit.MimeTypeMap;
 import com.mlizhi.base.imageloader.core.assist.ContentLengthInputStream;
-import com.mlizhi.base.imageloader.core.download.ImageDownloader.Scheme;
 import com.mlizhi.base.imageloader.utils.IoUtils;
-import com.umeng.socialize.bean.StatusCode;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,8 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import p016u.aly.cg;
-import p016u.aly.dv;
 
 public class BaseImageDownloader implements ImageDownloader {
     private static /* synthetic */ int[] f1072xe23f1bc6 = null;
@@ -90,16 +87,16 @@ public class BaseImageDownloader implements ImageDownloader {
 
     public InputStream getStream(String imageUri, Object extra) throws IOException {
         switch (m1380xe23f1bc6()[Scheme.ofUri(imageUri).ordinal()]) {
-            case dv.f2155b /*1*/:
-            case dv.f2156c /*2*/:
+            case 1 /*1*/:
+            case 2 /*2*/:
                 return getStreamFromNetwork(imageUri, extra);
-            case dv.f2157d /*3*/:
+            case 3 /*3*/:
                 return getStreamFromFile(imageUri, extra);
-            case dv.f2158e /*4*/:
+            case 4 /*4*/:
                 return getStreamFromContent(imageUri, extra);
             case MAX_REDIRECT_COUNT /*5*/:
                 return getStreamFromAssets(imageUri, extra);
-            case cg.f2089g /*6*/:
+            case 6 /*6*/:
                 return getStreamFromDrawable(imageUri, extra);
             default:
                 return getStreamFromOtherSource(imageUri, extra);
@@ -127,7 +124,7 @@ public class BaseImageDownloader implements ImageDownloader {
     }
 
     protected boolean shouldBeProcessed(HttpURLConnection conn) throws IOException {
-        return conn.getResponseCode() == StatusCode.ST_CODE_SUCCESSED;
+        return conn.getResponseCode() == 200;
     }
 
     protected HttpURLConnection createConnection(String url, Object extra) throws IOException {

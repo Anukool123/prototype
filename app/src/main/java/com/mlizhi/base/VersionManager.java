@@ -28,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mlizhi.modules.spec.util.JsonUtil;
+import com.philips.skincare.skincareprototype.R;
 import com.tencent.connect.common.Constants;
 
 import org.json.JSONObject;

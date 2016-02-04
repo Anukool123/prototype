@@ -333,7 +333,7 @@ public class SpecDetectFragment extends Fragment {
             }
         }
 
-        BleBroadcastReceiver() {
+        public BleBroadcastReceiver() {
             this.received = false;
             this.msg = null;
         }

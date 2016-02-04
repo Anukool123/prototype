@@ -61,12 +61,7 @@
             app:layout_height="match_parent"
             app:layout_width="match_parent"
             app:progress="@android:integer/config_longAnimTime"
-            app:progress_background_color="#ebecee"
-            app:progress_color="@color/moist_primary_color"
-            app:stroke_width="5dp"
-            app:wave_height="1"
-            app:wave_hz="3"
-            app:wave_length="2" />
+           />
 
         <View
             app:id="@id/id_center_deliver_line"

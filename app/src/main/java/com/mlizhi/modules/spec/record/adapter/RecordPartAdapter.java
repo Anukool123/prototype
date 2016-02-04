@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.mlizhi.utils.Constants;
+import com.philips.skincare.skincareprototype.R;
 
 import java.util.HashMap;
 import java.util.List;

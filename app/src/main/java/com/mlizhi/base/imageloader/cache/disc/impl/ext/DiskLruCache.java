@@ -183,7 +183,7 @@ final class DiskLruCache implements Closeable {
             return access$10;
         }
 
-        public void set(int index, String value) throws IOException {
+        public void set(int index, String value) throws Throwable {
             Throwable th;
             Writer writer = null;
             try {
@@ -200,7 +200,7 @@ final class DiskLruCache implements Closeable {
             } catch (Throwable th3) {
                 th = th3;
                 Util.closeQuietly(writer);
-                throw th;
+                throw th3;
             }
         }
 

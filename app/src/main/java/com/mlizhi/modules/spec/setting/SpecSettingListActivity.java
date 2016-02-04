@@ -24,8 +24,6 @@ import com.mlizhi.modules.spec.dao.ContentDao;
 import com.mlizhi.modules.spec.dao.DaoSession;
 import com.mlizhi.modules.spec.dao.DetectDao;
 import com.philips.skincare.skincareprototype.R;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.analytics.social.UMSocialService;
 
 import p016u.aly.bq;
 
@@ -37,7 +35,6 @@ public class SpecSettingListActivity extends Activity {
     private DetectDao detectDao;
     private Dialog logoutDialog;
     private Context mContext;
-    private UMSocialService mController;
     private RequestQueue mRequestQueue;
     private Session mSession;
     private MlzApplication mlzApplication;
@@ -50,7 +47,6 @@ public class SpecSettingListActivity extends Activity {
 
         public void onClick(DialogInterface dialog, int which) {
             SpecSettingListActivity.this.mlzApplication.removeActivities();
-            MobclickAgent.onEvent(SpecSettingListActivity.this.mContext, "logout");
             SpecSettingListActivity.this.mSession.setUid(bq.f888b);
             SpecSettingListActivity.this.startActivity(new Intent(SpecSettingListActivity.this, LoginActivity.class));
             SpecSettingListActivity.this.logoutDialog.dismiss();
@@ -79,7 +75,6 @@ public class SpecSettingListActivity extends Activity {
 
 
     public SpecSettingListActivity() {
-        this.mController = null;
         this.logoutDialog = null;
     }
 
@@ -91,7 +86,6 @@ public class SpecSettingListActivity extends Activity {
         this.mlzApplication = (MlzApplication) getApplication();
         this.mSession = Session.get(getApplicationContext());
         setContentView(R.layout.activity_spec_setting_list);
-        MobclickAgent.updateOnlineConfig(this.mContext);
         this.versionTextView = (TextView) findViewById(R.id.id_user_info_version_value);
         this.versionTextView.setText("v" + this.mSession.getVersionName());
         this.mlzApplication.addActivity(this);
@@ -108,25 +102,19 @@ public class SpecSettingListActivity extends Activity {
             case R.id.id_user_info_help_label:
                 // TODO - Anukool
                // startActivity(new Intent(this, SpecSettingHelpActivity.class));
-                MobclickAgent.onEvent(this.mContext, "viewHelp");
             case R.id.id_user_info_introduce_label:
                 // TODO - ANUKOOL
                 //startActivity(new Intent(this, SpecSettingIntroActivity.class));
-                MobclickAgent.onEvent(this.mContext, "viewIntroduce");
             case R.id.id_user_info_clear_label:
                 showCacheProcessDialog();
-                MobclickAgent.onEvent(this.mContext, "clearCache");
             case R.id.id_user_info_version_label:
                 new VersionManager(this.currrentActivity).showVersionProcessDialog(false);
-                MobclickAgent.onEvent(this.mContext, "getNewVersion");
             case R.id.id_setting_feedback_label:
                 // TODO - Anukool
                 //startActivity(new Intent(this, SpecSettingListFeedBackAskActivity.class));
-                MobclickAgent.onEvent(this.mContext, "viewFeedBack");
             case R.id.id_user_info_about_label:
                 // TODO - Anukool
               //  startActivity(new Intent(this, SpecSettingAboutActivity.class));
-                MobclickAgent.onEvent(this.mContext, "viewAbout");
             case R.id.id_user_logout_label:
                 if (uid == null || bq.f888b.equals(uid)) {
                     Toast.makeText(this, "\u4eb2\uff0c\u60a8\u8fd8\u6ca1\u6709\u767b\u5f55\u54e6\uff01", Toast.LENGTH_LONG).show();

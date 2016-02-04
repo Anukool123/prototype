@@ -2,8 +2,8 @@ package com.mlizhi.base.imageloader.core.listener;
 
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+
 import com.mlizhi.base.imageloader.core.ImageLoader;
-import p016u.aly.dv;
 
 public class PauseOnScrollListener implements OnScrollListener {
     private final OnScrollListener externalListener;
@@ -24,16 +24,16 @@ public class PauseOnScrollListener implements OnScrollListener {
 
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         switch (scrollState) {
-            case dv.f2154a /*0*/:
+            case 0 /*0*/:
                 this.imageLoader.resume();
                 break;
-            case dv.f2155b /*1*/:
+            case 1 /*1*/:
                 if (this.pauseOnScroll) {
                     this.imageLoader.pause();
                     break;
                 }
                 break;
-            case dv.f2156c /*2*/:
+            case 2 /*2*/:
                 if (this.pauseOnFling) {
                     this.imageLoader.pause();
                     break;

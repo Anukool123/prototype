@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.skincare.skincareprototype.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:chartview="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    chartview:layout_width="match_parent"
+    chartview:layout_height="match_parent"
+    chartview:layout_gravity="center"
+    chartview:background="@drawable/ic_test_bg"
+    chartview:orientation="horizontal">
+
+    <RelativeLayout
+        chartview:id="@id/id_spec_record_item_ly"
+        chartview:layout_width="match_parent"
+        chartview:layout_height="@dimen/top_title_height"
+        chartview:background="@color/normal_primary_color"
+        chartview:gravity="center">
+
+        <ImageView
+            chartview:id="@id/id_spec_record_item_back"
+            chartview:layout_width="wrap_content"
+            chartview:layout_height="wrap_content"
+            chartview:layout_alignParentLeft="true"
+            chartview:layout_alignParentStart="true"
+            chartview:layout_centerVertical="true"
+            chartview:layout_marginEnd="@dimen/activity_horizontal_margin_m"
+            chartview:layout_marginStart="@dimen/activity_horizontal_margin_m"
+            chartview:contentDescription="@string/global_null_text"
+            chartview:onClick="onChoiceChartView"
+            chartview:src="@drawable/ic_title_deliver_line" />
+
+        <TextView
+            chartview:id="@id/id_spec_record_item_tv"
+            chartview:layout_width="wrap_content"
+            chartview:layout_height="wrap_content"
+            chartview:layout_centerVertical="true"
+            chartview:layout_toEndOf="@id/id_spec_record_item_back"
+            chartview:layout_toRightOf="@id/id_spec_record_item_back"
+            chartview:gravity="left"
+            chartview:text=""
+            chartview:textColor="@color/theme_primary_white"
+            chartview:textSize="@dimen/font_sub_title1" />
+
+        <View
+            chartview:layout_width="match_parent"
+            chartview:layout_height="1dp"
+            chartview:layout_alignParentBottom="true"
+            chartview:background="@color/normal_primary_color"
+            chartview:contentDescription="@string/global_null_text" />
+    </RelativeLayout>
+
+    <ScrollView
+        chartview:id="@id/region4scroll_eye"
+        chartview:layout_width="match_parent"
+        chartview:layout_height="match_parent"
+        chartview:layout_gravity="center"
+        chartview:fadingEdge="horizontal"
+        chartview:overScrollMode="ifContentScrolls"
+        chartview:scrollbars="none">
+
+    <LinearLayout
+        chartview:layout_width="match_parent"
+        chartview:layout_height="wrap_content"
+        chartview:layout_gravity="center"
+        chartview:layout_margin="@dimen/activity_margin_m"
+        chartview:orientation="horizontal">
+
+    <LinearLayout
+        chartview:id="@id/id_spec_time_type_ly"
+        chartview:layout_width="match_parent"
+        chartview:layout_height="wrap_content"
+        chartview:background="@drawable/x_record_time_nav_shape"
+        chartview:gravity="center"
+        chartview:orientation="vertical">
+
+        <ImageView
+            chartview:id="@id/id_btn4arrow_left"
+            chartview:layout_width="wrap_content"
+            chartview:layout_height="wrap_content"
+            chartview:layout_gravity="center"
+            chartview:clickable="true"
+            chartview:contentDescription="@string/global_null_text"
+            chartview:onClick="onChoiceChartView"
+            chartview:src="@drawable/x_record_time_left_arrow_selector" />
+
+        <TextView
+            chartview:id="@id/id_selected_time_value"
+            chartview:layout_width="0dp"
+            chartview:layout_height="wrap_content"
+            chartview:layout_gravity="center"
+            chartview:layout_weight="1.0"
+            chartview:gravity="center"
+            chartview:padding="@dimen/activity_padding_s"
+            chartview:textColor="#ffffffff"
+            chartview:textSize="@dimen/font_body1" />
+
+        <ImageView
+            chartview:id="@id/id_btn4arrow_right"
+            chartview:layout_width="wrap_content"
+            chartview:layout_height="wrap_content"
+            chartview:layout_gravity="center"
+            chartview:clickable="true"
+            chartview:contentDescription="@string/global_null_text"
+            chartview:onClick="onChoiceChartView"
+            chartview:src="@drawable/x_record_time_right_arrow_selector" />
+    </LinearLayout>
+
+    <LinearLayout
+        chartview:layout_width="match_parent"
+        chartview:layout_height="wrap_content"
+        chartview:layout_gravity="center"
+        chartview:orientation="vertical"
+        chartview:paddingEnd="@dimen/activity_padding_s"
+        chartview:paddingLeft="@dimen/activity_padding_l"
+        chartview:paddingRight="@dimen/activity_padding_s"
+        chartview:paddingStart="@dimen/activity_padding_l"
+        chartview:paddingTop="@dimen/activity_padding_m">
+
+        <TextView
+            chartview:layout_width="0dp"
+            chartview:layout_height="wrap_content"
+            chartview:layout_weight="0.2"
+            chartview:drawableLeft="@drawable/ic_flag4post"
+            chartview:drawablePadding="2dp"
+            chartview:drawableStart="@drawable/ic_flag4post"
+            chartview:text="@string/flag4pre"
+            chartview:textColor="@color/nurser_pre_color" />
+
+        <TextView
+            chartview:layout_width="0dp"
+            chartview:layout_height="wrap_content"
+            chartview:layout_weight="0.1"
+            chartview:drawableLeft="@drawable/ic_flag4pre"
+            chartview:drawablePadding="2dp"
+            chartview:drawableStart="@drawable/ic_flag4pre"
+            chartview:text="@string/flag4post"
+            chartview:textColor="@color/nurser_post_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        chartview:layout_width="match_parent"
+        chartview:layout_height="wrap_content"
+        chartview:gravity="center">
+
+        <com.mlizhi.widgets.chart.ChartView4Line
+            chartview:id="@id/id_chart_line_view"
+            chartview:layout_width="match_parent"
+            chartview:layout_height="200dp"
+            chartview:orientation="vertical"
+             />
+    </LinearLayout>
+
+    <TextView
+        chartview:id="@id/id_spec_type_indicator_label"
+        chartview:layout_width="match_parent"
+        chartview:layout_height="wrap_content"
+        chartview:layout_gravity="center"
+        chartview:gravity="center"
+        chartview:padding="@dimen/activity_padding_m"
+        chartview:text=""
+        chartview:textColor="@color/theme_primary_white"
+        chartview:textSize="@dimen/font_body1" />
+
+    <View
+        chartview:layout_width="match_parent"
+        chartview:layout_height="1dp"
+        chartview:background="@color/normal_primary_color" />
+
+    <LinearLayout
+        chartview:id="@id/id_spec_type_indicator_ly"
+        chartview:layout_width="match_parent"
+        chartview:layout_height="wrap_content"
+        chartview:gravity="center"
+        chartview:orientation="vertical">
+
+    <LinearLayout
+        chartview:id="@id/id_spec_type_pre_indicator_ly"
+        chartview:layout_width="0dp"
+        chartview:layout_height="wrap_content"
+        chartview:layout_marginBottom="@dimen/activity_margin_m"
+        chartview:layout_marginTop="@dimen/activity_margin_s"
+        chartview:layout_weight="1.0"
+        chartview:gravity="center"
+        chartview:orientation="horizontal"
+        chartview:padding="@dimen/activity_padding_m">
+
+        <TextView
+            chartview:layout_width="wrap_content"
+            chartview:layout_height="wrap_content"
+            chartview:layout_gravity="center"
+            chartview:gravity="center"
+            chartview:padding="@dimen/activity_padding_s"
+            chartview:text="@string/flag4pre"
+            chartview:textColor="@color/nurser_pre_color"
+            chartview:textSize="@dimen/font_body1" />
+
+        <TextView
+            chartview:id="@id/id_current_average_value_pre"
+            chartview:layout_width="100dp"
+            chartview:layout_height="100dp"
+            chartview:layout_gravity="center"
+            chartview:background="@drawable/x_record_avg_pre_bg"
+            chartview:drawablePadding="2dp"
+            chartview:drawableTop="@drawable/ic_record_pre_indicator"
+            chartview:gravity="center"
+            chartview:padding="@dimen/activity_padding_l"
+            chartview:text=""
+            chartview:textColor="@color/nurser_pre_color"
+            chartview:textSize="@dimen/font_body2" />
+    </LinearLayout>
+
+    <LinearLayout
+        chartview:id="@id/id_spec_type_post_indicator_ly"
+        chartview:layout_width="0dp"
+        chartview:layout_height="wrap_content"
+        chartview:layout_marginBottom="@dimen/activity_margin_m"
+        chartview:layout_marginTop="@dimen/activity_margin_s"
+        chartview:layout_weight="1.0"
+        chartview:gravity="center"
+        chartview:orientation="horizontal"
+        chartview:padding="@dimen/activity_padding_m">
+
+        <TextView
+            chartview:layout_width="wrap_content"
+            chartview:layout_height="wrap_content"
+            chartview:layout_gravity="center"
+            chartview:gravity="center"
+            chartview:padding="@dimen/activity_padding_s"
+            chartview:text="@string/flag4post"
+            chartview:textColor="@color/nurser_post_color"
+            chartview:textSize="@dimen/font_body1" />
+
+        <TextView
+            chartview:id="@id/id_current_average_value_post"
+            chartview:layout_width="100dp"
+            chartview:layout_height="100dp"
+            chartview:layout_gravity="center"
+            chartview:background="@drawable/x_record_avg_post_bg"
+            chartview:drawablePadding="2dp"
+            chartview:drawableTop="@drawable/ic_record_post_indicator"
+            chartview:gravity="center"
+            chartview:padding="@dimen/activity_padding_l"
+            chartview:text=""
+            chartview:textColor="@color/nurser_post_color"
+            chartview:textSize="@dimen/font_body2" />
+    </LinearLayout>
+</LinearLayout></LinearLayout></ScrollView></LinearLayout>
