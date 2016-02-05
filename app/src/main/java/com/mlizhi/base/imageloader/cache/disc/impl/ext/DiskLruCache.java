@@ -23,7 +23,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-import p016u.aly.bq;
 
 final class DiskLruCache implements Closeable {
     static final long ANY_SEQUENCE_NUMBER = -1;
@@ -159,26 +158,25 @@ final class DiskLruCache implements Closeable {
         public OutputStream newOutputStream(int index) throws IOException {
             OutputStream access$10;
             synchronized (DiskLruCache.this) {
-                FileOutputStream outputStream;
+                FileOutputStream outputStream = null;
                 if (this.entry.currentEditor != this) {
                     throw new IllegalStateException();
                 }
                 if (!this.entry.readable) {
                     this.written[index] = true;
                 }
-                dirtyFile = this.entry.getDirtyFile(index);
+                File dirtyFile = this.entry.getDirtyFile(index);
                 try {
                     outputStream = new FileOutputStream(dirtyFile);
                 } catch (FileNotFoundException e) {
                     DiskLruCache.this.directory.mkdirs();
                     try {
-                        File dirtyFile;
                         outputStream = new FileOutputStream(dirtyFile);
                     } catch (FileNotFoundException e2) {
                         access$10 = DiskLruCache.NULL_OUTPUT_STREAM;
                     }
                 }
-                access$10 = new FaultHidingOutputStream(outputStream, null);
+                access$10 = new FaultHidingOutputStream(outputStream);
             }
             return access$10;
         }
@@ -320,7 +318,12 @@ final class DiskLruCache implements Closeable {
 
     static {
         LEGAL_KEY_PATTERN = Pattern.compile("[a-z0-9_-]{1,64}");
-        NULL_OUTPUT_STREAM = new C01202();
+        NULL_OUTPUT_STREAM = new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                // Eat all writes silently. Nom nom.
+            }
+        };
     }
 
     private DiskLruCache(File directory, int appVersion, int valueCount, long maxSize, int maxFileCount) {
@@ -377,60 +380,72 @@ final class DiskLruCache implements Closeable {
     }
 
     private void readJournal() throws IOException {
-        StrictLineReader reader = new StrictLineReader(new FileInputStream(this.journalFile), Util.US_ASCII);
-        int lineCount;
+        StrictLineReader reader = new StrictLineReader(new FileInputStream(journalFile), Util.US_ASCII);
         try {
             String magic = reader.readLine();
             String version = reader.readLine();
             String appVersionString = reader.readLine();
             String valueCountString = reader.readLine();
             String blank = reader.readLine();
-            if (MAGIC.equals(magic) && VERSION_1.equals(version) && Integer.toString(this.appVersion).equals(appVersionString) && Integer.toString(this.valueCount).equals(valueCountString) && bq.f888b.equals(blank)) {
-                lineCount = 0;
-                while (true) {
+            if (!MAGIC.equals(magic)
+                    || !VERSION_1.equals(version)
+                    || !Integer.toString(appVersion).equals(appVersionString)
+                    || !Integer.toString(valueCount).equals(valueCountString)
+                    || !"".equals(blank)) {
+                throw new IOException("unexpected journal header: [" + magic + ", " + version + ", "
+                        + valueCountString + ", " + blank + "]");
+            }
+
+            int lineCount = 0;
+            while (true) {
+                try {
                     readJournalLine(reader.readLine());
                     lineCount++;
+                } catch (EOFException endOfJournal) {
+                    break;
                 }
-            } else {
-                throw new IOException("unexpected journal header: [" + magic + ", " + version + ", " + valueCountString + ", " + blank + "]");
             }
-        } catch (EOFException e) {
-            this.redundantOpCount = lineCount - this.lruEntries.size();
-            Util.closeQuietly(reader);
-        } catch (Throwable th) {
+            redundantOpCount = lineCount - lruEntries.size();
+        } finally {
             Util.closeQuietly(reader);
         }
     }
 
     private void readJournalLine(String line) throws IOException {
-        int firstSpace = line.indexOf(32);
+        int firstSpace = line.indexOf(' ');
         if (firstSpace == -1) {
             throw new IOException("unexpected journal line: " + line);
         }
-        String key;
+
         int keyBegin = firstSpace + 1;
-        int secondSpace = line.indexOf(32, keyBegin);
+        int secondSpace = line.indexOf(' ', keyBegin);
+        final String key;
         if (secondSpace == -1) {
             key = line.substring(keyBegin);
             if (firstSpace == REMOVE.length() && line.startsWith(REMOVE)) {
-                this.lruEntries.remove(key);
+                lruEntries.remove(key);
                 return;
             }
+        } else {
+            key = line.substring(keyBegin, secondSpace);
         }
-        key = line.substring(keyBegin, secondSpace);
-        Entry entry = (Entry) this.lruEntries.get(key);
+
+        Entry entry = lruEntries.get(key);
         if (entry == null) {
-            entry = new Entry(key, null);
-            this.lruEntries.put(key, entry);
+            entry = new Entry(key);
+            lruEntries.put(key, entry);
         }
+
         if (secondSpace != -1 && firstSpace == CLEAN.length() && line.startsWith(CLEAN)) {
             String[] parts = line.substring(secondSpace + 1).split(" ");
             entry.readable = true;
             entry.currentEditor = null;
             entry.setLengths(parts);
         } else if (secondSpace == -1 && firstSpace == DIRTY.length() && line.startsWith(DIRTY)) {
-            entry.currentEditor = new Editor(entry, null);
-        } else if (secondSpace != -1 || firstSpace != READ.length() || !line.startsWith(READ)) {
+            entry.currentEditor = new Editor(entry);
+        } else if (secondSpace == -1 && firstSpace == READ.length() && line.startsWith(READ)) {
+            // This work was already done by calling lruEntries.get().
+        } else {
             throw new IOException("unexpected journal line: " + line);
         }
     }
@@ -597,23 +612,26 @@ final class DiskLruCache implements Closeable {
     }
 
     private synchronized Editor edit(String key, long expectedSequenceNumber) throws IOException {
-        Editor editor = null;
-        synchronized (this) {
-            checkNotClosed();
-            validateKey(key);
-            Entry entry = (Entry) this.lruEntries.get(key);
-            if (expectedSequenceNumber == ANY_SEQUENCE_NUMBER || (entry != null && entry.sequenceNumber == expectedSequenceNumber)) {
-                if (entry == null) {
-                    entry = new Entry(key, null);
-                    this.lruEntries.put(key, entry);
-                } else if (entry.currentEditor != null) {
-                }
-                editor = new Editor(entry, null);
-                entry.currentEditor = editor;
-                this.journalWriter.write("DIRTY " + key + '\n');
-                this.journalWriter.flush();
-            }
+        checkNotClosed();
+        validateKey(key);
+        Entry entry = lruEntries.get(key);
+        if (expectedSequenceNumber != ANY_SEQUENCE_NUMBER && (entry == null
+                || entry.sequenceNumber != expectedSequenceNumber)) {
+            return null; // Snapshot is stale.
         }
+        if (entry == null) {
+            entry = new Entry(key);
+            lruEntries.put(key, entry);
+        } else if (entry.currentEditor != null) {
+            return null; // Another edit is in progress.
+        }
+
+        Editor editor = new Editor(entry);
+        entry.currentEditor = editor;
+
+        // Flush the journal before creating files to prevent file leaks.
+        journalWriter.write(DIRTY + ' ' + key + '\n');
+        journalWriter.flush();
         return editor;
     }
 
@@ -642,59 +660,58 @@ final class DiskLruCache implements Closeable {
         return (long) this.fileCount;
     }
 
-    private synchronized void completeEdit(Editor editor, boolean success) throws IOException {
-        Entry entry = editor.entry;
+    private synchronized void completeEdit(Editor editor, boolean success) throws IOException {Entry entry = editor.entry;
         if (entry.currentEditor != editor) {
             throw new IllegalStateException();
         }
-        int i;
-        if (success) {
-            if (!entry.readable) {
-                i = 0;
-                while (i < this.valueCount) {
-                    if (!editor.written[i]) {
-                        editor.abort();
-                        throw new IllegalStateException("Newly created entry didn't create value for index " + i);
-                    } else if (!entry.getDirtyFile(i).exists()) {
-                        editor.abort();
-                        break;
-                    } else {
-                        i++;
-                    }
+
+        // If this edit is creating the entry for the first time, every index must have a value.
+        if (success && !entry.readable) {
+            for (int i = 0; i < valueCount; i++) {
+                if (!editor.written[i]) {
+                    editor.abort();
+                    throw new IllegalStateException("Newly created entry didn't create value for index " + i);
+                }
+                if (!entry.getDirtyFile(i).exists()) {
+                    editor.abort();
+                    return;
                 }
             }
         }
-        for (i = 0; i < this.valueCount; i++) {
+
+        for (int i = 0; i < valueCount; i++) {
             File dirty = entry.getDirtyFile(i);
-            if (!success) {
+            if (success) {
+                if (dirty.exists()) {
+                    File clean = entry.getCleanFile(i);
+                    dirty.renameTo(clean);
+                    long oldLength = entry.lengths[i];
+                    long newLength = clean.length();
+                    entry.lengths[i] = newLength;
+                    size = size - oldLength + newLength;
+                    fileCount++;
+                }
+            } else {
                 deleteIfExists(dirty);
-            } else if (dirty.exists()) {
-                File clean = entry.getCleanFile(i);
-                dirty.renameTo(clean);
-                long oldLength = entry.lengths[i];
-                long newLength = clean.length();
-                entry.lengths[i] = newLength;
-                this.size = (this.size - oldLength) + newLength;
-                this.fileCount++;
             }
         }
-        this.redundantOpCount++;
+
+        redundantOpCount++;
         entry.currentEditor = null;
-        if ((entry.readable | success) != 0) {
+        if (entry.readable | success) {
             entry.readable = true;
-            this.journalWriter.write("CLEAN " + entry.key + entry.getLengths() + '\n');
+            journalWriter.write(CLEAN + ' ' + entry.key + entry.getLengths() + '\n');
             if (success) {
-                long j = this.nextSequenceNumber;
-                this.nextSequenceNumber = 1 + j;
-                entry.sequenceNumber = j;
+                entry.sequenceNumber = nextSequenceNumber++;
             }
         } else {
-            this.lruEntries.remove(entry.key);
-            this.journalWriter.write("REMOVE " + entry.key + '\n');
+            lruEntries.remove(entry.key);
+            journalWriter.write(REMOVE + ' ' + entry.key + '\n');
         }
-        this.journalWriter.flush();
-        if (this.size > this.maxSize || this.fileCount > this.maxFileCount || journalRebuildRequired()) {
-            this.executorService.submit(this.cleanupCallable);
+        journalWriter.flush();
+
+        if (size > maxSize || fileCount > maxFileCount || journalRebuildRequired()) {
+            executorService.submit(cleanupCallable);
         }
     }
 
