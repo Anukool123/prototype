@@ -63,7 +63,7 @@ public class PLA_ListView extends PLA_AbsListView {
         this.mAreAllItemsSelectable = true;
         this.mItemsCanFocus = false;
         this.mTempRect = new Rect();
-        TypedArray a = context.obtainStyledAttributes(attrs, com.android.internal.R.styleable.ListView, defStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.ListView, defStyle, 0);
         Drawable osHeader = a.getDrawable(3);
         if (osHeader != null) {
             setOverscrollHeader(osHeader);

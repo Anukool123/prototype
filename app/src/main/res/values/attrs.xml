@@ -334,4 +334,10 @@
 
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="AbsListView">
+    </declare-styleable>
+
+    <declare-styleable name="ListView">
+    </declare-styleable>
 </resources>

@@ -851,7 +851,7 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter> imple
         this.mIsScrap = new boolean[TRANSCRIPT_MODE_NORMAL];
         this.mActivePointerId = TOUCH_MODE_UNKNOWN;
         initAbsListView();
-        TypedArray a = context.obtainStyledAttributes(attrs,com.android.internal.R.styleable.AbsListView, defStyle, TRANSCRIPT_MODE_DISABLED);
+        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.AbsListView, defStyle, TRANSCRIPT_MODE_DISABLED);
         Drawable d = a.getDrawable(TRANSCRIPT_MODE_DISABLED);
         if (d != null) {
             setSelector(d);
@@ -920,7 +920,7 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter> imple
     }
 
     private void useDefaultSelector() {
-        setSelector(getResources().getDrawable(com.android.internal.R.drawable.list_selector_background));
+        setSelector(getResources().getDrawable(R.drawable.list_selector_background));
     }
 
     @ExportedProperty

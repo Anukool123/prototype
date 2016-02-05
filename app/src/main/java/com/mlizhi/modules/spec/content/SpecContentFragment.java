@@ -279,7 +279,7 @@ public class SpecContentFragment extends Fragment {
         this.mHandler = new C01311();
         this.listener4error = new C04052();
         this.listener4success = new C04063();
-        this.drawables = new int[]{R.drawable.ic_advertise_01, R.drawable.ic_advertise_02, R.drawable.ic_advertise_03};
+        this.drawables = new int[]{R.drawable.ic_advertise_01, R.drawable.ic_advertise_02/*, R.drawable.ic_advertise_03*/};
         this.descriptions = new String[]{"\u8336\u854a\u5ae9\u767d\u7cfb\u5217", "\u808c\u80a4\u7ba1\u5bb6", "\u7537\u58eb\u65b0\u54c1"};
         this.imageViews = new ArrayList();
     }
