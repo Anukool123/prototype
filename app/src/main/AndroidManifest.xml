@@ -40,11 +40,11 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -59,6 +59,37 @@
             android:name="com.mlizhi.modules.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.mlizhi.modules.spec.SpecActivity"
+            android:label="@string/title_activity_spec"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.support.v4.app.FragmentActivity" />
+        </activity>
+
+        <activity
+            android:name="com.mlizhi.modules.spec.detect.SpecDetectResultActivity"
+            android:label="@string/title_activity_spec_detect_result"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mlizhi.modules.spec.record.SpecRecordPartLinerDetailActivity"
+            android:label="@string/title_activity_spec_detect_result"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mlizhi.modules.spec.setting.SpecSettingListActivity"
+            android:label="@string/title_activity_spec_setting_list"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mlizhi.modules.spec.setting.SpecSettingMineActivity"
+            android:label="@string/title_activity_spec_setting_mine"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name="com.mlizhi.modules.spec.detect.ble.BleService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
