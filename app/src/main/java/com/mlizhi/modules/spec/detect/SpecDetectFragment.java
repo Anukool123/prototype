@@ -42,7 +42,6 @@ import com.android.volley.toolbox.Volley;
 import com.mlizhi.base.MlzApplication;
 import com.mlizhi.base.NetWorkManager;
 import com.mlizhi.base.SecurityUtil;
-import com.mlizhi.base.Session;
 import com.mlizhi.base.imageloader.core.download.BaseImageDownloader;
 import com.mlizhi.base.upyun.block.api.common.Params;
 import com.mlizhi.modules.spec.ISpecInterface;
@@ -65,8 +64,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import p016u.aly.bq;
 
 @SuppressLint({"NewApi"})
 public class SpecDetectFragment extends Fragment {
@@ -93,7 +90,7 @@ public class SpecDetectFragment extends Fragment {
     private Activity mContext;
     private Handler mHandler;
     private RequestQueue mRequestQueue;
-    private Session mSession;
+    //private Session mSession;
     private MlzApplication mlzApplication;
     private Switch nurserTypeSwitch;
     private TextView nurserTypeSwitchLabel;
@@ -429,7 +426,7 @@ public class SpecDetectFragment extends Fragment {
             String timestamp = SecurityUtil.getTimestamp();
             Map<String, String> params = new HashMap();
             params.put("device", Constants.VIA_TO_TYPE_QQ_GROUP);
-            params.put("customerId", SpecDetectFragment.this.mSession.getUid());
+         //   params.put("customerId", SpecDetectFragment.this.mSession.getUid());
             SpecDetectFragment.this.tempValueMap.put("top", Constants.VIA_RESULT_SUCCESS);
             SpecDetectFragment.this.tempValueMap.put("productId", "-1");
             SpecDetectFragment.this.tempValueMap.put("avg", Constants.VIA_RESULT_SUCCESS);
@@ -444,7 +441,7 @@ public class SpecDetectFragment extends Fragment {
     }
 
     public SpecDetectFragment() {
-        this.mSession = null;
+       // this.mSession = null;
         this.mlzApplication = null;
         this.tempPartType = 19;
         this.tempNurserType = 21;
@@ -473,7 +470,7 @@ public class SpecDetectFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mContext = getActivity();
-        this.mSession = Session.get(getActivity().getApplicationContext());
+        //this.mSession = Session.get(getActivity().getApplicationContext());
         this.mlzApplication = (MlzApplication) getActivity().getApplication();
         this.daoSession = this.mlzApplication.getDaoSession();
         this.detectDao = this.daoSession.getDetectDao();
@@ -587,11 +584,11 @@ public class SpecDetectFragment extends Fragment {
         entity.setInsertTime(new Date());
         entity.setNurserType(this.tempNurserType);
         entity.setPartType(this.tempPartType);
-        String userId = this.mSession.getUid();
-        if (userId == null || bq.f888b.equals(userId)) {
-            userId = this.mSession.getMac();
-        }
-        entity.setUserId(userId);
+      //  String userId = this.mSession.getUid();
+      //  if (userId == null || bq.f888b.equals(userId)) {
+      //      userId = this.mSession.getMac();
+      //  }
+       // entity.setUserId(userId);
         this.detectDao.insert(entity);
     }
 

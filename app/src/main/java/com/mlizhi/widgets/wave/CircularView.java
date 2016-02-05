@@ -160,15 +160,15 @@ public class CircularView extends View {
         TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs,  CircularView, defStyle, 0);
         if (attributes != null) {
             try {
-                setProgressColor(attributes.getColor(LITTLE, getResources().getColor(R.color.color_skin_health4toastbg)));
-                setProgressBackgroundColor(attributes.getColor(4, getResources().getColor(R.color.color_skin_health4toastbg)));
-                setProgress(attributes.getFloat(MIDDLE, 0.0f));
-                setWheelSize((int) attributes.getDimension(LARGE, 10.0f));
-                setThumbEnabled(attributes.getBoolean(5, true));
-                setWaveHeight(attributes.getInt(9, MIDDLE));
-                setWaveMultiple(attributes.getInt(8, LITTLE));
-                setWaveHz(attributes.getInt(10, LITTLE));
-                this.mGravity = attributes.getInt(0, 17);
+                //setProgressColor(attributes.getColor(LITTLE, getResources().getColor(R.color.color_skin_health4toastbg)));
+               // setProgressBackgroundColor(attributes.getColor(4, getResources().getColor(R.color.color_skin_health4toastbg)));
+              //  setProgress(attributes.getFloat(MIDDLE, 0.0f));
+              //  setWheelSize((int) attributes.getDimension(LARGE, 10.0f));
+              //  setThumbEnabled(attributes.getBoolean(5, true));
+              //  setWaveHeight(attributes.getInt(9, MIDDLE));
+              //  setWaveMultiple(attributes.getInt(8, LITTLE));
+              //  setWaveHz(attributes.getInt(10, LITTLE));
+                //this.mGravity = attributes.getInt(0, 17);
             } finally {
                 attributes.recycle();
             }

@@ -181,7 +181,7 @@
         </RadioGroup>
 
         <LinearLayout
-            app:background="@drawable/x_detect_resultbg"
+            app:background="@drawable/x_record_avg_pre_bg"
             app:gravity="center"
             app:id="@id/pop_result"
             app:layout_above="@id/id_bottom_holder"
