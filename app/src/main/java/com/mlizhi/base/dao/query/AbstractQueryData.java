@@ -2,56 +2,68 @@ package com.mlizhi.base.dao.query;
 
 import android.os.Process;
 import android.util.SparseArray;
+
 import com.mlizhi.base.dao.AbstractDao;
+
 import java.lang.ref.WeakReference;
 
 abstract class AbstractQueryData<T, Q extends AbstractQuery<T>> {
+    final String sql;
     final AbstractDao<T, ?> dao;
     final String[] initialValues;
     final SparseArray<WeakReference<Q>> queriesForThreads;
-    final String sql;
-
-    protected abstract Q createQuery();
 
     AbstractQueryData(AbstractDao<T, ?> dao, String sql, String[] initialValues) {
         this.dao = dao;
         this.sql = sql;
         this.initialValues = initialValues;
-        this.queriesForThreads = new SparseArray();
+        queriesForThreads = new SparseArray<WeakReference<Q>>();
     }
 
+    /** Just an optimized version, which performs faster if the current thread is already the query's owner thread. */
     Q forCurrentThread(Q query) {
-        if (Thread.currentThread() != query.ownerThread) {
+        if (Thread.currentThread() == query.ownerThread) {
+            System.arraycopy(initialValues, 0, query.parameters, 0, initialValues.length);
+            return query;
+        } else {
             return forCurrentThread();
         }
-        System.arraycopy(this.initialValues, 0, query.parameters, 0, this.initialValues.length);
-        return query;
     }
 
     Q forCurrentThread() {
-        Q query;
         int threadId = Process.myTid();
-        synchronized (this.queriesForThreads) {
-            WeakReference<Q> queryRef = (WeakReference) this.queriesForThreads.get(threadId);
-            query = queryRef != null ? (AbstractQuery) queryRef.get() : null;
+        if (threadId == 0) {
+            // Workaround for Robolectric, always returns 0
+            long id = Thread.currentThread().getId();
+            if (id < 0 || id > Integer.MAX_VALUE) {
+                throw new RuntimeException("Cannot handle thread ID: " + id);
+            }
+            threadId = (int) id;
+        }
+        synchronized (queriesForThreads) {
+            WeakReference<Q> queryRef = queriesForThreads.get(threadId);
+            Q query = queryRef != null ? queryRef.get() : null;
             if (query == null) {
                 gc();
                 query = createQuery();
-                this.queriesForThreads.put(threadId, new WeakReference(query));
+                queriesForThreads.put(threadId, new WeakReference<Q>(query));
             } else {
-                System.arraycopy(this.initialValues, 0, query.parameters, 0, this.initialValues.length);
+                System.arraycopy(initialValues, 0, query.parameters, 0, initialValues.length);
             }
+            return query;
         }
-        return query;
     }
 
+    abstract protected Q createQuery();
+
     void gc() {
-        synchronized (this.queriesForThreads) {
-            for (int i = this.queriesForThreads.size() - 1; i >= 0; i--) {
-                if (((WeakReference) this.queriesForThreads.valueAt(i)).get() == null) {
-                    this.queriesForThreads.remove(this.queriesForThreads.keyAt(i));
+        synchronized (queriesForThreads) {
+            for (int i = queriesForThreads.size() - 1; i >= 0; i--) {
+                if (queriesForThreads.valueAt(i).get() == null) {
+                    queriesForThreads.remove(queriesForThreads.keyAt(i));
                 }
             }
         }
     }
+
 }

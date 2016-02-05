@@ -55,7 +55,7 @@ public class IdentityScopeObject<K, T> implements IdentityScope<K, T> {
                 this.lock.unlock();
                 return false;
             }
-            remove((Object) key);
+            remove( key);
             return true;
         } finally {
             this.lock.unlock();

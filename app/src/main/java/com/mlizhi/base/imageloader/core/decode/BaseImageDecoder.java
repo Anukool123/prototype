@@ -4,13 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Matrix;
-import com.android.volley.DefaultRetryPolicy;
+
 import com.mlizhi.base.imageloader.core.assist.ImageScaleType;
 import com.mlizhi.base.imageloader.core.assist.ImageSize;
 import com.mlizhi.base.imageloader.core.download.ImageDownloader.Scheme;
 import com.mlizhi.base.imageloader.utils.C0126L;
 import com.mlizhi.base.imageloader.utils.ImageSizeUtils;
 import com.mlizhi.base.imageloader.utils.IoUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -194,29 +195,30 @@ public class BaseImageDecoder implements ImageDecoder {
 
     protected Bitmap considerExactScaleAndOrientatiton(Bitmap subsampledBitmap, ImageDecodingInfo decodingInfo, int rotation, boolean flipHorizontal) {
         Matrix m = new Matrix();
+        // Scale to exact size if need
         ImageScaleType scaleType = decodingInfo.getImageScaleType();
         if (scaleType == ImageScaleType.EXACTLY || scaleType == ImageScaleType.EXACTLY_STRETCHED) {
-            float scale = ImageSizeUtils.computeImageScale(new ImageSize(subsampledBitmap.getWidth(), subsampledBitmap.getHeight(), rotation), decodingInfo.getTargetSize(), decodingInfo.getViewScaleType(), scaleType == ImageScaleType.EXACTLY_STRETCHED);
-            if (Float.compare(scale, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT) != 0) {
+            ImageSize srcSize = new ImageSize(subsampledBitmap.getWidth(), subsampledBitmap.getHeight(), rotation);
+            float scale = ImageSizeUtils.computeImageScale(srcSize, decodingInfo.getTargetSize(), decodingInfo
+                    .getViewScaleType(), scaleType == ImageScaleType.EXACTLY_STRETCHED);
+            if (Float.compare(scale, 1f) != 0) {
                 m.setScale(scale, scale);
-                if (this.loggingEnabled) {
-                    C0126L.m33d(LOG_SCALE_IMAGE, srcSize, srcSize.scale(scale), Float.valueOf(scale), decodingInfo.getImageKey());
-                }
+
             }
         }
+        // Flip bitmap if need
         if (flipHorizontal) {
-            m.postScale(-1.0f, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-            if (this.loggingEnabled) {
-                C0126L.m33d(LOG_FLIP_IMAGE, decodingInfo.getImageKey());
-            }
+            m.postScale(-1, 1);
+
         }
+        // Rotate bitmap if need
         if (rotation != 0) {
-            m.postRotate((float) rotation);
-            if (this.loggingEnabled) {
-                C0126L.m33d(LOG_ROTATE_IMAGE, Integer.valueOf(rotation), decodingInfo.getImageKey());
-            }
+            m.postRotate(rotation);
+
         }
-        Bitmap finalBitmap = Bitmap.createBitmap(subsampledBitmap, 0, 0, subsampledBitmap.getWidth(), subsampledBitmap.getHeight(), m, true);
+
+        Bitmap finalBitmap = Bitmap.createBitmap(subsampledBitmap, 0, 0, subsampledBitmap.getWidth(), subsampledBitmap
+                .getHeight(), m, true);
         if (finalBitmap != subsampledBitmap) {
             subsampledBitmap.recycle();
         }

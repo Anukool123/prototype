@@ -20,7 +20,7 @@ public class Query<T> extends AbstractQuery<T> {
         }
 
         protected Query<T2> createQuery() {
-            return new Query(this.dao, this.sql, (String[]) this.initialValues.clone(), this.limitPosition, this.offsetPosition, null);
+            return new Query<T2>(this, dao, sql, initialValues.clone(), limitPosition, offsetPosition);
         }
     }
 

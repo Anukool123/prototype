@@ -2,15 +2,21 @@ package com.mlizhi.base.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import com.mlizhi.base.dao.identityscope.IdentityScope;
 import com.mlizhi.base.dao.internal.DaoConfig;
 
+import java.lang.reflect.Constructor;
+
 public class InternalUnitTestDaoAccess<T, K> {
     private final AbstractDao<T, K> dao;
+    private final java.lang.Object daoConfig = null;
 
     public InternalUnitTestDaoAccess(SQLiteDatabase db, Class<AbstractDao<T, K>> daoClass, IdentityScope<?, ?> identityScope) throws Exception {
-        new DaoConfig(db, daoClass).setIdentityScope(identityScope);
-        this.dao = (AbstractDao) daoClass.getConstructor(new Class[]{DaoConfig.class}).newInstance(new Object[]{daoConfig});
+        DaoConfig daoConfig = new DaoConfig(db, daoClass);
+        daoConfig.setIdentityScope(identityScope);
+        Constructor<AbstractDao<T, K>> constructor = daoClass.getConstructor(DaoConfig.class);
+        dao = constructor.newInstance(daoConfig);
     }
 
     public K getKey(T entity) {

@@ -1,18 +1,35 @@
-package com.mlizhi.base.dao.internal;
+package com.mlizhi.base.dao.internal;/*
+ * Copyright (C) 2011 Markus Junginger, greenrobot (http://greenrobot.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import com.mlizhi.base.dao.DaoLog;
 import java.util.Arrays;
 
-public final class LongHashMap<T> {
-    private int capacity;
-    private int size;
-    private Entry<T>[] table;
-    private int threshold;
 
-    static final class Entry<T> {
+/**
+ * An minimalistic hash map optimized for long keys.
+ *
+ * @author Markus
+ *
+ * @param <T>
+ *            The class to store.
+ */
+public final class LongHashMap<T> {
+    final static class Entry<T> {
         final long key;
-        Entry<T> next;
         T value;
+        Entry<T> next;
 
         Entry(long key, T value, Entry<T> next) {
             this.key = key;
@@ -21,18 +38,26 @@ public final class LongHashMap<T> {
         }
     }
 
+    private Entry<T>[] table;
+    private int capacity;
+    private int threshold;
+    private int size;
+
     public LongHashMap() {
         this(16);
     }
 
+    @SuppressWarnings("unchecked")
     public LongHashMap(int capacity) {
         this.capacity = capacity;
-        this.threshold = (capacity * 4) / 3;
+        this.threshold = capacity * 4 / 3;
         this.table = new Entry[capacity];
     }
 
     public boolean containsKey(long key) {
-        for (Entry<T> entry = this.table[((((int) (key >>> 32)) ^ ((int) key)) & Integer.MAX_VALUE) % this.capacity]; entry != null; entry = entry.next) {
+        final int index = ((((int) (key >>> 32)) ^ ((int) (key))) & 0x7fffffff) % capacity;
+
+        for (Entry<T> entry = table[index]; entry != null; entry = entry.next) {
             if (entry.key == key) {
                 return true;
             }
@@ -41,7 +66,8 @@ public final class LongHashMap<T> {
     }
 
     public T get(long key) {
-        for (Entry<T> entry = this.table[((((int) (key >>> 32)) ^ ((int) key)) & Integer.MAX_VALUE) % this.capacity]; entry != null; entry = entry.next) {
+        final int index = ((((int) (key >>> 32)) ^ ((int) (key))) & 0x7fffffff) % capacity;
+        for (Entry<T> entry = table[index]; entry != null; entry = entry.next) {
             if (entry.key == key) {
                 return entry.value;
             }
@@ -50,8 +76,8 @@ public final class LongHashMap<T> {
     }
 
     public T put(long key, T value) {
-        int index = ((((int) (key >>> 32)) ^ ((int) key)) & Integer.MAX_VALUE) % this.capacity;
-        Entry<T> entryOriginal = this.table[index];
+        final int index = ((((int) (key >>> 32)) ^ ((int) (key))) & 0x7fffffff) % capacity;
+        final Entry<T> entryOriginal = table[index];
         for (Entry<T> entry = entryOriginal; entry != null; entry = entry.next) {
             if (entry.key == key) {
                 T oldValue = entry.value;
@@ -59,27 +85,27 @@ public final class LongHashMap<T> {
                 return oldValue;
             }
         }
-        this.table[index] = new Entry(key, value, entryOriginal);
-        this.size++;
-        if (this.size > this.threshold) {
-            setCapacity(this.capacity * 2);
+        table[index] = new Entry<T>(key, value, entryOriginal);
+        size++;
+        if (size > threshold) {
+            setCapacity(2 * capacity);
         }
         return null;
     }
 
     public T remove(long key) {
-        int index = ((((int) (key >>> 32)) ^ ((int) key)) & Integer.MAX_VALUE) % this.capacity;
+        int index = ((((int) (key >>> 32)) ^ ((int) (key))) & 0x7fffffff) % capacity;
         Entry<T> previous = null;
-        Entry<T> entry = this.table[index];
+        Entry<T> entry = table[index];
         while (entry != null) {
             Entry<T> next = entry.next;
             if (entry.key == key) {
                 if (previous == null) {
-                    this.table[index] = next;
+                    table[index] = next;
                 } else {
                     previous.next = next;
                 }
-                this.size--;
+                size--;
                 return entry.value;
             }
             previous = entry;
@@ -89,45 +115,48 @@ public final class LongHashMap<T> {
     }
 
     public void clear() {
-        this.size = 0;
-        Arrays.fill(this.table, null);
+        size = 0;
+        Arrays.fill(table, null);
     }
 
     public int size() {
-        return this.size;
+        return size;
     }
 
     public void setCapacity(int newCapacity) {
-        Entry[] newTable = new Entry[newCapacity];
-        for (Entry<T> entry : this.table) {
-            Entry<T> entry2;
-            while (entry2 != null) {
-                long key = entry2.key;
-                int index = ((((int) (key >>> 32)) ^ ((int) key)) & Integer.MAX_VALUE) % newCapacity;
-                Entry<T> originalNext = entry2.next;
-                entry2.next = newTable[index];
-                newTable[index] = entry2;
-                entry2 = originalNext;
+        @SuppressWarnings("unchecked")
+        Entry<T>[] newTable = new Entry[newCapacity];
+        int length = table.length;
+        for (int i = 0; i < length; i++) {
+            Entry<T> entry = table[i];
+            while (entry != null) {
+                long key = entry.key;
+                int index = ((((int) (key >>> 32)) ^ ((int) (key))) & 0x7fffffff) % newCapacity;
+
+                Entry<T> originalNext = entry.next;
+                entry.next = newTable[index];
+                newTable[index] = entry;
+                entry = originalNext;
             }
         }
-        this.table = newTable;
-        this.capacity = newCapacity;
-        this.threshold = (newCapacity * 4) / 3;
+        table = newTable;
+        capacity = newCapacity;
+        threshold = newCapacity * 4 / 3;
     }
 
+    /** Target load: 0,6 */
     public void reserveRoom(int entryCount) {
-        setCapacity((entryCount * 5) / 3);
+        setCapacity(entryCount * 5 / 3);
     }
 
     public void logStats() {
         int collisions = 0;
-        for (Entry<T> entry : this.table) {
-            Entry<T> entry2;
-            while (entry2 != null && entry2.next != null) {
+        for (Entry<T> entry : table) {
+            while (entry != null && entry.next != null) {
                 collisions++;
-                entry2 = entry2.next;
+                entry = entry.next;
             }
         }
-        DaoLog.m20d("load: " + (((float) this.size) / ((float) this.capacity)) + ", size: " + this.size + ", capa: " + this.capacity + ", collisions: " + collisions + ", collision ratio: " + (((float) collisions) / ((float) this.size)));
     }
+
 }

@@ -183,6 +183,11 @@ public final class FastCursor implements Cursor {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void setExtras(Bundle bundle) {
+
+    }
+
     public Bundle getExtras() {
         throw new UnsupportedOperationException();
     }

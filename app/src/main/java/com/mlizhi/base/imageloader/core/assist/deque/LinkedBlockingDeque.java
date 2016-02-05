@@ -1,10 +1,8 @@
 package com.mlizhi.base.imageloader.core.assist.deque;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.AbstractQueue;
 import java.util.Collection;
 import java.util.Iterator;
@@ -517,25 +515,21 @@ public class LinkedBlockingDeque<E> extends AbstractQueue<E> implements Blocking
     }
 
     public E peekFirst() {
-        ReentrantLock lock = this.lock;
+        final ReentrantLock lock = this.lock;
         lock.lock();
         try {
-            E e = this.first == null ? null : this.first.item;
-            lock.unlock();
-            return e;
-        } catch (Throwable th) {
+            return (first == null) ? null : first.item;
+        } finally {
             lock.unlock();
         }
     }
 
     public E peekLast() {
-        ReentrantLock lock = this.lock;
+        final ReentrantLock lock = this.lock;
         lock.lock();
         try {
-            E e = this.last == null ? null : this.last.item;
-            lock.unlock();
-            return e;
-        } catch (Throwable th) {
+            return (last == null) ? null : last.item;
+        } finally {
             lock.unlock();
         }
     }
@@ -724,53 +718,43 @@ public class LinkedBlockingDeque<E> extends AbstractQueue<E> implements Blocking
         }
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
-        ReentrantLock lock = this.lock;
+        final ReentrantLock lock = this.lock;
         lock.lock();
         try {
-            if (a.length < this.count) {
-                a = (Object[]) Array.newInstance(a.getClass().getComponentType(), this.count);
-            }
-            Node<E> p = this.first;
+            if (a.length < count)
+                a = (T[]) java.lang.reflect.Array.newInstance
+                        (a.getClass().getComponentType(), count);
+
             int k = 0;
-            while (p != null) {
-                int k2 = k + 1;
-                a[k] = p.item;
-                p = p.next;
-                k = k2;
-            }
-            if (a.length > k) {
+            for (Node<E> p = first; p != null; p = p.next)
+                a[k++] = (T) p.item;
+            if (a.length > k)
                 a[k] = null;
-            }
-            lock.unlock();
             return a;
-        } catch (Throwable th) {
+        } finally {
             lock.unlock();
         }
     }
 
+
     public String toString() {
-        ReentrantLock lock = this.lock;
+        final ReentrantLock lock = this.lock;
         lock.lock();
         try {
-            Node<E> p = this.first;
-            if (p == null) {
+            Node<E> p = first;
+            if (p == null)
                 return "[]";
-            }
+
             StringBuilder sb = new StringBuilder();
             sb.append('[');
-            while (true) {
+            for (; ; ) {
                 E e = p.item;
-                if (e == this) {
-                    e = "(this Collection)";
-                }
-                sb.append(e);
+                sb.append(e == this ? "(this Collection)" : e);
                 p = p.next;
-                if (p == null) {
-                    String stringBuilder = sb.append(']').toString();
-                    lock.unlock();
-                    return stringBuilder;
-                }
+                if (p == null)
+                    return sb.append(']').toString();
                 sb.append(',').append(' ');
             }
         } finally {
@@ -821,18 +805,25 @@ public class LinkedBlockingDeque<E> extends AbstractQueue<E> implements Blocking
         }
     }
 
-    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+    /**
+     * Reconstitute this deque from a stream (that is,
+     * deserialize it).
+     *
+     * @param s the stream
+     */
+    private void readObject(java.io.ObjectInputStream s)
+            throws java.io.IOException, ClassNotFoundException {
         s.defaultReadObject();
-        this.count = 0;
-        this.first = null;
-        this.last = null;
-        while (true) {
-            E item = s.readObject();
-            if (item != null) {
-                add(item);
-            } else {
-                return;
-            }
+        count = 0;
+        first = null;
+        last = null;
+        // Read in all elements and place in queue
+        for (; ; ) {
+            @SuppressWarnings("unchecked")
+            E item = (E) s.readObject();
+            if (item == null)
+                break;
+            add(item);
         }
     }
 }

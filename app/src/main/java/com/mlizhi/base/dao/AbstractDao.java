@@ -1,4 +1,19 @@
-package com.mlizhi.base.dao;
+package com.mlizhi.base.dao;/*
+ * Copyright (C) 2011-2016 Markus Junginger, greenrobot (http://greenrobot.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 
 import android.database.CrossProcessCursor;
 import android.database.Cursor;
@@ -6,6 +21,7 @@ import android.database.CursorWindow;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+
 import com.mlizhi.base.dao.identityscope.IdentityScope;
 import com.mlizhi.base.dao.identityscope.IdentityScopeLong;
 import com.mlizhi.base.dao.internal.DaoConfig;
@@ -13,245 +29,330 @@ import com.mlizhi.base.dao.internal.FastCursor;
 import com.mlizhi.base.dao.internal.TableStatements;
 import com.mlizhi.base.dao.query.Query;
 import com.mlizhi.base.dao.query.QueryBuilder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
+
+/**
+ * Base class for all DAOs: Implements entity operations like insert, load, delete, and query.
+ * <p/>
+ * This class is thread-safe.
+ *
+ * @param <T> Entity type
+ * @param <K> Primary key (PK) type; use Void if entity does not have exactly one PK
+ * @author Markus
+ */
+/*
+ * When operating on TX, statements, or identity scope the following locking order must be met to avoid deadlocks:
+ * 
+ * 1.) If not inside a TX already, begin a TX to acquire a DB connection (connection is to be handled like a lock)
+ * 
+ * 2.) The SQLiteStatement
+ * 
+ * 3.) identityScope
+ */
 public abstract class AbstractDao<T, K> {
-    protected final DaoConfig config;
     protected final SQLiteDatabase db;
+    protected final DaoConfig config;
     protected IdentityScope<K, T> identityScope;
     protected IdentityScopeLong<T> identityScopeLong;
-    protected final int pkOrdinal;
-    protected final AbstractDaoSession session;
     protected TableStatements statements;
 
-    protected abstract void bindValues(SQLiteStatement sQLiteStatement, T t);
-
-    protected abstract K getKey(T t);
-
-    protected abstract boolean isEntityUpdateable();
-
-    protected abstract T readEntity(Cursor cursor, int i);
-
-    protected abstract void readEntity(Cursor cursor, T t, int i);
-
-    protected abstract K readKey(Cursor cursor, int i);
-
-    protected abstract K updateKeyAfterInsert(T t, long j);
+    protected final AbstractDaoSession session;
+    protected final int pkOrdinal;
 
     public AbstractDao(DaoConfig config) {
         this(config, null);
     }
 
+    @SuppressWarnings("unchecked")
     public AbstractDao(DaoConfig config, AbstractDaoSession daoSession) {
         this.config = config;
         this.session = daoSession;
-        this.db = config.db;
-        this.identityScope = config.getIdentityScope();
-        if (this.identityScope instanceof IdentityScopeLong) {
-            this.identityScopeLong = (IdentityScopeLong) this.identityScope;
+        db = config.db;
+        identityScope = (IdentityScope<K, T>) config.getIdentityScope();
+        if (identityScope instanceof IdentityScopeLong) {
+            identityScopeLong = (IdentityScopeLong<T>) identityScope;
         }
-        this.statements = config.statements;
-        this.pkOrdinal = config.pkProperty != null ? config.pkProperty.ordinal : -1;
+        statements = config.statements;
+        pkOrdinal = config.pkProperty != null ? config.pkProperty.ordinal : -1;
     }
 
     public AbstractDaoSession getSession() {
-        return this.session;
+        return session;
     }
 
     TableStatements getStatements() {
-        return this.config.statements;
+        return config.statements;
     }
 
     public String getTablename() {
-        return this.config.tablename;
+        return config.tablename;
     }
 
     public Property[] getProperties() {
-        return this.config.properties;
+        return config.properties;
     }
 
     public Property getPkProperty() {
-        return this.config.pkProperty;
+        return config.pkProperty;
     }
 
     public String[] getAllColumns() {
-        return this.config.allColumns;
+        return config.allColumns;
     }
 
     public String[] getPkColumns() {
-        return this.config.pkColumns;
+        return config.pkColumns;
     }
 
     public String[] getNonPkColumns() {
-        return this.config.nonPkColumns;
+        return config.nonPkColumns;
     }
 
+    /**
+     * Loads and entity for the given PK.
+     *
+     * @param key a PK value or null
+     * @return The entity or null, if no entity matched the PK value
+     */
     public T load(K key) {
         assertSinglePk();
         if (key == null) {
             return null;
         }
-        if (this.identityScope != null) {
-            T entity = this.identityScope.get(key);
+        if (identityScope != null) {
+            T entity = identityScope.get(key);
             if (entity != null) {
                 return entity;
             }
         }
-        return loadUniqueAndCloseCursor(this.db.rawQuery(this.statements.getSelectByKey(), new String[]{key.toString()}));
+        String sql = statements.getSelectByKey();
+        String[] keyArray = new String[]{key.toString()};
+        Cursor cursor = db.rawQuery(sql, keyArray);
+        return loadUniqueAndCloseCursor(cursor);
     }
 
     public T loadByRowId(long rowId) {
-        return loadUniqueAndCloseCursor(this.db.rawQuery(this.statements.getSelectByRowId(), new String[]{Long.toString(rowId)}));
+        String[] idArray = new String[]{Long.toString(rowId)};
+        Cursor cursor = db.rawQuery(statements.getSelectByRowId(), idArray);
+        return loadUniqueAndCloseCursor(cursor);
     }
 
     protected T loadUniqueAndCloseCursor(Cursor cursor) {
         try {
-            T loadUnique = loadUnique(cursor);
-            return loadUnique;
+            return loadUnique(cursor);
         } finally {
             cursor.close();
         }
     }
 
     protected T loadUnique(Cursor cursor) {
-        if (!cursor.moveToFirst()) {
+        boolean available = cursor.moveToFirst();
+        if (!available) {
             return null;
+        } else if (!cursor.isLast()) {
+            throw new DaoException("Expected unique result, but count was " + cursor.getCount());
         }
-        if (cursor.isLast()) {
-            return loadCurrent(cursor, 0, true);
-        }
-        throw new DaoException("Expected unique result, but count was " + cursor.getCount());
+        return loadCurrent(cursor, 0, true);
     }
 
+    /** Loads all available entities from the database. */
     public List<T> loadAll() {
-        return loadAllAndCloseCursor(this.db.rawQuery(this.statements.getSelectAll(), null));
+        Cursor cursor = db.rawQuery(statements.getSelectAll(), null);
+        return loadAllAndCloseCursor(cursor);
     }
 
+    /** Detaches an entity from the identity scope (session). Subsequent query results won't return this object. */
     public boolean detach(T entity) {
-        if (this.identityScope == null) {
+        if (identityScope != null) {
+            K key = getKeyVerified(entity);
+            return identityScope.detach(key, entity);
+        } else {
             return false;
         }
-        return this.identityScope.detach(getKeyVerified(entity), entity);
+    }
+
+    /**
+     * Detaches all entities (of type T) from the identity scope (session). Subsequent query results won't return any
+     * previously loaded objects.
+     */
+    public void detachAll() {
+        if (identityScope != null) {
+            identityScope.clear();
+        }
     }
 
     protected List<T> loadAllAndCloseCursor(Cursor cursor) {
         try {
-            List<T> loadAllFromCursor = loadAllFromCursor(cursor);
-            return loadAllFromCursor;
+            return loadAllFromCursor(cursor);
         } finally {
             cursor.close();
         }
     }
 
+    /**
+     * Inserts the given entities in the database using a transaction.
+     *
+     * @param entities The entities to insert.
+     */
     public void insertInTx(Iterable<T> entities) {
         insertInTx(entities, isEntityUpdateable());
     }
 
+    /**
+     * Inserts the given entities in the database using a transaction.
+     *
+     * @param entities The entities to insert.
+     */
     public void insertInTx(T... entities) {
         insertInTx(Arrays.asList(entities), isEntityUpdateable());
     }
 
+    /**
+     * Inserts the given entities in the database using a transaction. The given entities will become tracked if the PK
+     * is set.
+     *
+     * @param entities      The entities to insert.
+     * @param setPrimaryKey if true, the PKs of the given will be set after the insert; pass false to improve
+     *                      performance.
+     */
     public void insertInTx(Iterable<T> entities, boolean setPrimaryKey) {
-        executeInsertInTx(this.statements.getInsertStatement(), entities, setPrimaryKey);
+        SQLiteStatement stmt = statements.getInsertStatement();
+        executeInsertInTx(stmt, entities, setPrimaryKey);
     }
 
+    /**
+     * Inserts or replaces the given entities in the database using a transaction. The given entities will become
+     * tracked if the PK is set.
+     *
+     * @param entities      The entities to insert.
+     * @param setPrimaryKey if true, the PKs of the given will be set after the insert; pass false to improve
+     *                      performance.
+     */
     public void insertOrReplaceInTx(Iterable<T> entities, boolean setPrimaryKey) {
-        executeInsertInTx(this.statements.getInsertOrReplaceStatement(), entities, setPrimaryKey);
+        SQLiteStatement stmt = statements.getInsertOrReplaceStatement();
+        executeInsertInTx(stmt, entities, setPrimaryKey);
     }
 
+    /**
+     * Inserts or replaces the given entities in the database using a transaction.
+     *
+     * @param entities The entities to insert.
+     */
     public void insertOrReplaceInTx(Iterable<T> entities) {
         insertOrReplaceInTx(entities, isEntityUpdateable());
     }
 
+    /**
+     * Inserts or replaces the given entities in the database using a transaction.
+     *
+     * @param entities The entities to insert.
+     */
     public void insertOrReplaceInTx(T... entities) {
         insertOrReplaceInTx(Arrays.asList(entities), isEntityUpdateable());
     }
 
     private void executeInsertInTx(SQLiteStatement stmt, Iterable<T> entities, boolean setPrimaryKey) {
-        this.db.beginTransaction();
+        db.beginTransaction();
         try {
             synchronized (stmt) {
-                if (this.identityScope != null) {
-                    this.identityScope.lock();
+                if (identityScope != null) {
+                    identityScope.lock();
                 }
                 try {
-                    Iterator it = entities.iterator();
-                    while (it.hasNext()) {
-                        Object entity = it.next();
+                    for (T entity : entities) {
                         bindValues(stmt, entity);
                         if (setPrimaryKey) {
-                            updateKeyAfterInsertAndAttach(entity, stmt.executeInsert(), false);
+                            long rowId = stmt.executeInsert();
+                            updateKeyAfterInsertAndAttach(entity, rowId, false);
                         } else {
                             stmt.execute();
                         }
                     }
-                    if (this.identityScope != null) {
-                        this.identityScope.unlock();
-                    }
-                } catch (Throwable th) {
-                    if (this.identityScope != null) {
-                        this.identityScope.unlock();
+                } finally {
+                    if (identityScope != null) {
+                        identityScope.unlock();
                     }
                 }
             }
-            this.db.setTransactionSuccessful();
+            db.setTransactionSuccessful();
         } finally {
-            this.db.endTransaction();
+            db.endTransaction();
         }
     }
 
+    /**
+     * Insert an entity into the table associated with a concrete DAO.
+     *
+     * @return row ID of newly inserted entity
+     */
     public long insert(T entity) {
-        return executeInsert(entity, this.statements.getInsertStatement());
+        return executeInsert(entity, statements.getInsertStatement());
     }
 
+    /**
+     * Insert an entity into the table associated with a concrete DAO <b>without</b> setting key property.
+     *
+     * Warning: This may be faster, but the entity should not be used anymore. The entity also won't be attached to
+     * identity scope.
+     *
+     * @return row ID of newly inserted entity
+     */
     public long insertWithoutSettingPk(T entity) {
+        SQLiteStatement stmt = statements.getInsertStatement();
         long rowId;
-        SQLiteStatement stmt = this.statements.getInsertStatement();
-        if (this.db.isDbLockedByCurrentThread()) {
+        if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
                 bindValues(stmt, entity);
                 rowId = stmt.executeInsert();
             }
         } else {
-            this.db.beginTransaction();
+            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
+            db.beginTransaction();
             try {
                 synchronized (stmt) {
                     bindValues(stmt, entity);
                     rowId = stmt.executeInsert();
                 }
-                this.db.setTransactionSuccessful();
+                db.setTransactionSuccessful();
             } finally {
-                this.db.endTransaction();
+                db.endTransaction();
             }
         }
         return rowId;
     }
 
+    /**
+     * Insert an entity into the table associated with a concrete DAO.
+     *
+     * @return row ID of newly inserted entity
+     */
     public long insertOrReplace(T entity) {
-        return executeInsert(entity, this.statements.getInsertOrReplaceStatement());
+        return executeInsert(entity, statements.getInsertOrReplaceStatement());
     }
 
     private long executeInsert(T entity, SQLiteStatement stmt) {
         long rowId;
-        if (this.db.isDbLockedByCurrentThread()) {
+        if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
                 bindValues(stmt, entity);
                 rowId = stmt.executeInsert();
             }
         } else {
-            this.db.beginTransaction();
+            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
+            db.beginTransaction();
             try {
                 synchronized (stmt) {
                     bindValues(stmt, entity);
                     rowId = stmt.executeInsert();
                 }
-                this.db.setTransactionSuccessful();
+                db.setTransactionSuccessful();
             } finally {
-                this.db.endTransaction();
+                db.endTransaction();
             }
         }
         updateKeyAfterInsertAndAttach(entity, rowId, true);
@@ -260,140 +361,218 @@ public abstract class AbstractDao<T, K> {
 
     protected void updateKeyAfterInsertAndAttach(T entity, long rowId, boolean lock) {
         if (rowId != -1) {
-            attachEntity(updateKeyAfterInsert(entity, rowId), entity, lock);
+            K key = updateKeyAfterInsert(entity, rowId);
+            attachEntity(key, entity, lock);
         } else {
-            DaoLog.m28w("Could not insert row (executeInsert returned -1)");
+            // TODO When does this actually happen? Should we throw instead?
         }
     }
 
+    /** Reads all available rows from the given cursor and returns a list of entities. */
     protected List<T> loadAllFromCursor(Cursor cursor) {
         int count = cursor.getCount();
-        List<T> list = new ArrayList(count);
+        if (count == 0) {
+            return new ArrayList<T>();
+        }
+        List<T> list = new ArrayList<T>(count);
+        CursorWindow window = null;
+        boolean useFastCursor = false;
         if (cursor instanceof CrossProcessCursor) {
-            CursorWindow window = ((CrossProcessCursor) cursor).getWindow();
-            if (window != null) {
+            window = ((CrossProcessCursor) cursor).getWindow();
+            if (window != null) { // E.g. Robolectric has no Window at this point
                 if (window.getNumRows() == count) {
                     cursor = new FastCursor(window);
+                    useFastCursor = true;
                 } else {
-                    DaoLog.m20d("Window vs. result size: " + window.getNumRows() + "/" + count);
                 }
             }
         }
+
         if (cursor.moveToFirst()) {
-            if (this.identityScope != null) {
-                this.identityScope.lock();
-                this.identityScope.reserveRoom(count);
+            if (identityScope != null) {
+                identityScope.lock();
+                identityScope.reserveRoom(count);
             }
-            while (true) {
-                try {
-                    list.add(loadCurrent(cursor, 0, false));
-                    if (!cursor.moveToNext()) {
-                        break;
-                    }
-                } finally {
-                    if (this.identityScope != null) {
-                        this.identityScope.unlock();
-                    }
+
+            try {
+                if (!useFastCursor && window != null && identityScope != null) {
+                    loadAllUnlockOnWindowBounds(cursor, window, list);
+                } else {
+                    do {
+                        list.add(loadCurrent(cursor, 0, false));
+                    } while (cursor.moveToNext());
+                }
+            } finally {
+                if (identityScope != null) {
+                    identityScope.unlock();
                 }
             }
         }
         return list;
     }
 
-    protected final T loadCurrent(Cursor cursor, int offset, boolean lock) {
-        T entity;
-        if (this.identityScopeLong != null) {
-            if (offset != 0 && cursor.isNull(this.pkOrdinal + offset)) {
+    private void loadAllUnlockOnWindowBounds(Cursor cursor, CursorWindow window, List<T> list) {
+        int windowEnd = window.getStartPosition() + window.getNumRows();
+        for (int row = 0; ; row++) {
+            list.add(loadCurrent(cursor, 0, false));
+            row++;
+            if (row >= windowEnd) {
+                window = moveToNextUnlocked(cursor);
+                if (window == null) {
+                    break;
+                }
+                windowEnd = window.getStartPosition() + window.getNumRows();
+            } else {
+                if (!cursor.moveToNext()) {
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Unlock identityScope during cursor.moveToNext() when it is about to fill the window (needs a db connection):
+     * We should not hold the lock while trying to acquire a db connection to avoid deadlocks.
+     */
+    private CursorWindow moveToNextUnlocked(Cursor cursor) {
+        identityScope.unlock();
+        try {
+            if (cursor.moveToNext()) {
+                return ((CrossProcessCursor) cursor).getWindow();
+            } else {
                 return null;
             }
-            long key = cursor.getLong(this.pkOrdinal + offset);
-            entity = lock ? this.identityScopeLong.get2(key) : this.identityScopeLong.get2NoLock(key);
+        } finally {
+            identityScope.lock();
+        }
+    }
+
+    /** Internal use only. Considers identity scope. */
+    final protected T loadCurrent(Cursor cursor, int offset, boolean lock) {
+        if (identityScopeLong != null) {
+            if (offset != 0) {
+                // Occurs with deep loads (left outer joins)
+                if (cursor.isNull(pkOrdinal + offset)) {
+                    return null;
+                }
+            }
+
+            long key = cursor.getLong(pkOrdinal + offset);
+            T entity = lock ? identityScopeLong.get2(key) : identityScopeLong.get2NoLock(key);
             if (entity != null) {
                 return entity;
-            }
-            entity = readEntity(cursor, offset);
-            attachEntity(entity);
-            if (lock) {
-                this.identityScopeLong.put2(key, entity);
+            } else {
+                entity = readEntity(cursor, offset);
+                attachEntity(entity);
+                if (lock) {
+                    identityScopeLong.put2(key, entity);
+                } else {
+                    identityScopeLong.put2NoLock(key, entity);
+                }
                 return entity;
             }
-            this.identityScopeLong.put2NoLock(key, entity);
-            return entity;
-        } else if (this.identityScope != null) {
-            K key2 = readKey(cursor, offset);
-            if (offset != 0 && key2 == null) {
+        } else if (identityScope != null) {
+            K key = readKey(cursor, offset);
+            if (offset != 0 && key == null) {
+                // Occurs with deep loads (left outer joins)
                 return null;
             }
-            entity = lock ? this.identityScope.get(key2) : this.identityScope.getNoLock(key2);
+            T entity = lock ? identityScope.get(key) : identityScope.getNoLock(key);
             if (entity != null) {
                 return entity;
+            } else {
+                entity = readEntity(cursor, offset);
+                attachEntity(key, entity, lock);
+                return entity;
             }
-            entity = readEntity(cursor, offset);
-            attachEntity(key2, entity, lock);
-            return entity;
-        } else if (offset != 0 && readKey(cursor, offset) == null) {
-            return null;
         } else {
-            entity = readEntity(cursor, offset);
+            // Check offset, assume a value !=0 indicating a potential outer join, so check PK
+            if (offset != 0) {
+                K key = readKey(cursor, offset);
+                if (key == null) {
+                    // Occurs with deep loads (left outer joins)
+                    return null;
+                }
+            }
+            T entity = readEntity(cursor, offset);
             attachEntity(entity);
             return entity;
         }
     }
 
-    protected final <O> O loadCurrentOther(AbstractDao<O, ?> dao, Cursor cursor, int offset) {
-        return dao.loadCurrent(cursor, offset, true);
+    /** Internal use only. Considers identity scope. */
+    final protected <O> O loadCurrentOther(AbstractDao<O, ?> dao, Cursor cursor, int offset) {
+        return dao.loadCurrent(cursor, offset, /* TODO check this */true);
     }
 
+    /** A raw-style query where you can pass any WHERE clause and arguments. */
     public List<T> queryRaw(String where, String... selectionArg) {
-        return loadAllAndCloseCursor(this.db.rawQuery(new StringBuilder(String.valueOf(this.statements.getSelectAll())).append(where).toString(), selectionArg));
+        Cursor cursor = db.rawQuery(statements.getSelectAll() + where, selectionArg);
+        return loadAllAndCloseCursor(cursor);
     }
 
+    /**
+     * Creates a repeatable {@link Query} object based on the given raw SQL where you can pass any WHERE clause and
+     * arguments.
+     */
     public Query<T> queryRawCreate(String where, Object... selectionArg) {
-        return queryRawCreateListArgs(where, Arrays.asList(selectionArg));
+        List<Object> argList = Arrays.asList(selectionArg);
+        return queryRawCreateListArgs(where, argList);
     }
 
+    /**
+     * Creates a repeatable {@link Query} object based on the given raw SQL where you can pass any WHERE clause and
+     * arguments.
+     */
     public Query<T> queryRawCreateListArgs(String where, Collection<Object> selectionArg) {
-        return Query.internalCreate(this, new StringBuilder(String.valueOf(this.statements.getSelectAll())).append(where).toString(), selectionArg.toArray());
+        return Query.internalCreate(this, statements.getSelectAll() + where, selectionArg.toArray());
     }
 
     public void deleteAll() {
-        this.db.execSQL("DELETE FROM '" + this.config.tablename + "'");
-        if (this.identityScope != null) {
-            this.identityScope.clear();
+        // String sql = SqlUtils.createSqlDelete(config.tablename, null);
+        // db.execSQL(sql);
+
+        db.execSQL("DELETE FROM '" + config.tablename + "'");
+        if (identityScope != null) {
+            identityScope.clear();
         }
     }
 
+    /** Deletes the given entity from the database. Currently, only single value PK entities are supported. */
     public void delete(T entity) {
         assertSinglePk();
-        deleteByKey(getKeyVerified(entity));
+        K key = getKeyVerified(entity);
+        deleteByKey(key);
     }
 
+    /** Deletes an entity with the given PK from the database. Currently, only single value PK entities are supported. */
     public void deleteByKey(K key) {
         assertSinglePk();
-        SQLiteStatement stmt = this.statements.getDeleteStatement();
-        if (this.db.isDbLockedByCurrentThread()) {
+        SQLiteStatement stmt = statements.getDeleteStatement();
+        if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
                 deleteByKeyInsideSynchronized(key, stmt);
             }
         } else {
-            this.db.beginTransaction();
+            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
+            db.beginTransaction();
             try {
                 synchronized (stmt) {
                     deleteByKeyInsideSynchronized(key, stmt);
                 }
-                this.db.setTransactionSuccessful();
+                db.setTransactionSuccessful();
             } finally {
-                this.db.endTransaction();
+                db.endTransaction();
             }
         }
-        if (this.identityScope != null) {
-            this.identityScope.remove((Object) key);
+        if (identityScope != null) {
+            identityScope.remove(key);
         }
     }
 
     private void deleteByKeyInsideSynchronized(K key, SQLiteStatement stmt) {
         if (key instanceof Long) {
-            stmt.bindLong(1, ((Long) key).longValue());
+            stmt.bindLong(1, (Long) key);
         } else if (key == null) {
             throw new DaoException("Cannot delete entity, key is null");
         } else {
@@ -404,84 +583,101 @@ public abstract class AbstractDao<T, K> {
 
     private void deleteInTxInternal(Iterable<T> entities, Iterable<K> keys) {
         assertSinglePk();
-        SQLiteStatement stmt = this.statements.getDeleteStatement();
-        Iterable keysToRemoveFromIdentityScope = null;
-        this.db.beginTransaction();
+        SQLiteStatement stmt = statements.getDeleteStatement();
+        List<K> keysToRemoveFromIdentityScope = null;
+        db.beginTransaction();
         try {
             synchronized (stmt) {
-                Iterator it;
-                if (this.identityScope != null) {
-                    this.identityScope.lock();
-                    keysToRemoveFromIdentityScope = new ArrayList();
+                if (identityScope != null) {
+                    identityScope.lock();
+                    keysToRemoveFromIdentityScope = new ArrayList<K>();
                 }
-                if (entities != null) {
-                    for (T entity : entities) {
-                        try {
+                try {
+                    if (entities != null) {
+                        for (T entity : entities) {
                             K key = getKeyVerified(entity);
                             deleteByKeyInsideSynchronized(key, stmt);
                             if (keysToRemoveFromIdentityScope != null) {
                                 keysToRemoveFromIdentityScope.add(key);
                             }
-                        } catch (Throwable th) {
-                            if (this.identityScope != null) {
-                                this.identityScope.unlock();
+                        }
+                    }
+                    if (keys != null) {
+                        for (K key : keys) {
+                            deleteByKeyInsideSynchronized(key, stmt);
+                            if (keysToRemoveFromIdentityScope != null) {
+                                keysToRemoveFromIdentityScope.add(key);
                             }
                         }
                     }
-                }
-                if (keys != null) {
-                    it = keys.iterator();
-                    while (it.hasNext()) {
-                        Object key2 = it.next();
-                        deleteByKeyInsideSynchronized(key2, stmt);
-                        if (keysToRemoveFromIdentityScope != null) {
-                            keysToRemoveFromIdentityScope.add(key2);
-                        }
+                } finally {
+                    if (identityScope != null) {
+                        identityScope.unlock();
                     }
                 }
-                if (this.identityScope != null) {
-                    this.identityScope.unlock();
-                }
             }
-            this.db.setTransactionSuccessful();
-            if (!(keysToRemoveFromIdentityScope == null || this.identityScope == null)) {
-                this.identityScope.remove(keysToRemoveFromIdentityScope);
+            db.setTransactionSuccessful();
+            if (keysToRemoveFromIdentityScope != null && identityScope != null) {
+                identityScope.remove(keysToRemoveFromIdentityScope);
             }
-            this.db.endTransaction();
-        } catch (Throwable th2) {
-            this.db.endTransaction();
+        } finally {
+            db.endTransaction();
         }
     }
 
+    /**
+     * Deletes the given entities in the database using a transaction.
+     *
+     * @param entities The entities to delete.
+     */
     public void deleteInTx(Iterable<T> entities) {
         deleteInTxInternal(entities, null);
     }
 
+    /**
+     * Deletes the given entities in the database using a transaction.
+     *
+     * @param entities The entities to delete.
+     */
     public void deleteInTx(T... entities) {
         deleteInTxInternal(Arrays.asList(entities), null);
     }
 
+    /**
+     * Deletes all entities with the given keys in the database using a transaction.
+     *
+     * @param keys Keys of the entities to delete.
+     */
     public void deleteByKeyInTx(Iterable<K> keys) {
         deleteInTxInternal(null, keys);
     }
 
+    /**
+     * Deletes all entities with the given keys in the database using a transaction.
+     *
+     * @param keys Keys of the entities to delete.
+     */
     public void deleteByKeyInTx(K... keys) {
         deleteInTxInternal(null, Arrays.asList(keys));
     }
 
+    /** Resets all locally changed properties of the entity by reloading the values from the database. */
     public void refresh(T entity) {
         assertSinglePk();
         K key = getKeyVerified(entity);
-        Cursor cursor = this.db.rawQuery(this.statements.getSelectByKey(), new String[]{key.toString()});
+        String sql = statements.getSelectByKey();
+        String[] keyArray = new String[]{key.toString()};
+        Cursor cursor = db.rawQuery(sql, keyArray);
         try {
-            if (!cursor.moveToFirst()) {
-                throw new DaoException("Entity does not exist in the database anymore: " + entity.getClass() + " with key " + key);
-            } else if (cursor.isLast()) {
-                readEntity(cursor, entity, 0);
-                attachEntity(key, entity, true);
-            } else {
+            boolean available = cursor.moveToFirst();
+            if (!available) {
+                throw new DaoException("Entity does not exist in the database anymore: " + entity.getClass()
+                        + " with key " + key);
+            } else if (!cursor.isLast()) {
                 throw new DaoException("Expected unique result, but count was " + cursor.getCount());
             }
+            readEntity(cursor, entity, 0);
+            attachEntity(key, entity, true);
         } finally {
             cursor.close();
         }
@@ -489,21 +685,22 @@ public abstract class AbstractDao<T, K> {
 
     public void update(T entity) {
         assertSinglePk();
-        SQLiteStatement stmt = this.statements.getUpdateStatement();
-        if (this.db.isDbLockedByCurrentThread()) {
+        SQLiteStatement stmt = statements.getUpdateStatement();
+        if (db.isDbLockedByCurrentThread()) {
             synchronized (stmt) {
                 updateInsideSynchronized(entity, stmt, true);
             }
-            return;
-        }
-        this.db.beginTransaction();
-        try {
-            synchronized (stmt) {
-                updateInsideSynchronized(entity, stmt, true);
+        } else {
+            // Do TX to acquire a connection before locking the stmt to avoid deadlocks
+            db.beginTransaction();
+            try {
+                synchronized (stmt) {
+                    updateInsideSynchronized(entity, stmt, true);
+                }
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
             }
-            this.db.setTransactionSuccessful();
-        } finally {
-            this.db.endTransaction();
         }
     }
 
@@ -512,11 +709,12 @@ public abstract class AbstractDao<T, K> {
     }
 
     protected void updateInsideSynchronized(T entity, SQLiteStatement stmt, boolean lock) {
+        // To do? Check if it's worth not to bind PKs here (performance).
         bindValues(stmt, entity);
-        int index = this.config.allColumns.length + 1;
+        int index = config.allColumns.length + 1;
         K key = getKey(entity);
         if (key instanceof Long) {
-            stmt.bindLong(index, ((Long) key).longValue());
+            stmt.bindLong(index, (Long) key);
         } else if (key == null) {
             throw new DaoException("Cannot update entity without key - was it inserted before?");
         } else {
@@ -526,84 +724,135 @@ public abstract class AbstractDao<T, K> {
         attachEntity(key, entity, lock);
     }
 
+    /**
+     * Attaches the entity to the identity scope. Calls attachEntity(T entity).
+     *
+     * @param key    Needed only for identity scope, pass null if there's none.
+     * @param entity The entitiy to attach
+     */
     protected final void attachEntity(K key, T entity, boolean lock) {
         attachEntity(entity);
-        if (this.identityScope != null && key != null) {
+        if (identityScope != null && key != null) {
             if (lock) {
-                this.identityScope.put(key, entity);
+                identityScope.put(key, entity);
             } else {
-                this.identityScope.putNoLock(key, entity);
+                identityScope.putNoLock(key, entity);
             }
         }
     }
 
-    protected void attachEntity(T t) {
+    /**
+     * Sub classes with relations additionally set the DaoMaster here. Must be called before the entity is attached to
+     * the identity scope.
+     *
+     * @param entity The entitiy to attach
+     */
+    protected void attachEntity(T entity) {
     }
 
+    /**
+     * Updates the given entities in the database using a transaction.
+     *
+     * @param entities The entities to insert.
+     */
     public void updateInTx(Iterable<T> entities) {
-        SQLiteStatement stmt = this.statements.getUpdateStatement();
-        this.db.beginTransaction();
+        SQLiteStatement stmt = statements.getUpdateStatement();
+        db.beginTransaction();
         RuntimeException txEx = null;
         try {
             synchronized (stmt) {
-                if (this.identityScope != null) {
-                    this.identityScope.lock();
+                if (identityScope != null) {
+                    identityScope.lock();
                 }
                 try {
                     for (T entity : entities) {
                         updateInsideSynchronized(entity, stmt, false);
                     }
-                    if (this.identityScope != null) {
-                        this.identityScope.unlock();
-                    }
-                } catch (Throwable th) {
-                    if (this.identityScope != null) {
-                        this.identityScope.unlock();
+                } finally {
+                    if (identityScope != null) {
+                        identityScope.unlock();
                     }
                 }
             }
-            this.db.setTransactionSuccessful();
+            db.setTransactionSuccessful();
         } catch (RuntimeException e) {
             txEx = e;
         } finally {
             try {
-                this.db.endTransaction();
-            } catch (RuntimeException e2) {
+                db.endTransaction();
+            } catch (RuntimeException e) {
                 if (txEx != null) {
-                    DaoLog.m29w("Could not end transaction (rethrowing initial exception)", e2);
                     throw txEx;
+                } else {
+                    throw e;
                 }
-                throw e2;
             }
         }
     }
 
+    /**
+     * Updates the given entities in the database using a transaction.
+     *
+     * @param entities The entities to update.
+     */
     public void updateInTx(T... entities) {
         updateInTx(Arrays.asList(entities));
     }
 
     protected void assertSinglePk() {
-        if (this.config.pkColumns.length != 1) {
-            throw new DaoException(this + " (" + this.config.tablename + ") does not have a single-column primary key");
+        if (config.pkColumns.length != 1) {
+            throw new DaoException(this + " (" + config.tablename + ") does not have a single-column primary key");
         }
     }
 
     public long count() {
-        return DatabaseUtils.queryNumEntries(this.db, new StringBuilder(String.valueOf('\'')).append(this.config.tablename).append('\'').toString());
+        return DatabaseUtils.queryNumEntries(db, '\'' + config.tablename + '\'');
     }
 
+    /** See {@link #getKey(Object)}, but guarantees that the returned key is never null (throws if null). */
     protected K getKeyVerified(T entity) {
         K key = getKey(entity);
-        if (key != null) {
+        if (key == null) {
+            if (entity == null) {
+                throw new NullPointerException("Entity may not be null");
+            } else {
+                throw new DaoException("Entity has no key");
+            }
+        } else {
             return key;
         }
-        if (entity == null) {
-            throw new NullPointerException("Entity may not be null");
-        }
-        throw new DaoException("Entity has no key");
     }
 
+    /** Gets the SQLiteDatabase for custom database access. Not needed for greenDAO entities. */
     public SQLiteDatabase getDatabase() {
-        return this.db;
+        return db;
     }
+
+    /** Reads the values from the current position of the given cursor and returns a new entity. */
+    abstract protected T readEntity(Cursor cursor, int offset);
+
+    /** Reads the key from the current position of the given cursor, or returns null if there's no single-value key. */
+    abstract protected K readKey(Cursor cursor, int offset);
+
+    /** Reads the values from the current position of the given cursor into an existing entity. */
+    abstract protected void readEntity(Cursor cursor, T entity, int offset);
+
+    /** Binds the entity's values to the statement. Make sure to synchronize the statement outside of the method. */
+    abstract protected void bindValues(SQLiteStatement stmt, T entity);
+
+    /**
+     * Updates the entity's key if possible (only for Long PKs currently). This method must always return the entity's
+     * key regardless of whether the key existed before or not.
+     */
+    abstract protected K updateKeyAfterInsert(T entity, long rowId);
+
+    /**
+     * Returns the value of the primary key, if the entity has a single primary key, or, if not, null. Returns null if
+     * entity is null.
+     */
+    abstract protected K getKey(T entity);
+
+    /** Returns true if the Entity class can be updated, e.g. for setting the PK after insert. */
+    abstract protected boolean isEntityUpdateable();
+
 }
